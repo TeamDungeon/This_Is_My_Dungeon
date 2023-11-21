@@ -1,0 +1,11 @@
+
+- Freeze trap
+	- Slows down heroes
+	- **UPGRADE** : completely freezes heroes for x seconds making them unable to move
+- Barricade 
+	- Blocks heroes
+	- can be broken
+	- **UPGARDE** : 
+- Spikes
+	- Damages heroes
+	- **UPGRADE** :
