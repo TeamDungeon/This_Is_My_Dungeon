@@ -14,8 +14,3 @@ void AHero::Tick(float deltaTime)
 {
 	Super::Tick(deltaTime);
 }
-
-void AHero::SetupPlayerInputComponent(UInputComponent* playerInputComponent)
-{
-	Super::SetupPlayerInputComponent(playerInputComponent);
-}

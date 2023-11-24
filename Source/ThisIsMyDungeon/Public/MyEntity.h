@@ -13,18 +13,22 @@ public:
 	AMyEntity();
 
 protected:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Values")
 	float health = 0.f;
-	float damage = 0.f;
-	float speed = 0.f;
 
-public:
-	virtual bool IsAlive();
-	virtual void DoAttack(AMyEntity target);
-	virtual void GetDamaged(float value);
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Values")
+	float damage = 0.f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Values")
+	float speed = 0.f;
 
 protected:
 	virtual void BeginPlay() override;
 
 public:
 	virtual void Tick(float deltaTime) override;
+
+	virtual bool IsAlive();
+	virtual void DoAttack(AMyEntity target);
+	virtual void GetDamaged(float value);
 };

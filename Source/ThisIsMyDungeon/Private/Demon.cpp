@@ -5,6 +5,11 @@ ADemon::ADemon()
 	PrimaryActorTick.bCanEverTick = true;
 }
 
+void ADemon::SetupPlayerInputComponent(UInputComponent* playerInputComponent)
+{
+	Super::SetupPlayerInputComponent(playerInputComponent);
+}
+
 void ADemon::BeginPlay()
 {
 	Super::BeginPlay();

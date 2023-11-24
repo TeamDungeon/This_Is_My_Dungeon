@@ -15,8 +15,13 @@ public:
 protected:
 	virtual void BeginPlay() override;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Values")
 	FVector3f direction;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Values")
 	float damage = 0.f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Values")
 	float speed = 0.f;
 
 public:

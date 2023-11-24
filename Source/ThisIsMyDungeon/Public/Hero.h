@@ -4,6 +4,10 @@
 #include "MyEntity.h"
 #include "Hero.generated.h"
 
+/*
+	/!\ this IS NOT the player /!\
+*/
+
 UCLASS()
 class THISISMYDUNGEON_API AHero : public AMyEntity
 {
@@ -17,6 +21,4 @@ protected:
 
 public:
 	void Tick(float deltaTime) override;
-
-	void SetupPlayerInputComponent(class UInputComponent* playerInputComponent) override;
 };
