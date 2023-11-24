@@ -1,5 +1,8 @@
 #pragma once
 
+#include <GameFramework/SpringArmComponent.h>
+#include <Camera/CameraComponent.h>
+
 #include "CoreMinimal.h"
 #include "MyEntity.h"
 #include "Demon.generated.h"
@@ -8,7 +11,7 @@ class UInputMappingContext;
 class UInputAction;
 
 /*
-	/!\ this IS the player /!\
+	/!\ this IS the PLAYER /!\
 */
 
 UCLASS()
@@ -20,26 +23,26 @@ public:
 	ADemon();
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera")
-	class USpringArmComponent* cameraArm;
+	USpringArmComponent* cameraArm;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera")
-	class UCameraComponent* camera;
+	UCameraComponent* camera;
 
-	void SetupPlayerInputComponent(class UInputComponent* playerInputComponent) override;
+	virtual void SetupPlayerInputComponent(class UInputComponent* playerInputComponent) override;
 
 protected:
-	void BeginPlay() override;
+	virtual void BeginPlay() override;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Player")
 	float mana = 0.f;
 
 public:
-	void Tick(float deltaTime) override;
+	virtual void Tick(float deltaTime) override;
 
 private:
-	bool IsTileEmpty();
+	virtual bool IsTileEmpty();
 
-	void CollideWithCollectible(/*Collectible collectible*/);
+	virtual void CollideWithCollectible(/*Collectible collectible*/);
 
-	void PlaceTile();
+	virtual void PlaceTile();
 };

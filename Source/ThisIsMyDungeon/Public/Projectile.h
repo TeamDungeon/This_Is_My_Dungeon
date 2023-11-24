@@ -26,4 +26,6 @@ protected:
 
 public:
 	virtual void Tick(float deltaTime) override;
+
+	virtual void SetDirection(FVector3f source, FVector3f destination);
 };
