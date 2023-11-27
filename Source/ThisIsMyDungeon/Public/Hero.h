@@ -19,16 +19,31 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Values")
 	float treasureDrop = 0.f;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Values | Upgrade", meta = (DisplayName = "Treasure Droped Increase On Upgrade"))
+	float treasureUpgrade = 0.f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Values | Upgrade", meta = (DisplayName = "Damage Increase On Upgrade"))
+	float damageUpgrade = 0.f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Values | Upgrade", meta = (DisplayName = "Health Increase On Upgrade"))
+	float healthUpgrade = 0.f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Values | Upgrade", meta = (DisplayName = "Speed Increase On Upgrade"))
+	float speedUpgrade = 0.f;
+
 protected:
 	virtual void BeginPlay() override;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Values")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Values | Upgrade")
 	int upgradeLevel = 0;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Values")
-	FVector3f currentDestination;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Values | Waypoint")
+	FVector currentWaypoint;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Values")
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Values")
+	bool isAtTheEnd = false;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Values")
 	bool isBarricadeInRange = false;
 
 public:
@@ -36,8 +51,20 @@ public:
 
 	virtual void Upgrade(int nbUgrades = 1);
 
-	UFUNCTION(BlueprintNativeEvent, Category = "Functions")
-	void DoSpecialAbility();
+	UFUNCTION(BlueprintCallable, Category = "Functions")
+	virtual FVector GetWaypoint();
+
+	UFUNCTION(BlueprintCallable, Category = "Functions")
+	virtual void SetWaypoint(FVector newWaypoint);
+
+	UFUNCTION(BlueprintCallable, Category = "Functions")
+	virtual bool GetHeroAtEnd();
+
+	UFUNCTION(BlueprintCallable, Category = "Functions")
+	virtual void SetHeroAtEnd(bool value);
+
+	UFUNCTION(BlueprintCallable, Category = "Functions")
+	virtual void DoSpecialAbility();
 
 private:
 	UFUNCTION(BlueprintCallable, Category = "Functions")
@@ -45,9 +72,6 @@ private:
 
 	UFUNCTION(BlueprintCallable, Category = "Functions")
 	virtual void FindRoomPath();
-
-	UFUNCTION(BlueprintCallable, Category = "Functions")
-	virtual void GetNextPoint();
 
 	UFUNCTION(BlueprintCallable, Category = "Functions")
 	virtual bool IsPlayerInRange();
