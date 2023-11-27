@@ -20,31 +20,19 @@
             }
           },
           {
-            "id": "9a7a50cb5cd57599",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "To Do.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
             "id": "521d08c376f87d2d",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "GDD.md",
+                "file": "Trap List.md",
                 "mode": "source",
                 "source": false
               }
             }
           }
         ],
-        "currentTab": 2
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -110,7 +98,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "GDD.md",
+                "file": "Trap List.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -127,7 +115,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "GDD.md",
+                "file": "Trap List.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -150,7 +138,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "GDD.md"
+                "file": "Trap List.md"
               }
             }
           }
@@ -173,8 +161,8 @@
   },
   "active": "521d08c376f87d2d",
   "lastOpenFiles": [
-    "Trap List.md",
     "To Do.md",
+    "Trap List.md",
     "GDD.md"
   ]
 }
