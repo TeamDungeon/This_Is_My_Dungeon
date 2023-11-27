@@ -1,8 +1,15 @@
 #include "Hero.h"
 
+#include "HeroController.h"
+
 AHero::AHero()
 {
 	PrimaryActorTick.bCanEverTick = true;
+
+	bUseControllerRotationYaw = false;
+
+	AutoPossessAI = EAutoPossessAI::PlacedInWorldOrSpawned;
+	AIControllerClass = AHeroController::StaticClass();
 }
 
 void AHero::BeginPlay()
@@ -21,19 +28,40 @@ void AHero::Upgrade(int nbUgrades)
 		UpgradeOne();
 }
 
+FVector AHero::GetWaypoint()
+{
+	return currentWaypoint;
+}
+
+void AHero::SetWaypoint(FVector newWaypoint)
+{
+	currentWaypoint = newWaypoint;
+}
+
+bool AHero::GetHeroAtEnd()
+{
+	return isAtTheEnd;
+}
+
+void AHero::SetHeroAtEnd(bool value)
+{
+	isAtTheEnd = value;
+}
+
 void AHero::UpgradeOne()
 {
+	upgradeLevel++;
+	treasureDrop += treasureUpgrade;
+	health += healthUpgrade;
+	speed += speedUpgrade;
+	damage += damageUpgrade;
 }
 
 void AHero::FindRoomPath()
 {
 }
 
-void AHero::GetNextPoint()
-{
-}
-
-void AHero::DoSpecialAbility_Implementation()
+void AHero::DoSpecialAbility()
 {
 }
 
@@ -44,5 +72,4 @@ bool AHero::IsPlayerInRange()
 
 void AHero::BarricadeInRange()
 {
-	isBarricadeInRange = !isBarricadeInRange;
 }
