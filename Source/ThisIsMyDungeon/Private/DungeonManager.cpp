@@ -12,6 +12,7 @@ ADungeonManager::ADungeonManager()
 
 	// Add all rooms in RoomList here
 	RoomList.Add("Room1");
+	RoomList.Add("Room2");
 
 	// Add treasure room waypoint
 	WaypointList.Add(FVector(0.0f, 0.0f, 0.0f));
@@ -29,6 +30,15 @@ void ADungeonManager::UpdateRoomList()
 	int NewRoomId = FMath::RandRange(0, RoomList.Num() - 1);
 	NextRoomName = RoomList[NewRoomId];
 	RoomList.RemoveAt(NewRoomId);
+
+	//TArray<int> tempList;
+	//FVector temp;
+	//for (int i = 0; i < WaypointList.Num(); i++) {
+	//	if (WaypointList[i] == temp) {
+	//		tempList.Add(i);
+	//	}
+	//	temp = WaypointList[i];
+	//}
 
 #if DEBUG
 	GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Purple, FString::Printf(TEXT("Room generated : %s"), *NextRoomName));
