@@ -14,6 +14,8 @@ ADungeonManager::ADungeonManager()
 	RoomList.Add("Room1");
 	RoomList.Add("Room2");
 	RoomList.Add("Room3");
+	RoomList.Add("Room4");
+	RoomList.Add("Room5");
 
 	// Add treasure room waypoint
 	WaypointList.Add(FVector(0.0f, 0.0f, 0.0f));

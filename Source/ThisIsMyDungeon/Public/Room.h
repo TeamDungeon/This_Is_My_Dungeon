@@ -16,7 +16,7 @@ class THISISMYDUNGEON_API ARoom : public AActor
 	
 public:	
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Vector3") FVector RoomExit;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Lists") TArray<FVector> RoomWaypoints;
 
 protected:
 	// Called when the game starts or when spawned
