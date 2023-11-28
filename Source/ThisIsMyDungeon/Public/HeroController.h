@@ -12,24 +12,29 @@ class THISISMYDUNGEON_API AHeroController : public AAIController
 public:
 	AHeroController();
 
+protected:
 	virtual void BeginPlay() override;
+	virtual void OnPossess(APawn* inPawn) override;
+	virtual void OnMoveCompleted(FAIRequestID requestID, EPathFollowingResult::Type result) override;
 
-	UPROPERTY(EditAnywhere, Category = "AI")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "AI")
+	UBehaviorTree* behaviorTree = nullptr;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "AI")
 	class UBehaviorTreeComponent* behaviorTreeC;
 
-	UPROPERTY(EditAnywhere, Category = "AI")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "AI")
 	UBlackboardComponent* blackBoardC;
 
-	//UPROPERTY(EditAnywhere, Category = "AI")
-	//UBehaviorTree* behaviorTree = nullptr;
-
-	UPROPERTY(VisibleAnywhere, Category = "AI")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "AI")
 	class AHero* possessedHero = nullptr;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Waypoint")
-	FVector startWaypoint;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "AI")
+	TArray<FVector> waypointList;
 
-	virtual void OnPossess(APawn* inPawn) override;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "AI")
+	int waypointID = 0;
 
-	virtual void OnMoveCompleted(FAIRequestID RequestID, EPathFollowingResult::Type Result) override;
+private:
+	virtual void GetWaypointList();
 };

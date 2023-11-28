@@ -37,9 +37,6 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Values | Upgrade")
 	int upgradeLevel = 0;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Values | Waypoint")
-	FVector currentWaypoint;
-
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Values")
 	bool isAtTheEnd = false;
 
@@ -50,12 +47,6 @@ public:
 	virtual void Tick(float deltaTime) override;
 
 	virtual void Upgrade(int nbUgrades = 1);
-
-	UFUNCTION(BlueprintCallable, Category = "Functions")
-	virtual FVector GetWaypoint();
-
-	UFUNCTION(BlueprintCallable, Category = "Functions")
-	virtual void SetWaypoint(FVector newWaypoint);
 
 	UFUNCTION(BlueprintCallable, Category = "Functions")
 	virtual bool GetHeroAtEnd();

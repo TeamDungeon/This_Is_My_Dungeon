@@ -5,6 +5,8 @@
 #include "BehaviorTree/BehaviorTree.h"
 
 #include "Hero.h"
+#include "DungeonManager.h"
+#include <Kismet/GameplayStatics.h>
 
 AHeroController::AHeroController()
 {
@@ -14,9 +16,17 @@ AHeroController::AHeroController()
 
 void AHeroController::BeginPlay()
 {
-	if (startWaypoint.IsZero())
-		if (GEngine)
-			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("No Starting Waypoint set on HeroController /!\\"));
+	Super::BeginPlay();
+
+	FTimerHandle unusedHandle;
+	GetWorldTimerManager().SetTimer(
+		unusedHandle, this, &AHeroController::GetWaypointList, 2.f, false);
+
+	if (IsValid(behaviorTree))
+	{
+		RunBehaviorTree(behaviorTree);
+		behaviorTreeC->StartTree(*behaviorTree);
+	}
 }
 
 void AHeroController::OnPossess(APawn* inPawn)
@@ -27,15 +37,51 @@ void AHeroController::OnPossess(APawn* inPawn)
 	if (!possessedHero)
 	{
 		if (GEngine)
-			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Hero cast failled AHeroController::OnPossess() with " + inPawn->GetName()));
+			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red,
+				TEXT("Hero cast failled AHeroController::OnPossess() with " + inPawn->GetName()));
+		return;
+	}
+}
+
+void AHeroController::OnMoveCompleted(FAIRequestID requestID, EPathFollowingResult::Type result)
+{
+	if (result == EPathFollowingResult::Success)
+	{
+		if ((int32)waypointID + 1 < waypointList.Num())
+		{
+			// Move to waypoint, ..., no Stop on overlap, Use path finding, ..., No Strafing
+			if (MoveToLocation(waypointList[waypointID + 1], -1.f, false, true, false, false)
+				== EPathFollowingRequestResult::RequestSuccessful)
+				waypointID++;
+			if (GEngine)
+				GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red,
+					TEXT("Going to: " + waypointList[waypointID].ToString()));
+		}
+		else if (GEngine)
+			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red,
+				TEXT("OnMoveCompleted: No waypoint next"));
+	}
+	else if (GEngine)
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red,
+			TEXT("OnMoveCompleted failled"));
+}
+
+void AHeroController::GetWaypointList()
+{
+	TArray<AActor*> dManager;
+	if (UWorld* World = GetWorld())
+		UGameplayStatics::GetAllActorsOfClass(GetWorld(), ADungeonManager::StaticClass(), dManager);
+	else
+	{
+		if (GEngine)
+			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("AHeroController::GetWaypointList() ERROR"));
 		return;
 	}
 
-	// Move to waypoint, ..., Stop on overlap, Use path finding, ..., No Strafing
-	MoveToLocation(possessedHero->GetWaypoint(), -1.f, true, true, false, false);
-}
-
-void AHeroController::OnMoveCompleted(FAIRequestID RequestID, EPathFollowingResult::Type Result)
-{
-	MoveToLocation(possessedHero->GetWaypoint(), -1.f, true, true, false, false);
+	waypointList = Cast<ADungeonManager>(dManager[0])->WaypointList;
+	// Move to waypoint, ..., no Stop on overlap, Use path finding, ..., No Strafing
+	MoveToLocation(waypointList[waypointID++], -1.f, false, true, false, false);
+	if (GEngine)
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red,
+			TEXT("Going to: " + waypointList[waypointID].ToString()));
 }

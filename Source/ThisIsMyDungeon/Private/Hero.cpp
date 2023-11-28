@@ -5,7 +5,6 @@
 AHero::AHero()
 {
 	PrimaryActorTick.bCanEverTick = true;
-
 	bUseControllerRotationYaw = false;
 
 	AutoPossessAI = EAutoPossessAI::PlacedInWorldOrSpawned;
@@ -26,16 +25,6 @@ void AHero::Upgrade(int nbUgrades)
 {
 	for (int i = 0; i < nbUgrades; i++)
 		UpgradeOne();
-}
-
-FVector AHero::GetWaypoint()
-{
-	return currentWaypoint;
-}
-
-void AHero::SetWaypoint(FVector newWaypoint)
-{
-	currentWaypoint = newWaypoint;
 }
 
 bool AHero::GetHeroAtEnd()
