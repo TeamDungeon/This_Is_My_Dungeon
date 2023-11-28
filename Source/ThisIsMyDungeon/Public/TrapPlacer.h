@@ -20,6 +20,14 @@ public:
 	UPROPERTY(EditAnywhere, Category = "TrapPlacer", meta = (AllowPrivateAcess = "true", ClampMin = "1"))
 	int tileSize = 16;
 
+	UPROPERTY(EditAnywhere, Category = "TrapPlacer", meta = (AllowPrivateAcess = "true"))
+	bool tryPlaceTile = false;
+
+
+	
+	TArray<TPair<int, int>> usedTiles;
+	//std::vector< std::tuple<int, int, bool> > usedTile;
+
 	// Sets default values for this actor's properties
 	ATrapPlacer();
 

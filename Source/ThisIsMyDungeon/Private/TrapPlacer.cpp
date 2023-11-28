@@ -33,5 +33,27 @@ void ATrapPlacer::Tick(float DeltaTime)
 
 	if (ypos > 0) yPosTile += 1;
 	else yPosTile -= 1;
+
+	if (tryPlaceTile)
+	{
+		for (const auto& i : usedTiles)
+		{
+			if (i.Get<0>() == xPosTile && i.Get<1>() == yPosTile)
+			{
+				FString temp = "[ERROR] Tile already placed at: " + FString::FromInt(xPosTile) + ", " + FString::FromInt(yPosTile);
+				GEngine->AddOnScreenDebugMessage(-1, 10, FColor::Red, temp);
+				tryPlaceTile = false;
+				return;
+			}
+		}
+		usedTiles.Add(TPair<int, int>(xPosTile, yPosTile));
+		if (GEngine)
+		{
+			FString temp = "Tile Placed at: " + FString::FromInt(xPosTile) + ", " + FString::FromInt(yPosTile);
+			GEngine->AddOnScreenDebugMessage(-1, 10, FColor::Yellow, temp);
+		}
+
+		tryPlaceTile = false;
+	}
 }
 
