@@ -20,7 +20,7 @@ void AHeroController::BeginPlay()
 
 	FTimerHandle unusedHandle;
 	GetWorldTimerManager().SetTimer(
-		unusedHandle, this, &AHeroController::GetWaypointList, 2.f, false);
+		unusedHandle, this, &AHeroController::GetWaypointList, 3.f, false);
 
 	if (IsValid(behaviorTree))
 	{
@@ -49,13 +49,19 @@ void AHeroController::OnMoveCompleted(FAIRequestID requestID, EPathFollowingResu
 	{
 		if ((int32)waypointID + 1 < waypointList.Num())
 		{
+			while (waypointList[waypointID + 1] == waypointList[waypointID]) waypointID++;
 			// Move to waypoint, ..., no Stop on overlap, Use path finding, ..., No Strafing
 			if (MoveToLocation(waypointList[waypointID + 1], -1.f, false, true, false, false)
 				== EPathFollowingRequestResult::RequestSuccessful)
+			{
 				waypointID++;
-			if (GEngine)
+				if (GEngine)
+					GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red,
+						TEXT("Going to: " + waypointList[waypointID].ToString()));
+			}
+			else if (GEngine)
 				GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red,
-					TEXT("Going to: " + waypointList[waypointID].ToString()));
+					TEXT("OnMoveCompleted: Move to request failled"));
 		}
 		else if (GEngine)
 			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red,
@@ -63,7 +69,7 @@ void AHeroController::OnMoveCompleted(FAIRequestID requestID, EPathFollowingResu
 	}
 	else if (GEngine)
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red,
-			TEXT("OnMoveCompleted failled"));
+			TEXT("OnMoveCompleted: Previous path failled failled"));
 }
 
 void AHeroController::GetWaypointList()
