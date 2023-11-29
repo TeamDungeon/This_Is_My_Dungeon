@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "DungeonManager.h"
+#include "Waypoint.h"
 #include "Room.generated.h"
 
 class ADungeonManager;
@@ -16,7 +17,8 @@ class THISISMYDUNGEON_API ARoom : public AActor
 	
 public:	
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Lists") TArray<FVector> RoomWaypoints;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Vector3") FVector RoomExit;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Lists") TArray<AWaypoint*> RoomWaypoints;
 
 protected:
 	// Called when the game starts or when spawned

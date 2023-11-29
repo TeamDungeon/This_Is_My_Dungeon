@@ -84,7 +84,7 @@ void AHeroController::GetWaypointList()
 		return;
 	}
 
-	waypointList = Cast<ADungeonManager>(dManager[0])->WaypointList;
+	waypointList = Cast<ADungeonManager>(dManager[0])->WaypointGhostList;
 	// Move to waypoint, ..., no Stop on overlap, Use path finding, ..., No Strafing
 	MoveToLocation(waypointList[waypointID++], -1.f, false, true, false, false);
 	if (GEngine)
