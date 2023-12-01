@@ -6,6 +6,7 @@
 
 #include "Hero.h"
 #include "DungeonManager.h"
+
 #include <Kismet/GameplayStatics.h>
 #include <Demon.h>
 #include <NavigationSystem.h>
@@ -20,12 +21,7 @@ void AHeroController::BeginPlay()
 {
 	Super::BeginPlay();
 
-	//FTimerHandle unusedHandle;
-	//GetWorldTimerManager().SetTimer(
-	//	unusedHandle, this, &AHeroController::GetWaypointList, 3.f, false);
-	// ^ Only if generation is slow
-
-	GetWaypointList();
+	GetStartWaypoint();
 
 	//if (IsValid(behaviorTree))
 	//{
@@ -55,17 +51,17 @@ void AHeroController::OnMoveCompleted(FAIRequestID requestID, EPathFollowingResu
 {
 	if (result == EPathFollowingResult::Success)
 	{
-		if ((int32)waypointID + 1 < waypointList.Num())
+		if ((int32)waypointID + 1 < currentWaypoint.Num())
 		{
-			while (waypointList[waypointID + 1] == waypointList[waypointID]) waypointID++;
+			while (currentWaypoint[waypointID + 1] == currentWaypoint[waypointID]) waypointID++;
 			// Move to waypoint, ..., no Stop on overlap, Use path finding, ..., No Strafing
-			if (MoveToLocation(waypointList[waypointID + 1], toleranceWaypoint, false, true, false, false)
+			if (MoveToLocation(currentWaypoint[waypointID + 1]->GetActorLocation(), toleranceWaypoint, false, true, false, false)
 				== EPathFollowingRequestResult::RequestSuccessful)
 			{
 				waypointID++;
 				if (GEngine)
 					GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue,
-						TEXT("Going to: " + waypointList[waypointID].ToString()));
+						TEXT("Going to: " + currentWaypoint[waypointID]->GetActorLocation().ToString()));
 			}
 			else if (GEngine)
 				GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red,
@@ -80,7 +76,7 @@ void AHeroController::OnMoveCompleted(FAIRequestID requestID, EPathFollowingResu
 			TEXT("AHeroController::OnMoveCompleted Previous path failled failled for " + GetName()));
 }
 
-void AHeroController::GetWaypointList()
+void AHeroController::GetStartWaypoint()
 {
 	TArray<AActor*> dManager;
 	if (UWorld* World = GetWorld())
@@ -88,15 +84,22 @@ void AHeroController::GetWaypointList()
 	else
 	{
 		if (GEngine)
-			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("AHeroController::GetWaypointList Coudn't get DungeonManager for " + GetName()));
+			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("AHeroController::GetStartWaypoint Coudn't get World for " + GetName()));
 		return;
 	}
 
-	waypointList = Cast<ADungeonManager>(dManager[0])->WaypointList;
-	if (waypointList.Num() < 1)
+	if (dManager.Num() != 1)
 	{
 		if (GEngine)
-			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("AHeroController::GetWaypointList List is empty for " + GetName()));
+			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("AHeroController::GetStartWaypoint Coudn't get THE DungeonManager for " + GetName()));
+		return;
+	}
+
+	currentWaypoint = Cast<ADungeonManager>(dManager[0])->WaypointList;
+	if (currentWaypoint.Num() < 1)
+	{
+		if (GEngine)
+			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("AHeroController::GetStartWaypoint List is empty for " + GetName()));
 		return;
 	}
 
@@ -109,10 +112,10 @@ void AHeroController::StartMove()
 {
 	// "Force" first MoveTo
 	// Move to waypoint, ..., no Stop on overlap, Use path finding, ..., No Strafing
-	MoveToLocation(waypointList[waypointID++], toleranceWaypoint, false, true, false, false);
+	MoveToLocation(currentWaypoint[waypointID++]->GetActorLocation(), toleranceWaypoint, false, true, false, false);
 	if (GEngine)
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue,
-			TEXT("Going to: " + waypointList[waypointID].ToString()));
+			TEXT("Going to: " + currentWaypoint[waypointID]->GetActorLocation().ToString()));
 }
 
 void AHeroController::DemonDetected(ADemon* demon)

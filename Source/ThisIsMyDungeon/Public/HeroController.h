@@ -29,7 +29,7 @@ protected:
 	class AHero* possessedHero = nullptr;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "AI")
-	TArray<FVector> waypointList;
+	TArray<class AWaypoint*> currentWaypoint;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "AI")
 	int waypointID = 0;
@@ -48,6 +48,6 @@ protected:
 	virtual void OnMoveCompleted(FAIRequestID requestID, EPathFollowingResult::Type result) override;
 
 private:
-	virtual void GetWaypointList();
+	virtual void GetStartWaypoint();
 	virtual void StartMove();
 };
