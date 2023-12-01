@@ -37,7 +37,7 @@ void ATrapPlacer::Tick(float DeltaTime)
 		}
 		//-_Preview_managment_-------
 		//Seems a bit heavy may need chang in close future, need test on console
-		previewTile->SetActorLocation({ static_cast<double>((posTile.X > 0 ? posTile.X - 1 : posTile.X) * tileSize), static_cast<double>((posTile.Y > 0 ? posTile.Y - 1 : posTile.Y) * tileSize), 0 });
+		previewTile->SetActorLocation({ static_cast<double>((posTile.X > 0 ? posTile.X - 1 : posTile.X) * tileSize), static_cast<double>((posTile.Y > 0 ? posTile.Y - 1 : posTile.Y) * tileSize), 0});
 		//---------------------------
 		pPreTilePos = posTile;
 	}
@@ -46,7 +46,9 @@ void ATrapPlacer::Tick(float DeltaTime)
 	{
 		PlaceTrap();
 		isEmpty = false;
+		previewTile->UnValid();
 	}
+	placeTile = false;
 }
 
 bool ATrapPlacer::IsTileEmpty()
@@ -75,6 +77,7 @@ void ATrapPlacer::OpenPlacer()
 		{ 0,0,GetActorLocation().Z },
 		{ 0,0,0 }
 	);
+	//previewTile->SetActorScale3D({ 2,1,1 }); // will be used For the trap size;
 	this->SetActorTickEnabled(true);
 }
 void ATrapPlacer::ClosePlacer()
@@ -100,7 +103,7 @@ void ATrapPlacer::PlaceTrap()
 	);
 	//TODO place an actor trap in the world.
 
-	ClosePlacer();// TODO Remove when adding to player
+	//ClosePlacer();// TODO Remove when adding to player
 }
 
 // Called when the game starts or when spawned

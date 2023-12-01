@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Actor.h"
+#include "GameFramework/Character.h"
 
 #include "PreviewTrap.h"
 #include "Trap.h"
@@ -11,7 +11,7 @@
 #include "TrapPlacer.generated.h"
 
 UCLASS()
-class THISISMYDUNGEON_API ATrapPlacer : public AActor
+class THISISMYDUNGEON_API ATrapPlacer : public ACharacter
 {
 	GENERATED_BODY()
 	
@@ -25,7 +25,7 @@ public:
 	UPROPERTY(EditAnywhere, Category = "TrapPlacer", meta = (AllowPrivateAcess = "true", ClampMin = "1"))
 	int tileSize = 16;
 
-	UPROPERTY(EditAnywhere, Category = "TrapPlacer", meta = (AllowPrivateAcess = "true"))
+	UPROPERTY(EditAnywhere,BlueprintReadWrite, Category = "TrapPlacer", meta = (AllowPrivateAcess = "true"))
 	bool placeTile = false;
 	
 	UPROPERTY(EditAnywhere, Category = "TrapPlacer", meta = (AllowPrivateAcess = "true"))
