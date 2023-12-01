@@ -40,7 +40,7 @@ private:
 	UPROPERTY(BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
 	class ADemon* demonInRange = nullptr;
 
-	UPawnMovementComponent* moveComponent = nullptr;
+	UCharacterMovementComponent* moveComponent = nullptr;
 
 	// FUNCTIONS
 protected:

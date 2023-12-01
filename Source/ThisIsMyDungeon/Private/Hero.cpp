@@ -1,26 +1,28 @@
 #include "Hero.h"
 
 #include "HeroController.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 AHero::AHero()
 {
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
 	bUseControllerRotationYaw = false;
 
 	AutoPossessAI = EAutoPossessAI::PlacedInWorldOrSpawned;
 	AIControllerClass = AHeroController::StaticClass();
 
-	moveComponent = GetMovementComponent();
+	moveComponent = GetCharacterMovement();
 }
 
 void AHero::BeginPlay()
 {
 	Super::BeginPlay();
+	moveComponent->MaxWalkSpeed = speed * 100.f;
 }
 
 void AHero::Tick(float deltaTime)
 {
-	Super::Tick(deltaTime);
+	Super::Tick(deltaTime); // PrimaryActorTick.bCanEverTick = false;
 }
 
 void AHero::DemonDetected()

@@ -24,10 +24,9 @@ protected:
 
 protected:
 	virtual void BeginPlay() override;
-
-public:
 	virtual void Tick(float deltaTime) override;
 
+public:
 	virtual bool IsAlive();
 	virtual void DoAttack(AMyEntity target);
 	virtual void GetDamaged(float value);

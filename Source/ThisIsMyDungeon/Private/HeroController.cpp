@@ -13,6 +13,7 @@
 
 AHeroController::AHeroController()
 {
+	PrimaryActorTick.bCanEverTick = false;
 	//behaviorTreeC = CreateDefaultSubobject<UBehaviorTreeComponent>(TEXT("Behavior Tree Component"));
 	//blackBoardC = CreateDefaultSubobject<UBlackboardComponent>(TEXT("Black Board Component"));
 }
