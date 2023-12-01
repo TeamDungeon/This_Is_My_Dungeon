@@ -8,13 +8,13 @@
 ADungeonManager::ADungeonManager()
 {
 	// Add all rooms in RoomList here
-	RoomList.Add("Room1");
-	RoomList.Add("Room2");
-	RoomList.Add("Room3");
-	RoomList.Add("Room4");
-	RoomList.Add("Room5");
-	RoomList.Add("Room6");
-	RoomList.Add("Room7");
+	RoomList.Add("P_Room1");
+	RoomList.Add("P_Room2");
+	RoomList.Add("P_Room3");
+	RoomList.Add("P_Room4");
+	RoomList.Add("P_Room5");
+	RoomList.Add("P_Room6");
+	RoomList.Add("P_Room7");
 }
 
 // Called when the game starts or when spawned

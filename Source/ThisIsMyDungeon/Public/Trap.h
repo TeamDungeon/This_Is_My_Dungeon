@@ -15,23 +15,23 @@ public:
 protected:
 	virtual void BeginPlay() override;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Values")
-	int tileSize_X;
+	UPROPERTY(EditAnywhere, Category = "Trap", meta = (AllowPrivateAcess = "true", ClampMin = "1", ClampMax = "3"))
+	int tileSize_X = 1;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Values")
-	int tileSize_Y;
+	UPROPERTY(EditAnywhere, Category = "Trap", meta = (AllowPrivateAcess = "true", ClampMin = "1", ClampMax = "3"))
+	int tileSize_Y = 1;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Values")
-	AActor* upgradedTrap;
+	UPROPERTY(EditAnywhere, Category = "Trap", meta = (AllowPrivateAcess = "true"))
+	ATrap* upgradedTrap;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Values")
-	int	cost;
+	UPROPERTY(EditAnywhere, Category = "Trap", meta = (AllowPrivateAcess = "true"))
+	int	cost = 0;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Values")
-	float damage;
+	UPROPERTY(EditAnywhere, Category = "Trap", meta = (AllowPrivateAcess = "true"))
+	float damage = 1.f;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Values")
-	bool canDamageEnemy;
+	UPROPERTY(EditAnywhere, Category = "Trap", meta = (AllowPrivateAcess = "true"))
+	bool canDamageEnemy = true;
 
 public:
 	virtual void Tick(float deltaTime) override;
