@@ -10,15 +10,23 @@
 
 class ADungeonManager;
 
+UENUM(BlueprintType)
+enum ERoomType
+{
+	Basic	UMETA(DisplayName = "Basic"),
+	Bone	UMETA(DiplayName = "Bone"),
+	Wood	UMETA(DisplayName = "Wood")
+};
+
 UCLASS()
 class THISISMYDUNGEON_API ARoom : public AActor
 {
 	GENERATED_BODY()
-	
-public:	
-	
+
+public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Vector3") FVector RoomExit;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Lists") TArray<AWaypoint*> RoomWaypoints;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Enums") TEnumAsByte<ERoomType> RoomType;
 
 protected:
 	// Called when the game starts or when spawned
