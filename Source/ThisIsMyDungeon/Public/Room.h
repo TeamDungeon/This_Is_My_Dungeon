@@ -18,6 +18,7 @@ enum ERoomType
 	Wood	UMETA(DisplayName = "Wood")
 };
 
+
 UCLASS()
 class THISISMYDUNGEON_API ARoom : public AActor
 {
@@ -27,9 +28,10 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Vector3") FVector RoomExit;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Lists") TArray<AWaypoint*> RoomWaypoints;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Enums") TEnumAsByte<ERoomType> RoomType;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Vector2") FVector DecorationBoxStart;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Vector2") FVector DecorationBoxEnd;
 
 protected:
-	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 public:	
