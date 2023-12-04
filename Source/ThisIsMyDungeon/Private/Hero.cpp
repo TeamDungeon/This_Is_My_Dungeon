@@ -61,15 +61,19 @@ void AHero::DemonLost()
 
 void AHero::Upgrade(int nbUgrades)
 {
-	for (int i = 0; i < nbUgrades; i++)
-		UpgradeOne();
+	upgradeLevel += nbUgrades;
+	treasureDrop += treasureUpgrade * nbUgrades;
+	health += healthUpgrade * nbUgrades;
+	speed += speedUpgrade * nbUgrades;
+	damage += damageUpgrade * nbUgrades;
 }
 
-void AHero::UpgradeOne()
+bool AHero::IsMoving()
 {
-	upgradeLevel++;
-	treasureDrop += treasureUpgrade;
-	health += healthUpgrade;
-	speed += speedUpgrade;
-	damage += damageUpgrade;
+	return moveComponent->GetCurrentAcceleration() != FVector::Zero() && GetVelocity().Length() > 0.f;
+}
+
+bool AHero::IsAttacking()
+{
+	return isAttacking;
 }

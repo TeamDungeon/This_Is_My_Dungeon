@@ -36,9 +36,12 @@ protected:
 	int upgradeLevel = 0;
 
 private:
-	// if demon in range is nullptr = no demon on range
-	UPROPERTY(BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
+	// If demon in range is nullptr = no demon on range
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Values", meta = (AllowPrivateAccess = "true"))
 	class ADemon* demonInRange = nullptr;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Values", meta = (AllowPrivateAccess = "true"))
+	bool isAttacking = false;
 
 	UCharacterMovementComponent* moveComponent = nullptr;
 
@@ -53,9 +56,12 @@ protected:
 	UFUNCTION(BlueprintCallable, Category = "Functions")
 	virtual void DemonLost();
 
-	UFUNCTION(BlueprintCallable, Category = "Functions")
-	virtual void UpgradeOne();
-
 public:
 	virtual void Upgrade(int nbUgrades = 1);
+
+	UFUNCTION(BlueprintCallable, Category = "Functions")
+	virtual bool IsMoving();
+
+	UFUNCTION(BlueprintCallable, Category = "Functions")
+	virtual bool IsAttacking();
 };

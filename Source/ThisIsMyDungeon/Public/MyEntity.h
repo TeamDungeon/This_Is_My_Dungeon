@@ -27,7 +27,12 @@ protected:
 	virtual void Tick(float deltaTime) override;
 
 public:
+	UFUNCTION(BlueprintCallable, Category = "Functions")
 	virtual bool IsAlive();
-	virtual void DoAttack(AMyEntity target);
+
+	UFUNCTION(BlueprintCallable, Category = "Functions")
+	virtual void DoAttack(AMyEntity* target);
+
+	UFUNCTION(BlueprintCallable, Category = "Functions")
 	virtual void GetDamaged(float value);
 };

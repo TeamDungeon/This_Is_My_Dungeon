@@ -85,14 +85,16 @@ void AHeroController::GetStartWaypoint()
 	else
 	{
 		if (GEngine)
-			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("AHeroController::GetStartWaypoint Coudn't get World for " + GetName()));
+			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red,
+				TEXT("AHeroController::GetStartWaypoint Coudn't get World for " + GetName()));
 		return;
 	}
 
 	if (dManager.Num() != 1)
 	{
 		if (GEngine)
-			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("AHeroController::GetStartWaypoint Coudn't get THE DungeonManager for " + GetName()));
+			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red,
+				TEXT("AHeroController::GetStartWaypoint Coudn't get THE DungeonManager for " + GetName()));
 		return;
 	}
 
@@ -100,13 +102,13 @@ void AHeroController::GetStartWaypoint()
 	if (currentWaypoint.Num() < 1)
 	{
 		if (GEngine)
-			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("AHeroController::GetStartWaypoint List is empty for " + GetName()));
+			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red,
+				TEXT("AHeroController::GetStartWaypoint List is empty for " + GetName()));
 		return;
 	}
 
 	FTimerHandle unusedHandle; // To give them time to reach ground
-	GetWorldTimerManager().SetTimer(
-		unusedHandle, this, &AHeroController::StartMove, 2.f, false);
+	GetWorldTimerManager().SetTimer(unusedHandle, this, &AHeroController::StartMove, 2.f, false);
 }
 
 void AHeroController::StartMove()

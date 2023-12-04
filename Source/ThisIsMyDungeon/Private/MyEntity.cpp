@@ -20,9 +20,9 @@ bool AMyEntity::IsAlive()
 	return health > 0.f;
 }
 
-void AMyEntity::DoAttack(AMyEntity target)
+void AMyEntity::DoAttack(AMyEntity* target)
 {
-	target.GetDamaged(damage);
+	target->GetDamaged(damage);
 }
 
 void AMyEntity::GetDamaged(float value)
