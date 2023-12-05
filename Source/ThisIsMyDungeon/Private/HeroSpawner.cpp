@@ -38,7 +38,7 @@ void AHeroSpawner::SortWaveList()
 			}
 		// else two wave have the same ID
 		else if (GEngine)
-			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red,
+			GEngine->AddOnScreenDebugMessage(-1, 8.f, FColor::Red,
 				TEXT("AHeroSpawner::BeginPlay Sort failled, two wave have the same ID"));
 	}
 }
@@ -72,16 +72,22 @@ void AHeroSpawner::SpawnWave()
 		currentWave++;
 	}
 	else if (GEngine)
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green,
+		GEngine->AddOnScreenDebugMessage(-1, 8.f, FColor::Green,
 			TEXT("AHeroSpawner::SpawnWave All waves spawned"));
 }
 
 void AHeroSpawner::SpawnAHero(FHeroToSpawn aHero)
 {
 	auto theHero = GetWorld()->SpawnActor<AHero>(aHero.heroType, GetActorTransform());
-	theHero->SetFolderPath("Heroes");
-	if (aHero.upgradeLevel)
-		theHero->Upgrade(aHero.upgradeLevel);
+	if (theHero)
+	{
+		theHero->SetFolderPath("Heroes");
+		if (aHero.upgradeLevel)
+			theHero->Upgrade(aHero.upgradeLevel);
+	}
+	else if (GEngine)
+		GEngine->AddOnScreenDebugMessage(-1, 8.f, FColor::Red,
+			TEXT("AHeroSpawner::SpawnAHero Hero wasn't spawned"));
 }
 
 void AHeroSpawner::PauseSpawner()
@@ -99,7 +105,7 @@ void AHeroSpawner::PauseSpawner()
 		}
 
 	if (GEngine)
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue,
+		GEngine->AddOnScreenDebugMessage(-1, 8.f, FColor::Blue,
 			TEXT("AHeroSpawner::Pause All timer paused"));
 }
 
@@ -118,6 +124,6 @@ void AHeroSpawner::UnpauseSpawner()
 		}
 
 	if (GEngine)
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue,
+		GEngine->AddOnScreenDebugMessage(-1, 8.f, FColor::Blue,
 			TEXT("AHeroSpawner::Unpause All timer unpaused"));
 }
