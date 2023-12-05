@@ -52,9 +52,9 @@ void AHeroController::OnMoveCompleted(FAIRequestID requestID, EPathFollowingResu
 {
 	if (result == EPathFollowingResult::Success)
 	{
+		while (currentWaypoint[waypointID + 1] == currentWaypoint[waypointID]) waypointID++;
 		if ((int32)waypointID + 1 < currentWaypoint.Num())
 		{
-			while (currentWaypoint[waypointID + 1] == currentWaypoint[waypointID]) waypointID++;
 			// Move to waypoint, ..., no Stop on overlap, Use path finding, ..., No Strafing
 			if (MoveToLocation(currentWaypoint[waypointID + 1]->GetActorLocation(), toleranceWaypoint, false, true, false, false)
 				== EPathFollowingRequestResult::RequestSuccessful)
@@ -72,9 +72,13 @@ void AHeroController::OnMoveCompleted(FAIRequestID requestID, EPathFollowingResu
 			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue,
 				TEXT("AHeroController::OnMoveCompleted No waypoint next for " + GetName()));
 	}
-	else if (GEngine)
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red,
-			TEXT("AHeroController::OnMoveCompleted Previous path failled failled for " + GetName()));
+	else
+	{
+		if (GEngine)
+			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red,
+				TEXT("AHeroController::OnMoveCompleted Previous path failled failled for " + GetName()));
+		// delete hero ??
+	}
 }
 
 void AHeroController::GetStartWaypoint()
