@@ -33,7 +33,10 @@ public:
 
 	UPROPERTY(EditAnywhere, Category = "TrapPlacer", meta = (AllowPrivateAcess = "true"))
 	TSubclassOf<ATrap> trapToPlace;
-	
+
+	UPROPERTY(EditAnywhere, Category = "TrapPlacer", meta = (AllowPrivateAcess = "true"))
+	float floorCoord = 0;
+
 	TArray<FIntVector2> usedTiles;
 
 

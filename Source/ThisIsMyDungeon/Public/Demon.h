@@ -5,6 +5,8 @@
 
 #include "CoreMinimal.h"
 #include "MyEntity.h"
+
+
 #include "Demon.generated.h"
 
 class UInputMappingContext;
@@ -20,24 +22,32 @@ class THISISMYDUNGEON_API ADemon : public AMyEntity
 	GENERATED_BODY()
 
 public:
-	ADemon();
+	ADemon();	
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera")
-	USpringArmComponent* cameraArm;
+	//-_PLAYER_RELATED_VARS_--------------------------------------------------------------
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera")
-	UCameraComponent* camera;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player", meta = (AllowPrivateAcess = "true", ClampMin = "0"))
+	float mana = 0.f; //Set to not null for mana by default
 
-	virtual void SetupPlayerInputComponent(class UInputComponent* playerInputComponent) override;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player", meta = (AllowPrivateAcess = "true"))
+	TSubclassOf<class ATrapPlacer> trapPlacer;
+
+	//-_PLAYER_RELATED_FUNCTIONS_---------------------------------------------------------
+
+	//UPROPERTY(VisibleAnywhere, Category = "Player")
+	UFUNCTION(BlueprintCallable, Category = "Player")
+	void ToEdit();
+
+	//------------------------------------------------------------------------------------
 
 protected:
 	virtual void BeginPlay() override;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Player")
-	float mana = 0.f;
+	
 
 public:
 	virtual void Tick(float deltaTime) override;
+	virtual void SetupPlayerInputComponent(class UInputComponent* playerInputComponent) override;
 
 private:
 	virtual bool IsTileEmpty();
