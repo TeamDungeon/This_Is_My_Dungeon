@@ -52,17 +52,18 @@ void AHeroController::OnMoveCompleted(FAIRequestID requestID, EPathFollowingResu
 {
 	if (result == EPathFollowingResult::Success)
 	{
-		while (currentWaypoint[waypointID + 1] == currentWaypoint[waypointID]) waypointID++;
+		while ((int32)waypointID + 1 < currentWaypoint.Num() &&
+			currentWaypoint[waypointID + 1] == currentWaypoint[waypointID]) waypointID++;
 		if ((int32)waypointID + 1 < currentWaypoint.Num())
 		{
 			// Move to waypoint, ..., no Stop on overlap, Use path finding, ..., No Strafing
 			if (MoveToLocation(currentWaypoint[waypointID + 1]->GetActorLocation(), toleranceWaypoint, false, true, false, false)
 				== EPathFollowingRequestResult::RequestSuccessful)
 			{
-				waypointID++;
 				if (GEngine)
 					GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue,
 						TEXT("Going to: " + currentWaypoint[waypointID]->GetActorLocation().ToString()));
+				waypointID++;
 			}
 			else if (GEngine)
 				GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red,
@@ -70,7 +71,7 @@ void AHeroController::OnMoveCompleted(FAIRequestID requestID, EPathFollowingResu
 		}
 		else if (GEngine)
 			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue,
-				TEXT("AHeroController::OnMoveCompleted No waypoint next for " + GetName()));
+				TEXT("AHeroController::OnMoveCompleted No waypoint next found for " + GetName()));
 	}
 	else
 	{
@@ -119,10 +120,11 @@ void AHeroController::StartMove()
 {
 	// "Force" first MoveTo
 	// Move to waypoint, ..., no Stop on overlap, Use path finding, ..., No Strafing
-	MoveToLocation(currentWaypoint[waypointID++]->GetActorLocation(), toleranceWaypoint, false, true, false, false);
+	MoveToLocation(currentWaypoint[waypointID]->GetActorLocation(), toleranceWaypoint, false, true, false, false);
 	if (GEngine)
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue,
 			TEXT("Going to: " + currentWaypoint[waypointID]->GetActorLocation().ToString()));
+	waypointID++;
 }
 
 void AHeroController::DemonDetected(ADemon* demon)

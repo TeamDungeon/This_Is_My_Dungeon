@@ -31,6 +31,12 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Values|Upgrade", meta = (DisplayName = "Speed Increase On Upgrade"))
 	float speedUpgrade = 0.f;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Values")
+	float lifeSpanOnDeath = 5.f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Values")
+	float blinkingSpeed = .5f;
+
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Values|Upgrade", meta = (DisplayName = "Current Upgrade Level"))
 	int upgradeLevel = 0;
@@ -42,6 +48,15 @@ private:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Values", meta = (AllowPrivateAccess = "true"))
 	bool isAttacking = false;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Values|Weapon Scale", meta = (AllowPrivateAccess = "true"))
+	bool bUpgradeDone = false; // for Weapons in Animation Blueprint
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Values|Weapon Scale", meta = (AllowPrivateAccess = "true"))
+	TArray<FVector> weaponScale; // for Weapons in Animation Blueprint
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Values|Weapon Scale", meta = (AllowPrivateAccess = "true"))
+	int nbWeaponsTotal = 7; // for Weapons in Animation Blueprint
 
 	UCharacterMovementComponent* moveComponent = nullptr;
 
@@ -56,12 +71,22 @@ protected:
 	UFUNCTION(BlueprintCallable, Category = "Functions")
 	virtual void DemonLost();
 
+private:
+	virtual void DeadBlinking();
+
 public:
 	virtual void Upgrade(int nbUgrades = 1);
+
+	virtual void SetWeaponSize();
 
 	UFUNCTION(BlueprintCallable, Category = "Functions")
 	virtual bool IsMoving();
 
 	UFUNCTION(BlueprintCallable, Category = "Functions")
 	virtual bool IsAttacking();
+
+	virtual void GetDamaged(float value) override;
+
+	UFUNCTION(BlueprintCallable, Category = "Functions")
+	virtual void Death();
 };

@@ -66,7 +66,7 @@ private:
 	bool isPaused = false;
 
 	TArray<FTimerHandle> everyTimer;
-	FTimerManager* WTM = nullptr;
+	FTimerManager* WTM = nullptr; // world timer manager
 
 	TArray<FWaveStruct> waveStructureSorted;
 	int currentWave = 0;
