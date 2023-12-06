@@ -1,10 +1,10 @@
-#include "HeroController.h"
+#include "Hero/HeroController.h"
 
 #include "BehaviorTree/BehaviorTreeComponent.h"
 #include "BehaviorTree/BlackboardComponent.h"
 #include "BehaviorTree/BehaviorTree.h"
 
-#include "Hero.h"
+#include "Hero/Hero.h"
 #include "DungeonManager.h"
 
 #include <Kismet/GameplayStatics.h>

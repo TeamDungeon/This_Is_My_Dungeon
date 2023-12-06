@@ -25,7 +25,7 @@ class THISISMYDUNGEON_API AHero : public AMyEntity
 	GENERATED_BODY()
 
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Values|OnDeath", meta = (DisplayName = "Treasure Droped Increase"))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Values|OnDeath", meta = (DisplayName = "Treasure Droped"))
 	float treasureDrop = 0.f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Values|OnDeath")
@@ -53,16 +53,14 @@ protected:
 	TArray<FUpgradeWeapon> weaponOnUpgrade; // for Weapon Scales in Animation Blueprint
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Values")
-	int nbWeaponsMax = 7; // for Weapon Scale, default value is 7 because knight is 'default hero'
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Values")
-	int nbPossibleUpgrades = 7; // for Weapon Scale, default value is 7 because knight is 'default hero'
+	int nbWeaponsMax = 0; // for Weapon Scale
 
 private:
 	// If demon in range is nullptr (or None) -> no demon to attack is in range
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Values", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Values|Debug", meta = (AllowPrivateAccess = "true"))
 	class ADemon* demonInRange = nullptr;
 
+	// Cannot upgrade beyond weaponOnUpgrade size
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Values|Upgrade", meta = (DisplayName = "Current Upgrade Level", AllowPrivateAccess = "true"))
 	int upgradeLevel = 0;
 
@@ -96,7 +94,7 @@ private:
 
 public:
 	UFUNCTION(BlueprintCallable, Category = "Functions")
-	virtual void Upgrade(int nbUgrades = 1);
+	virtual void Upgrade(int nbUpgrades = 1);
 
 	UFUNCTION(BlueprintCallable, Category = "Functions")
 	virtual bool IsMoving();

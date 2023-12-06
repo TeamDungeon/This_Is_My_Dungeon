@@ -1,6 +1,6 @@
-#include "HeroSpawner.h"
+#include "Hero/HeroSpawner.h"
 
-#include "Hero.h"
+#include "Hero/Hero.h"
 
 AHeroSpawner::AHeroSpawner() { PrimaryActorTick.bCanEverTick = false; }
 
@@ -94,8 +94,6 @@ void AHeroSpawner::SpawnAHero(FHeroToSpawn aHero)
 
 void AHeroSpawner::PauseSpawner()
 {
-	bPaused = true;
-
 	for (int i = 0; i < everyTimer.Num(); i++)
 		if (everyTimer[i].IsValid())
 		{
@@ -109,12 +107,12 @@ void AHeroSpawner::PauseSpawner()
 	if (GEngine)
 		GEngine->AddOnScreenDebugMessage(-1, 8.f, FColor::Blue,
 			TEXT("AHeroSpawner::Pause All timer paused"));
+
+	bPaused = true;
 }
 
 void AHeroSpawner::UnpauseSpawner()
 {
-	bPaused = false;
-
 	for (int i = 0; i < everyTimer.Num(); i++)
 		if (everyTimer[i].IsValid())
 		{
@@ -128,4 +126,6 @@ void AHeroSpawner::UnpauseSpawner()
 	if (GEngine)
 		GEngine->AddOnScreenDebugMessage(-1, 8.f, FColor::Blue,
 			TEXT("AHeroSpawner::Unpause All timer unpaused"));
+
+	bPaused = false;
 }

@@ -1,6 +1,6 @@
-#include "Hero.h"
+#include "Hero/Hero.h"
 
-#include "HeroController.h"
+#include "Hero/HeroController.h"
 #include "GameFramework/CharacterMovementComponent.h"
 
 AHero::AHero()
@@ -21,10 +21,6 @@ void AHero::BeginPlay()
 	moveComponent->MaxWalkSpeed = speed * 100.f;
 
 	weaponScale.SetNum(nbWeaponsMax);
-	weaponOnUpgrade.SetNum(nbPossibleUpgrades);
-	for (int i = 0; i < nbPossibleUpgrades; i++)
-		weaponOnUpgrade[i].bIsOnDisplay.SetNum(nbWeaponsMax);
-
 	SetWeaponSize();
 
 	//FTimerHandle deathAnimHandle;
@@ -94,9 +90,9 @@ void AHero::DeadBlinking()
 	GetMesh()->SetVisibility(!GetMesh()->IsVisible());
 }
 
-void AHero::Upgrade(int nbUgrades)
+void AHero::Upgrade(int nbUpgrades)
 {
-	if (upgradeLevel >= nbPossibleUpgrades)
+	if (upgradeLevel >= weaponOnUpgrade.Num())
 	{
 		if (GEngine)
 			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Orange,
@@ -104,11 +100,23 @@ void AHero::Upgrade(int nbUgrades)
 		return;
 	}
 
-	upgradeLevel += nbUgrades;
-	treasureDrop += treasureUpgrade * nbUgrades;
-	health += healthUpgrade * nbUgrades;
-	speed += speedUpgrade * nbUgrades;
-	damage += damageUpgrade * nbUgrades;
+	if ((upgradeLevel + nbUpgrades) >= weaponOnUpgrade.Num())
+	{
+		nbUpgrades = weaponOnUpgrade.Num() - upgradeLevel - 1;
+		if (nbUpgrades <= 0) 
+		{
+			if (GEngine)
+				GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Orange,
+					TEXT("AHero::Upgrade Called but no upgrade possible for " + GetName()));
+			return;
+		}
+	}
+	 
+	upgradeLevel += nbUpgrades;
+	treasureDrop += treasureUpgrade * nbUpgrades;
+	health += healthUpgrade * nbUpgrades;
+	speed += speedUpgrade * nbUpgrades;
+	damage += damageUpgrade * nbUpgrades;
 
 	SetWeaponSize();
 }
