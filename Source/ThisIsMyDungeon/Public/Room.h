@@ -15,7 +15,6 @@ enum ERoomType
 {
 	Basic	UMETA(DisplayName = "Basic"),
 	Bone	UMETA(DiplayName = "Bone"),
-	Wood	UMETA(DisplayName = "Wood")
 };
 
 
@@ -28,8 +27,6 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Vector3") FVector RoomExit;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Lists") TArray<AWaypoint*> RoomWaypoints;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Enums") TEnumAsByte<ERoomType> RoomType;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Vector2") FVector DecorationBoxStart;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Vector2") FVector DecorationBoxEnd;
 
 protected:
 	virtual void BeginPlay() override;
