@@ -1,7 +1,5 @@
 #pragma once
 
-#include <Hero.h>
-
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "HeroSpawner.generated.h"
@@ -14,7 +12,7 @@ struct FHeroToSpawn
 public:
 	// SPAWNS BLUEPRINTS (NOT C++ CLASSES)
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Values")
-	TSubclassOf<AHero> heroType;
+	TSubclassOf<class AHero> heroType;
 
 	// 0 if no upgrade levels need applying
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Values")
@@ -63,7 +61,7 @@ public:
 
 private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Values", meta = (AllowPrivateAccess = "true"))
-	bool isPaused = false;
+	bool bPaused = false;
 
 	TArray<FTimerHandle> everyTimer;
 	FTimerManager* WTM = nullptr; // world timer manager

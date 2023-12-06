@@ -1,5 +1,7 @@
 #include "HeroSpawner.h"
 
+#include "Hero.h"
+
 AHeroSpawner::AHeroSpawner() { PrimaryActorTick.bCanEverTick = false; }
 
 void AHeroSpawner::BeginPlay()
@@ -92,7 +94,7 @@ void AHeroSpawner::SpawnAHero(FHeroToSpawn aHero)
 
 void AHeroSpawner::PauseSpawner()
 {
-	isPaused = true;
+	bPaused = true;
 
 	for (int i = 0; i < everyTimer.Num(); i++)
 		if (everyTimer[i].IsValid())
@@ -111,7 +113,7 @@ void AHeroSpawner::PauseSpawner()
 
 void AHeroSpawner::UnpauseSpawner()
 {
-	isPaused = false;
+	bPaused = false;
 
 	for (int i = 0; i < everyTimer.Num(); i++)
 		if (everyTimer[i].IsValid())
