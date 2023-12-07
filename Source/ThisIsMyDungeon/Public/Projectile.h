@@ -2,6 +2,9 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "GameFramework/ProjectileMovementComponent.h"
+
+
 #include "Projectile.generated.h"
 
 UCLASS()
@@ -12,20 +15,16 @@ class THISISMYDUNGEON_API AProjectile : public AActor
 public:
 	AProjectile();
 
+	virtual void Tick(float deltaTime) override;
+
 protected:
 	virtual void BeginPlay() override;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Values")
-	FVector3f direction;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Values")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Projectile")
 	float damage = 0.f;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Values")
-	float speed = 0.f;
+	UPROPERTY(VisibleAnywhere)
+	UProjectileMovementComponent* Movement;
 
-public:
-	virtual void Tick(float deltaTime) override;
-
-	virtual void SetDirection(FVector3f source, FVector3f destination);
+	void SetupMovement();
 };

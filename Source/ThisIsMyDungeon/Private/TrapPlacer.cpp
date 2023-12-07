@@ -13,26 +13,27 @@ void ATrapPlacer::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	//Find the tile position
 	const auto& loc = GetActorLocation() / tileSize;
 	posTile = { static_cast<int>(loc.X), static_cast<int>(loc.Y) };
 
-	//-_Use_to_remove_tile_0_-----------
+	//Use to remove tile 0
 	if (loc.X >= 0)posTile.X += 1;
 	else posTile.X -= 1;
 	if (loc.Y >= 0)posTile.Y += 1;
 	else posTile.Y -= 1;
-	//----------------------------------
 
 	if (pPreTilePos != posTile)
 	{
 		if (IsTileEmpty())
 		{
-			previewTile->Valid();
+			previewTile->Valid(); //Set the green color
 			isEmpty = true;
 		}
 		else
 		{
-			previewTile->UnValid();
+			previewTile->UnValid(); // Set the red color
+			isEmpty = false; // need to be set to false
 		}
 		//-_Preview_managment_-------
 		//Seems a bit heavy may need chang in close future, need test on console
@@ -42,14 +43,6 @@ void ATrapPlacer::Tick(float DeltaTime)
 		//---------------------------
 		pPreTilePos = posTile;
 	}
-
-	if (placeTile && isEmpty)
-	{
-		PlaceTrap();
-		isEmpty = false;
-		previewTile->UnValid();
-	}
-	placeTile = false;
 }
 
 bool ATrapPlacer::IsTileEmpty()
@@ -84,19 +77,26 @@ void ATrapPlacer::ClosePlacer()
 
 void ATrapPlacer::PlaceTrap()
 {
-	if (GEngine)
+	if (isEmpty)
 	{
-		FString temp = "Tile Placed at: " + FString::FromInt(posTile.X) + ", " + FString::FromInt(posTile.Y);
-		GEngine->AddOnScreenDebugMessage(-1, 10, FColor::Yellow, temp);
-	}
-	usedTiles.Add({ posTile.X, posTile.Y });
+		if (GEngine)
+		{
+			FString temp = "Tile Placed at: " + FString::FromInt(posTile.X) + ", " + FString::FromInt(posTile.Y);
+			GEngine->AddOnScreenDebugMessage(-1, 10, FColor::Yellow, temp);
+		}
+		usedTiles.Add({ posTile.X, posTile.Y });
 
-	GetWorld()->SpawnActor<ATrap>(
-		trapToPlace,
-		previewTile->GetActorLocation(),
-		{ 0,0,0 }
-	);
-	//TODO place an actor trap in the world.
+		GetWorld()->SpawnActor<ATrap>(
+			trapToPlace,
+			previewTile->GetActorLocation(),
+			{ 0,0,0 }
+		);
+		//TODO place an actor trap in the world.
+
+		
+		isEmpty = false;
+		previewTile->UnValid();
+	}
 }
 
 // Called when the game starts or when spawned
