@@ -4,50 +4,64 @@
 #include "AIController.h"
 #include "HeroController.generated.h"
 
+/*
+	HeroController moves their assigned Hero where needed
+	(To a waypoint or to the demon)
+	It keeps track of where it is
+*/
+
 UCLASS()
 class THISISMYDUNGEON_API AHeroController : public AAIController
 {
 	GENERATED_BODY()
 
+	/*
+		VARIABLES
+	*/
 public:
-	AHeroController();
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AI")
+	/*
+		Movement
+	*/
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CPP Values|AI")
 	float toleranceWaypoint = 50.f;
 
 protected:
-	//UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "AI")
-	//UBehaviorTree* behaviorTree = nullptr;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "CPP Values|AI")
+	class AWaypoint* currentWaypoint;
 
-	//UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "AI")
-	//class UBehaviorTreeComponent* behaviorTreeC;
-
-	//UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "AI")
-	//UBlackboardComponent* blackBoardC;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "AI")
-	class AHero* possessedHero = nullptr;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "AI")
-	TArray<class AWaypoint*> currentWaypoint;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "AI")
-	int waypointID = 0;
+	/*
+		The Hero
+	*/
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "CPP Values|AI")
+	class AHero* possessedHero = nullptr; // TODO delete ?
 
 private:
+	/*
+		Attack
+	*/
 	FAIRequestID currentMovement;
 
-	// FUNCTIONS
-public:
-	virtual void DemonDetected(class ADemon* demon);
-	virtual void DemonLost();
+	class ADemon* demonInRange = nullptr;
+
+	/*
+		FUNCTIONS
+	*/
+public: // Constructor(s)
+	AHeroController();
 
 protected:
 	virtual void BeginPlay() override;
 	virtual void OnPossess(APawn* inPawn) override;
 	virtual void OnMoveCompleted(FAIRequestID requestID, EPathFollowingResult::Type result) override;
 
-private:
-	virtual void GetStartWaypoint();
-	virtual void StartMove();
+	// Baby's first steps
+	virtual void FirstMove();
+
+public:
+	virtual bool IsDemonInSight(class ADemon* demon);
+
+	virtual void DemonDetected(class ADemon* demon);
+	virtual void DemonLost();
+
+	virtual void SetStartWaypoint(AWaypoint* startWaypoint);
 };
