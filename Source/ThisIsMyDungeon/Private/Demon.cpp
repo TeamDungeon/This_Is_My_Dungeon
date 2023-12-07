@@ -2,7 +2,6 @@
 
 #include "TrapPlacer.h"
 #include "GameFramework/Controller.h"
-#include "Kismet/GameplayStatics.h"
 
 ADemon::ADemon()
 {
@@ -18,12 +17,9 @@ void ADemon::SetupPlayerInputComponent(UInputComponent* playerInputComponent)
 
 void ADemon::ToEdit()
 {
-	auto* temp = GetWorld()->SpawnActor<ATrapPlacer>(
-		trapPlacer,
-		GetActorLocation(),
-		{ 0,0,0 }
-	);
-	UGameplayStatics::GetPlayerCharacter(this, 0)->Controller->Possess(temp);
+	static_cast<ATrapPlacer*>(static_trapPlacer)->OpenPlacer();
+	//posses the cursor
+	UGameplayStatics::GetPlayerCharacter(this, 0)->Controller->Possess(static_trapPlacer);
 	return;
 }
 
@@ -32,6 +28,17 @@ void ADemon::ToEdit()
 void ADemon::BeginPlay()
 {
 	Super::BeginPlay();
+
+	//spawn the trap placer aka the cusor.
+	static_trapPlacer = GetWorld()->SpawnActor<ATrapPlacer>(
+		trapPlacer,
+		GetActorLocation(),
+		{ 0,0,0 }
+	);
+
+	//set the static_player var if no set (use to reswitch to the player)
+	if (static_player == nullptr)
+		ATrapPlacer::SetPlayer(this);
 }
 
 void ADemon::Tick(float deltaTime)

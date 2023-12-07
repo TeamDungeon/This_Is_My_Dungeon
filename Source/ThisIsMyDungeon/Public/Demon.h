@@ -12,9 +12,7 @@
 class UInputMappingContext;
 class UInputAction;
 
-/*
-	/!\ this IS the PLAYER /!\
-*/
+static ACharacter* static_trapPlacer = nullptr;
 
 UCLASS()
 class THISISMYDUNGEON_API ADemon : public AMyEntity

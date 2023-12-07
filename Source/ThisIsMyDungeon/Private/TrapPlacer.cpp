@@ -5,9 +5,8 @@
 // Sets default values
 ATrapPlacer::ATrapPlacer()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-	this->SetActorTickEnabled(false);
+	this->SetActorTickEnabled(false); // disable tick by default
 }
 
 void ATrapPlacer::Tick(float DeltaTime)
@@ -70,25 +69,17 @@ bool ATrapPlacer::IsTileEmpty()
 	return true;
 }
 
-
-
 void ATrapPlacer::OpenPlacer()
 {
-	previewTile = GetWorld()->SpawnActor<APreviewTrap>(
-		previewTileActor,
-		GetActorLocation(),
-		{ 0,0,0 }
-	);
-	//previewTile->SetActorScale3D({ 2,1,1 }); // will be used For the trap size;
+	previewTile->SetActorHiddenInGame(false);//Enable the preview
+	SetActorLocation(static_player->GetActorLocation());
 	this->SetActorTickEnabled(true);
 }
 void ATrapPlacer::ClosePlacer()
 {
-	previewTile->Destroy();
-	previewTile = nullptr;
+	//previewTile->SetHidden(true);//Disable the preview
+	previewTile->SetActorHiddenInGame(true);
 	this->SetActorTickEnabled(false);
-
-	this->Destroy();
 }
 
 void ATrapPlacer::PlaceTrap()
@@ -113,5 +104,24 @@ void ATrapPlacer::BeginPlay()
 {
 	Super::BeginPlay();
 
-	OpenPlacer();
+	//spawn the preview tile (the square cursor)
+	previewTile = GetWorld()->SpawnActor<APreviewTrap>(
+		previewTileActor,
+		GetActorLocation(),
+		{ 0,0,0 }
+	);
+	//previewTile->SetActorScale3D({ 2,1,1 }); // will be used For the trap size;
+
+	previewTile->SetActorHiddenInGame(true);//Disable the preview
+}
+
+void ATrapPlacer::SetPlayer(ACharacter* player)
+{
+	static_player = player;
+}
+
+void ATrapPlacer::ToPlayer()
+{
+	ClosePlacer();
+	UGameplayStatics::GetPlayerCharacter(this, 0)->Controller->Possess(static_player);
 }

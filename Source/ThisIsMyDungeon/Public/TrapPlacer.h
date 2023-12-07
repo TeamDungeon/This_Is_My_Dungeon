@@ -4,11 +4,14 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "Kismet/GameplayStatics.h"
 
 #include "PreviewTrap.h"
 #include "Trap.h"
 
 #include "TrapPlacer.generated.h"
+
+static ACharacter* static_player = nullptr;
 
 UCLASS()
 class THISISMYDUNGEON_API ATrapPlacer : public ACharacter
@@ -17,6 +20,7 @@ class THISISMYDUNGEON_API ATrapPlacer : public ACharacter
 	
 public:	
 	ATrapPlacer();
+
 	virtual void Tick(float DeltaTime) override;
 	
 	UPROPERTY(VisibleAnywhere)
@@ -45,6 +49,11 @@ public:
 
 	void OpenPlacer();
 	void ClosePlacer();
+
+	static void SetPlayer(ACharacter* player); // need to be called onece to set the player
+
+	UFUNCTION(BlueprintCallable, Category = "TrapPlacer")
+	void ToPlayer();
 
 protected:
 	bool IsTileEmpty();
