@@ -1,6 +1,9 @@
-#include "HeroSpawner.h"
+#include "Hero/HeroSpawner.h"
 
-#include "Hero.h"
+#include "Hero/Hero.h"
+#include "DungeonManager.h"
+
+#include <Kismet/GameplayStatics.h>
 
 AHeroSpawner::AHeroSpawner() { PrimaryActorTick.bCanEverTick = false; }
 
@@ -10,7 +13,9 @@ void AHeroSpawner::BeginPlay()
 
 	WTM = &GetWorldTimerManager();
 
-	WTM->SetTimer(everyTimer.AddDefaulted_GetRef(), this, &AHeroSpawner::SpawnWave, timeBeforeStart, false);
+	WTM->SetTimer(everyTimer.AddDefaulted_GetRef(), this, &AHeroSpawner::GetStartWaypoint, timeBeforeStart, false);
+
+	WTM->SetTimer(everyTimer.AddDefaulted_GetRef(), this, &AHeroSpawner::SpawnWave, timeBeforeStart + 2.f, false);
 
 	SortWaveList();
 }
@@ -80,10 +85,11 @@ void AHeroSpawner::SpawnWave()
 
 void AHeroSpawner::SpawnAHero(FHeroToSpawn aHero)
 {
-	auto theHero = GetWorld()->SpawnActor<AHero>(aHero.heroType, GetActorTransform());
+	auto theHero = GetWorld()->SpawnActor<AHero>(aHero.heroType, startPoint);
 	if (theHero)
 	{
 		theHero->SetFolderPath("Heroes");
+		theHero->SetStartWaypoint(startWaypoint);
 		if (aHero.upgradeLevel)
 			theHero->Upgrade(aHero.upgradeLevel);
 	}
@@ -94,8 +100,6 @@ void AHeroSpawner::SpawnAHero(FHeroToSpawn aHero)
 
 void AHeroSpawner::PauseSpawner()
 {
-	bPaused = true;
-
 	for (int i = 0; i < everyTimer.Num(); i++)
 		if (everyTimer[i].IsValid())
 		{
@@ -109,12 +113,12 @@ void AHeroSpawner::PauseSpawner()
 	if (GEngine)
 		GEngine->AddOnScreenDebugMessage(-1, 8.f, FColor::Blue,
 			TEXT("AHeroSpawner::Pause All timer paused"));
+
+	bPaused = true;
 }
 
 void AHeroSpawner::UnpauseSpawner()
 {
-	bPaused = false;
-
 	for (int i = 0; i < everyTimer.Num(); i++)
 		if (everyTimer[i].IsValid())
 		{
@@ -128,4 +132,36 @@ void AHeroSpawner::UnpauseSpawner()
 	if (GEngine)
 		GEngine->AddOnScreenDebugMessage(-1, 8.f, FColor::Blue,
 			TEXT("AHeroSpawner::Unpause All timer unpaused"));
+
+	bPaused = false;
+}
+
+void AHeroSpawner::GetStartWaypoint()
+{
+	TArray<AActor*> dManager;
+	if (UWorld* World = GetWorld())
+		UGameplayStatics::GetAllActorsOfClass(GetWorld(), ADungeonManager::StaticClass(), dManager);
+	else
+	{
+		if (GEngine)
+			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red,
+				TEXT("AHeroSpawner::GetStartWaypoint Coudn't get World for " + GetName()));
+		return;
+	}
+
+	if (dManager.Num() != 1)
+	{
+		if (GEngine)
+			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red,
+				TEXT("AHeroSpawner::GetStartWaypoint Coudn't get THE DungeonManager for " + GetName()));
+		return;
+	}
+
+	startWaypoint = Cast<ADungeonManager>(dManager[0])->WaypointList.Last();
+
+	startPoint = startWaypoint->GetTransform();
+
+	auto currentLocation = startPoint.GetLocation();
+	currentLocation.Z += extraHeightToSpawn;
+	startPoint.SetLocation(currentLocation);
 }
