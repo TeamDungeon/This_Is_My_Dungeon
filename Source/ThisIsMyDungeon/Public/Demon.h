@@ -24,17 +24,22 @@ public:
 
 	//-_PLAYER_RELATED_VARS_--------------------------------------------------------------
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player", meta = (AllowPrivateAcess = "true", ClampMin = "0"))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player", meta = (ClampMin = "0"))
 	float mana = 0.f; //Set to not null for mana by default
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player", meta = (AllowPrivateAcess = "true"))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player")
 	TSubclassOf<class ATrapPlacer> trapPlacer;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player")
+	TSubclassOf<class AProjectile> fireBall;
 
 	//-_PLAYER_RELATED_FUNCTIONS_---------------------------------------------------------
 
-	//UPROPERTY(VisibleAnywhere, Category = "Player")
 	UFUNCTION(BlueprintCallable, Category = "Player")
 	void ToEdit();
+
+	UFUNCTION(BlueprintCallable, Category = "Player")
+	void SpawnFireball();
 
 	//------------------------------------------------------------------------------------
 

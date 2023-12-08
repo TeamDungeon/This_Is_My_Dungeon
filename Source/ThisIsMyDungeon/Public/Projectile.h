@@ -3,7 +3,8 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "GameFramework/ProjectileMovementComponent.h"
-
+#include "Components/SphereComponent.h"
+#include "UObject/ScriptDelegates.h"
 
 #include "Projectile.generated.h"
 
@@ -22,9 +23,17 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Projectile")
 	float damage = 0.f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Projectile")
+	float distanceToDespawn = 10000.f;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Projectile")
+	UProjectileMovementComponent* movement;
 	UPROPERTY(VisibleAnywhere)
-	UProjectileMovementComponent* Movement;
+	USphereComponent* collider;
 
 	void SetupMovement();
+	void SetupCollider();
+
+	UFUNCTION()
+	void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
 };

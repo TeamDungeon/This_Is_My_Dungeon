@@ -2,13 +2,20 @@
 
 AProjectile::AProjectile()
 {
-	PrimaryActorTick.bCanEverTick = true;
+    PrimaryActorTick.bCanEverTick = true;
+
+    SetupCollider();
     SetupMovement();
 }
 
 void AProjectile::BeginPlay()
 {
     Super::BeginPlay();
+
+    if (collider)
+    {
+        collider->OnComponentHit.AddDynamic(this, &AProjectile::OnHit);
+    }
 }
 
 void AProjectile::Tick(float deltaTime)
@@ -18,11 +25,32 @@ void AProjectile::Tick(float deltaTime)
 
 void AProjectile::SetupMovement()
 {
-    Movement = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("ProjectileComp"));
-    Movement->UpdatedComponent = RootComponent;
-    Movement->InitialSpeed = 1000;
-    Movement->MaxSpeed = 1000;
-    Movement->bRotationFollowsVelocity = true;
-    Movement->bShouldBounce = true;
-    Movement->ProjectileGravityScale = 0.f;
+    movement = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("ProjectileComp"));
+    movement->UpdatedComponent = RootComponent;
+    movement->InitialSpeed = 1000;
+    movement->MaxSpeed = 1000;
+    movement->bRotationFollowsVelocity = true;
+    movement->ProjectileGravityScale = 0.f;
+}
+
+void AProjectile::SetupCollider()
+{
+    collider = CreateDefaultSubobject<USphereComponent>(TEXT("Collider"));
+    collider->InitSphereRadius(1.f);
+
+    collider->SetGenerateOverlapEvents(true);
+    collider->SetCollisionProfileName(FName("Pawn"));
+    collider->CanCharacterStepUpOn = ECB_No;
+
+    collider->SetNotifyRigidBodyCollision(true);
+
+    //collider->OnComponentBeginOverlap.AddDynamic(this, &AProjectile::OnOverlap);
+    SetLifeSpan(10);
+    RootComponent = collider;
+
+}
+
+void AProjectile::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
+{
+    Destroy();
 }

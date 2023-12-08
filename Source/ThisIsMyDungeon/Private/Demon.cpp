@@ -1,6 +1,7 @@
 #include "Demon.h"
 
 #include "TrapPlacer.h"
+#include "Projectile.h"
 #include "GameFramework/Controller.h"
 
 ADemon::ADemon()
@@ -21,6 +22,15 @@ void ADemon::ToEdit()
 	//posses the cursor
 	UGameplayStatics::GetPlayerCharacter(this, 0)->Controller->Possess(static_trapPlacer);
 	return;
+}
+
+void ADemon::SpawnFireball()
+{
+	GetWorld()->SpawnActor<AProjectile>(
+		fireBall,
+		GetActorLocation() + (GetActorForwardVector()*100),
+		GetActorRotation()
+	);
 }
 
 //------------------------------------------------------------------------------------
