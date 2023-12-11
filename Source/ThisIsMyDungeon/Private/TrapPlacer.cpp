@@ -2,6 +2,8 @@
 
 #include "TrapPlacer.h"
 
+#include "Demon.h"
+
 // Sets default values
 ATrapPlacer::ATrapPlacer()
 {
@@ -25,7 +27,7 @@ void ATrapPlacer::Tick(float DeltaTime)
 
 	if (pPreTilePos != posTile)
 	{
-		if (IsTileEmpty())
+		if (IsTileEmpty() && (static_cast<ADemon*>(static_player)->mana >= trapToPlace.GetDefaultObject()->GetCost()))
 		{
 			previewTile->Valid(); //Set the green color
 			isEmpty = true;
@@ -91,8 +93,9 @@ void ATrapPlacer::PlaceTrap()
 			previewTile->GetActorLocation(),
 			{ 0,0,0 }
 		);
-		//TODO place an actor trap in the world.
 
+		//remove money
+		static_cast<ADemon*>(static_player)->mana -= trapToPlace.GetDefaultObject()->GetCost();
 		
 		isEmpty = false;
 		previewTile->UnValid();
@@ -124,4 +127,9 @@ void ATrapPlacer::ToPlayer()
 {
 	ClosePlacer();
 	UGameplayStatics::GetPlayerCharacter(this, 0)->Controller->Possess(static_player);
+}
+
+ACharacter* ATrapPlacer::GetStaticPlayer()
+{
+	return static_player;
 }

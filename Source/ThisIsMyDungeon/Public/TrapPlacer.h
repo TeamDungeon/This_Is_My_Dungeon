@@ -44,6 +44,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "TrapPlacer")
 	void ToPlayer();
 
+	UFUNCTION(BlueprintCallable, Category = "TrapPlacer")
+	ACharacter* GetStaticPlayer();//Used for the ui
+
 	//----------------------------------------------------------------------------
 
 	TArray<FIntVector2> usedTiles;
