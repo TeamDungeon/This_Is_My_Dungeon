@@ -144,7 +144,7 @@ void AHeroSpawner::GetStartWaypoint()
 	else
 	{
 		if (GEngine)
-			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red,
+			GEngine->AddOnScreenDebugMessage(-1, 8.f, FColor::Red,
 				TEXT("AHeroSpawner::GetStartWaypoint Coudn't get World for " + GetName()));
 		return;
 	}
@@ -152,7 +152,7 @@ void AHeroSpawner::GetStartWaypoint()
 	if (dManager.Num() != 1)
 	{
 		if (GEngine)
-			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red,
+			GEngine->AddOnScreenDebugMessage(-1, 8.f, FColor::Red,
 				TEXT("AHeroSpawner::GetStartWaypoint Coudn't get THE DungeonManager for " + GetName()));
 		return;
 	}

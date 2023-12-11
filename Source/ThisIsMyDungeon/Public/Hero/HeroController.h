@@ -22,17 +22,17 @@ public:
 	/*
 		Movement
 	*/
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CPP Values|AI")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Values|AI")
 	float toleranceWaypoint = 50.f;
 
 protected:
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "CPP Values|AI")
-	class AWaypoint* currentWaypoint;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Values|AI")
+	class AWaypoint* currentWaypoint = nullptr;
 
 	/*
 		The Hero
 	*/
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "CPP Values|AI")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Values|AI")
 	class AHero* possessedHero = nullptr; // TODO delete ?
 
 private:

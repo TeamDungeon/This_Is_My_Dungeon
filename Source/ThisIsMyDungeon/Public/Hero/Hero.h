@@ -19,7 +19,7 @@ struct FUpgradeWeapon
 public:
 	// Index is the weapon order in the Animation Blueprint
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (DisplayName = "Weapon x Is On Display"))
-	TArray<bool> bIsOnDisplay;
+	TArray<bool> bOnDisplay;
 };
 
 /*
@@ -38,37 +38,43 @@ public:
 	/*
 		Death
 	*/
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CPP Values|OnDeath", meta = (DisplayName = "Treasure Droped"))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Values|OnDeath", meta = (DisplayName = "Treasure Droped"))
 	float treasureDrop = 0.f;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CPP Values|OnDeath")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Values|OnDeath")
 	float lifeSpanOnDeath = 5.f;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CPP Values|OnDeath")
-	float blinkingSpeed = .5f;
+	/*
+		Damage
+	*/
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Values|OnDeath")
+	float blinkingSpeed = .2f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Values|OnDeath")
+	int blinkingAmount = 5;
 
 	/*
 		Upgrade stats
 	*/
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CPP Values|Upgrade", meta = (DisplayName = "Treasure Droped Increase"))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Values|Upgrade", meta = (DisplayName = "Treasure Droped Increase"))
 	float treasureUpgrade = 0.f;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CPP Values|Upgrade", meta = (DisplayName = "Damage Increase"))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Values|Upgrade", meta = (DisplayName = "Damage Increase"))
 	float damageUpgrade = 0.f;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CPP Values|Upgrade", meta = (DisplayName = "Health Increase"))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Values|Upgrade", meta = (DisplayName = "Health Increase"))
 	float healthUpgrade = 0.f;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CPP Values|Upgrade", meta = (DisplayName = "Speed Increase"))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Values|Upgrade", meta = (DisplayName = "Speed Increase"))
 	float speedUpgrade = 0.f;
 
 	/*
 		Attack
 	*/
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CPP Values", meta = (DisplayName = "Attack Moment (sync with AB)"))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Values", meta = (DisplayName = "Attack Moment (sync with AB)"))
 	float timerAttackMoment = .4f;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CPP Values", meta = (DisplayName = "Attack Sequence (sync with AB)"))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Values", meta = (DisplayName = "Attack Sequence (sync with AB)"))
 	UAnimSequence* attackSequence = nullptr;
 
 protected:
@@ -76,10 +82,10 @@ protected:
 		More Upgrade (Weapon)
 	*/
 	// Index is the upgrade level
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CPP Values|Upgrade")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Values|Upgrade")
 	TArray<FUpgradeWeapon> weaponOnUpgrade; // for Weapon Scales in Animation Blueprint
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CPP Values")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Values")
 	int nbWeaponsMax = 0; // for Weapon Scale
 
 private:
@@ -97,7 +103,7 @@ private:
 		Attack
 	*/
 	// If demon in range is nullptr (or None) -> no demon to attack is in range
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "CPP Values|Debug", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Values|Debug", meta = (AllowPrivateAccess = "true"))
 	class ADemon* demonInRange = nullptr;
 
 	FTimerHandle attackHandle;
@@ -106,16 +112,23 @@ private:
 		Even more Upgrade
 	*/
 	// Cannot upgrade beyond weaponOnUpgrade size
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "CPP Values|Upgrade", meta = (DisplayName = "Current Upgrade Level", AllowPrivateAccess = "true"))
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Values|Upgrade", meta = (DisplayName = "Current Upgrade Level", AllowPrivateAccess = "true"))
 	int upgradeLevel = 0;
 
 	// Used for Animation Blueprint
-	UPROPERTY(BlueprintReadWrite, Category = "CPP Values|Debug", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(BlueprintReadWrite, Category = "Values|Debug", meta = (AllowPrivateAccess = "true"))
 	bool bUpgradeDone = false; // for Animation Blueprint to know to change its current values
 
 	// Used for Animation Blueprint
-	UPROPERTY(BlueprintReadOnly, Category = "CPP Values|Debug", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(BlueprintReadOnly, Category = "Values|Debug", meta = (AllowPrivateAccess = "true"))
 	TArray<FVector> weaponScale; // for Weapon Scales in the Animation Blueprint to change its values
+
+	/*
+		Damage
+	*/
+	FTimerHandle damageAnimHandle;
+
+	int blinkingCpt = 0;
 
 	/*
 		FUNCTIONS
@@ -125,7 +138,6 @@ public: // Constructor(s)
 
 protected:
 	virtual void BeginPlay() override;
-	virtual void Tick(float deltaTime) override; // TODO delete?
 
 	UFUNCTION(BlueprintCallable, Category = "Functions")
 	virtual void DemonDetected(class ADemon* demon);

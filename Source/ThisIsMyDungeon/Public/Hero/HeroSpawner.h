@@ -63,18 +63,18 @@ public:
 	/*
 	* Wave system
 	*/
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CPP Values")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Values")
 	float timeBeforeStart = 0.f;
 
 	// Waves can be sorted by any order you wish
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CPP Values")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Values")
 	TArray<FWaveStruct> waveStructure;
 
 private:
 	/*
 	* Timer management
 	*/
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "CPP Values", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Values", meta = (AllowPrivateAccess = "true"))
 	bool bPaused = false;
 
 	TArray<FTimerHandle> everyTimer;
@@ -84,22 +84,22 @@ private:
 	/*
 	* Wave system
 	*/
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "CPP Values|Debug", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Values|Debug", meta = (AllowPrivateAccess = "true"))
 	TArray<FWaveStruct> waveStructureSorted;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "CPP Values|Debug", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Values|Debug", meta = (AllowPrivateAccess = "true"))
 	int currentWave = 0;
 
 	/*
 	* Waypoints and hero starting
 	*/
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "CPP Values|Debug|AI", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Values|Debug|AI", meta = (AllowPrivateAccess = "true"))
 	class AWaypoint* startWaypoint = nullptr;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "CPP Values|Debug|AI", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Values|Debug|AI", meta = (AllowPrivateAccess = "true"))
 	FTransform startPoint;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CPP Values|Debug|AI", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Values|Debug|AI", meta = (AllowPrivateAccess = "true"))
 	float extraHeightToSpawn = 20.f;
 
 	/*

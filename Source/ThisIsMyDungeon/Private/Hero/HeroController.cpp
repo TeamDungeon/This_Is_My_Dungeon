@@ -29,12 +29,12 @@ void AHeroController::OnPossess(APawn* inPawn)
 	if (!possessedHero)
 	{
 		if (GEngine)
-			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red,
+			GEngine->AddOnScreenDebugMessage(-1, 8.f, FColor::Red,
 				TEXT("AHeroController::OnPossess Hero cast failled with Pawn " + inPawn->GetName()));
 		return;
 	}
 	else if (GEngine)
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green,
+		GEngine->AddOnScreenDebugMessage(-1, 8.f, FColor::Green,
 			TEXT("AHeroController::OnPossess Hero cast success with Pawn " + inPawn->GetName()));
 }
 
@@ -70,22 +70,21 @@ void AHeroController::OnMoveCompleted(FAIRequestID requestID, EPathFollowingResu
 			{
 				currentWaypoint = nextPoints[nextID];
 				if (GEngine)
-					GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue,
+					GEngine->AddOnScreenDebugMessage(-1, 8.f, FColor::Blue,
 						TEXT("Going to: " + currentWaypoint->GetActorLocation().ToString()));
 			}
 			else if (GEngine)
-			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red,
-				TEXT("AHeroController::OnMoveCompleted Move to request failled for " + GetName()));
-
+				GEngine->AddOnScreenDebugMessage(-1, 8.f, FColor::Red,
+					TEXT("AHeroController::OnMoveCompleted Move to request failled for " + GetName()));
 		}
 		else if (GEngine)
-			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue,
+			GEngine->AddOnScreenDebugMessage(-1, 8.f, FColor::Blue,
 				TEXT("AHeroController::OnMoveCompleted No waypointNext for " + GetName()));
 	}
 	else
 	{
 		if (GEngine)
-			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red,
+			GEngine->AddOnScreenDebugMessage(-1, 8.f, FColor::Red,
 				TEXT("AHeroController::OnMoveCompleted Previous path failled failled for " + GetName()));
 		// delete hero ??
 	}
@@ -97,7 +96,7 @@ void AHeroController::FirstMove()
 	// Move to waypoint, ..., no Stop on overlap, Use path finding, ..., No Strafing
 	MoveToLocation(currentWaypoint->GetActorLocation(), toleranceWaypoint, false, true, false, false);
 	if (GEngine)
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue,
+		GEngine->AddOnScreenDebugMessage(-1, 8.f, FColor::Blue,
 			TEXT("Going to: " + currentWaypoint->GetActorLocation().ToString()));
 }
 
