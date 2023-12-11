@@ -59,7 +59,7 @@ class THISISMYDUNGEON_API AHeroSpawner : public AActor
 	/*
 		VARIABLES
 	*/
-public:
+protected:
 	/*
 	* Wave system
 	*/
@@ -70,11 +70,10 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Values")
 	TArray<FWaveStruct> waveStructure;
 
-private:
 	/*
 	* Timer management
 	*/
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Values", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Values")
 	bool bPaused = false;
 
 	TArray<FTimerHandle> everyTimer;
@@ -84,23 +83,26 @@ private:
 	/*
 	* Wave system
 	*/
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Values|Debug", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Values|Debug")
 	TArray<FWaveStruct> waveStructureSorted;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Values|Debug", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Values|Debug")
 	int currentWave = 0;
 
 	/*
 	* Waypoints and hero starting
 	*/
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Values|Debug|AI", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Values|Debug|AI")
 	class AWaypoint* startWaypoint = nullptr;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Values|Debug|AI", meta = (AllowPrivateAccess = "true"))
-	FTransform startPoint;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Values|Debug|AI")
+	FVector startPoint;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Values|Debug|AI", meta = (AllowPrivateAccess = "true"))
-	float extraHeightToSpawn = 20.f;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Values|Debug|AI")
+	FRotator startRotation;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Values|Debug|AI")
+	FVector extraHeightToSpawn;
 
 	/*
 		FUNCTIONS
@@ -121,6 +123,9 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Functions")
 	virtual void UnpauseSpawner();
+
+	UFUNCTION(BlueprintNativeEvent, Category = "Functions")
+	void WavesAreOver();
 
 private:
 	virtual void GetStartWaypoint();

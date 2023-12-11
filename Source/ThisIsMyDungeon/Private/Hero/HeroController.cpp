@@ -57,7 +57,7 @@ void AHeroController::OnMoveCompleted(FAIRequestID requestID, EPathFollowingResu
 
 	if (result == EPathFollowingResult::Success)
 	{
-		auto nextPoints = currentWaypoint->NextWaypoint;
+		auto& nextPoints = currentWaypoint->NextWaypoint;
 		if (nextPoints.Num() != 0)
 		{
 			int nextID = 0;
@@ -86,7 +86,7 @@ void AHeroController::OnMoveCompleted(FAIRequestID requestID, EPathFollowingResu
 		if (GEngine)
 			GEngine->AddOnScreenDebugMessage(-1, 8.f, FColor::Red,
 				TEXT("AHeroController::OnMoveCompleted Previous path failled failled for " + GetName()));
-		// delete hero ??
+		//possessedHero->Death();
 	}
 }
 

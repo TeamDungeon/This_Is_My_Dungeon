@@ -18,14 +18,13 @@ class THISISMYDUNGEON_API AHeroController : public AAIController
 	/*
 		VARIABLES
 	*/
-public:
+protected:
 	/*
 		Movement
 	*/
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Values|AI")
 	float toleranceWaypoint = 50.f;
 
-protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Values|AI")
 	class AWaypoint* currentWaypoint = nullptr;
 
@@ -35,7 +34,6 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Values|AI")
 	class AHero* possessedHero = nullptr; // TODO delete ?
 
-private:
 	/*
 		Attack
 	*/

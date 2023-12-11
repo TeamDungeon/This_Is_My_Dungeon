@@ -78,16 +78,21 @@ void AHeroSpawner::SpawnWave()
 
 		currentWave++;
 	}
-	else if (GEngine)
-		GEngine->AddOnScreenDebugMessage(-1, 8.f, FColor::Green,
-			TEXT("AHeroSpawner::SpawnWave All waves spawned"));
+	else
+	{
+		if (GEngine)
+			GEngine->AddOnScreenDebugMessage(-1, 8.f, FColor::Green,
+				TEXT("AHeroSpawner::SpawnWave All waves spawned"));
+		WavesAreOver(); // Call to BP, for UI change
+	}
 }
 
 void AHeroSpawner::SpawnAHero(FHeroToSpawn aHero)
 {
-	auto theHero = GetWorld()->SpawnActor<AHero>(aHero.heroType, startPoint);
+	auto theHero = GetWorld()->SpawnActor<AHero>(aHero.heroType);
 	if (theHero)
 	{
+		theHero->SetActorLocationAndRotation(startPoint, startRotation);
 		theHero->SetFolderPath("Heroes");
 		theHero->SetStartWaypoint(startWaypoint);
 		if (aHero.upgradeLevel)
@@ -136,6 +141,8 @@ void AHeroSpawner::UnpauseSpawner()
 	bPaused = false;
 }
 
+void AHeroSpawner::WavesAreOver_Implementation() { /* For BP use*/ }
+
 void AHeroSpawner::GetStartWaypoint()
 {
 	TArray<AActor*> dManager;
@@ -157,11 +164,12 @@ void AHeroSpawner::GetStartWaypoint()
 		return;
 	}
 
-	startWaypoint = Cast<ADungeonManager>(dManager[0])->WaypointList.Last();
+	auto uniqueManager = Cast<ADungeonManager>(dManager[0]);
 
-	startPoint = startWaypoint->GetTransform();
+	startWaypoint = uniqueManager->WaypointList.Last();
 
-	auto currentLocation = startPoint.GetLocation();
-	currentLocation.Z += extraHeightToSpawn;
-	startPoint.SetLocation(currentLocation);
+	startPoint = uniqueManager->NextRoomPos;
+	startPoint += extraHeightToSpawn;
+
+	startRotation.Yaw = 180.f;
 }

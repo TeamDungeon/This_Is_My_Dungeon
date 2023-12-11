@@ -34,7 +34,7 @@ class THISISMYDUNGEON_API AHero : public AMyEntity
 	/*
 		VARIABLES
 	*/
-public:
+protected:
 	/*
 		Death
 	*/
@@ -77,7 +77,6 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Values", meta = (DisplayName = "Attack Sequence (sync with AB)"))
 	UAnimSequence* attackSequence = nullptr;
 
-protected:
 	/*
 		More Upgrade (Weapon)
 	*/
@@ -88,7 +87,6 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Values")
 	int nbWeaponsMax = 0; // for Weapon Scale
 
-private:
 	/*
 		Components
 	*/
@@ -103,7 +101,7 @@ private:
 		Attack
 	*/
 	// If demon in range is nullptr (or None) -> no demon to attack is in range
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Values|Debug", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Values|Debug")
 	class ADemon* demonInRange = nullptr;
 
 	FTimerHandle attackHandle;
@@ -112,15 +110,15 @@ private:
 		Even more Upgrade
 	*/
 	// Cannot upgrade beyond weaponOnUpgrade size
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Values|Upgrade", meta = (DisplayName = "Current Upgrade Level", AllowPrivateAccess = "true"))
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Values|Upgrade", meta = (DisplayName = "Current Upgrade Level"))
 	int upgradeLevel = 0;
 
 	// Used for Animation Blueprint
-	UPROPERTY(BlueprintReadWrite, Category = "Values|Debug", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(BlueprintReadWrite, Category = "Values|Debug")
 	bool bUpgradeDone = false; // for Animation Blueprint to know to change its current values
 
 	// Used for Animation Blueprint
-	UPROPERTY(BlueprintReadOnly, Category = "Values|Debug", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(BlueprintReadOnly, Category = "Values|Debug")
 	TArray<FVector> weaponScale; // for Weapon Scales in the Animation Blueprint to change its values
 
 	/*
