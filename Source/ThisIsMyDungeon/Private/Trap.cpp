@@ -5,6 +5,11 @@ ATrap::ATrap()
 	PrimaryActorTick.bCanEverTick = true;
 }
 
+int ATrap::GetCost() const
+{
+	return cost;
+}
+
 void ATrap::BeginPlay()
 {
 }

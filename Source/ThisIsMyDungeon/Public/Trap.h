@@ -12,6 +12,8 @@ class THISISMYDUNGEON_API ATrap : public AActor
 public:
 	ATrap();
 
+	int GetCost() const;
+
 protected:
 	virtual void BeginPlay() override;
 
