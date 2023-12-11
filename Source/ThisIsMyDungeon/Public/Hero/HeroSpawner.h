@@ -61,7 +61,7 @@ class THISISMYDUNGEON_API AHeroSpawner : public AActor
 	*/
 protected:
 	/*
-	* Wave system
+		Wave system
 	*/
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Values")
 	float timeBeforeStart = 0.f;
@@ -71,7 +71,7 @@ protected:
 	TArray<FWaveStruct> waveStructure;
 
 	/*
-	* Timer management
+		Timer management
 	*/
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Values")
 	bool bPaused = false;
@@ -81,7 +81,7 @@ protected:
 	FTimerManager* WTM = nullptr;
 
 	/*
-	* Wave system
+		Wave system
 	*/
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Values|Debug")
 	TArray<FWaveStruct> waveStructureSorted;
@@ -90,16 +90,16 @@ protected:
 	int currentWave = 0;
 
 	/*
-	* Waypoints and hero starting
+		Waypoints and hero starting
 	*/
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Values|Debug|AI")
 	class AWaypoint* startWaypoint = nullptr;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Values|Debug|AI")
 	FVector startPoint;
+	FRotator startRotation;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Values|Debug|AI")
-	FRotator startRotation;
+	FTransform startTransform;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Values|Debug|AI")
 	FVector extraHeightToSpawn;
@@ -115,7 +115,9 @@ protected:
 
 	virtual void SortWaveList();
 	virtual void SpawnWave();
+
 	virtual void SpawnAHero(FHeroToSpawn aHero);
+	virtual void GetStartWaypoint();
 
 public:
 	UFUNCTION(BlueprintCallable, Category = "Functions")
@@ -126,7 +128,4 @@ public:
 
 	UFUNCTION(BlueprintNativeEvent, Category = "Functions")
 	void WavesAreOver();
-
-private:
-	virtual void GetStartWaypoint();
 };

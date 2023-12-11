@@ -1,6 +1,7 @@
 #include "Hero/Hero.h"
 
-#include "Demon.h"
+#include "Demon/Demon.h"
+#include "Demon/TrapPlacer.h"
 
 #include "Hero/HeroController.h"
 #include "GameFramework/CharacterMovementComponent.h"
@@ -114,6 +115,12 @@ void AHero::Death()
 {
 	SetLifeSpan(lifeSpanOnDeath);
 	moveComponent->StopActiveMovement();
+
+	//static_player; // TODO
+}
+
+void AHero::LootTreasure()
+{
 }
 
 void AHero::DamageBlinking()

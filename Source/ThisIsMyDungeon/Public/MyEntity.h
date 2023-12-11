@@ -9,9 +9,9 @@ class THISISMYDUNGEON_API AMyEntity : public ACharacter
 {
 	GENERATED_BODY()
 
-public:
-	AMyEntity();
-
+	/*
+		VARIABLES
+	*/
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Values")
 	float health = 0.f;
@@ -21,6 +21,12 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Values")
 	float speed = 0.f;
+
+	/*
+		FUNCTIONS
+	*/
+public: // Constructor(s)
+	AMyEntity();
 
 protected:
 	virtual void BeginPlay() override;

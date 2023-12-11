@@ -1,7 +1,7 @@
 #include "Hero/HeroSpawner.h"
 
 #include "Hero/Hero.h"
-#include "DungeonManager.h"
+#include "Dungeon/DungeonManager.h"
 
 #include <Kismet/GameplayStatics.h>
 
@@ -89,10 +89,9 @@ void AHeroSpawner::SpawnWave()
 
 void AHeroSpawner::SpawnAHero(FHeroToSpawn aHero)
 {
-	auto theHero = GetWorld()->SpawnActor<AHero>(aHero.heroType);
+	auto theHero = GetWorld()->SpawnActor<AHero>(aHero.heroType, startTransform);
 	if (theHero)
 	{
-		theHero->SetActorLocationAndRotation(startPoint, startRotation);
 		theHero->SetFolderPath("Heroes");
 		theHero->SetStartWaypoint(startWaypoint);
 		if (aHero.upgradeLevel)
@@ -166,10 +165,12 @@ void AHeroSpawner::GetStartWaypoint()
 
 	auto uniqueManager = Cast<ADungeonManager>(dManager[0]);
 
-	startWaypoint = uniqueManager->WaypointList.Last();
+	startWaypoint = uniqueManager->waypointList.Last();
 
-	startPoint = uniqueManager->NextRoomPos;
+	startPoint = uniqueManager->nextRoomPos;
 	startPoint += extraHeightToSpawn;
 
 	startRotation.Yaw = 180.f;
+
+	startTransform = FTransform(startRotation, startPoint);
 }

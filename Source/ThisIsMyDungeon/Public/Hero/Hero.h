@@ -143,7 +143,6 @@ protected:
 	UFUNCTION(BlueprintCallable, Category = "Functions")
 	virtual void DemonLost();
 
-private:
 	virtual void DamageBlinking();
 	virtual void SetWeaponSize();
 	virtual void AttackDemon();
@@ -166,4 +165,6 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Functions")
 	virtual void Death();
+
+	virtual void LootTreasure();
 };
