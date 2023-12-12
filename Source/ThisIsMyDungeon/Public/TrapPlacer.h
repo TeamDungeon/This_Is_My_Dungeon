@@ -11,8 +11,6 @@
 
 #include "TrapPlacer.generated.h"
 
-static ACharacter* static_player = nullptr;
-
 UCLASS()
 class THISISMYDUNGEON_API ATrapPlacer : public ACharacter
 {

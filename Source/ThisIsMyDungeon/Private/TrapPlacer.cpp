@@ -4,6 +4,8 @@
 
 #include "Demon.h"
 
+#include "StaticVars.h"
+
 // Sets default values
 ATrapPlacer::ATrapPlacer()
 {
@@ -113,7 +115,10 @@ void ATrapPlacer::BeginPlay()
 		GetActorLocation(),
 		{ 0,0,0 }
 	);
-	//previewTile->SetActorScale3D({ 2,1,1 }); // will be used For the trap size;
+
+	//Used for the trap size could be used in the future
+	//FUintVector2 temp = trapToPlace.GetDefaultObject()->GetTileSize();
+	//previewTile->SetActorScale3D({ static_cast<double>(temp.X), static_cast<double>(temp.Y),1. });
 
 	previewTile->SetActorHiddenInGame(true);//Disable the preview
 }

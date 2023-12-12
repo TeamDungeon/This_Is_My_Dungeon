@@ -40,6 +40,8 @@ protected:
 	*/
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Values|OnDeath", meta = (DisplayName = "Treasure Droped"))
 	float treasureDrop = 0.f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Values|OnDeath", meta = (DisplayName = "Mana Droped"))
+	float manaDrop = 0.f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Values|OnDeath")
 	float lifeSpanOnDeath = 5.f;

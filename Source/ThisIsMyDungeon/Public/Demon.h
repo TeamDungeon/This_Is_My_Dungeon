@@ -12,8 +12,6 @@
 class UInputMappingContext;
 class UInputAction;
 
-static ACharacter* static_trapPlacer = nullptr;
-
 UCLASS()
 class THISISMYDUNGEON_API ADemon : public AMyEntity
 {
@@ -51,11 +49,4 @@ protected:
 public:
 	virtual void Tick(float deltaTime) override;
 	virtual void SetupPlayerInputComponent(class UInputComponent* playerInputComponent) override;
-
-private:
-	virtual bool IsTileEmpty();
-
-	virtual void CollideWithCollectible(/*Collectible collectible*/);
-
-	virtual void PlaceTile();
 };

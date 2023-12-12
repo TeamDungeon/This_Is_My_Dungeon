@@ -1,7 +1,8 @@
 #include "Hero/Hero.h"
 
 #include "Demon.h"
-#include "TrapPlacer.h"
+
+#include "StaticVars.h"
 
 #include "Hero/HeroController.h"
 #include "GameFramework/CharacterMovementComponent.h"
@@ -116,7 +117,7 @@ void AHero::Death()
 	SetLifeSpan(lifeSpanOnDeath);
 	moveComponent->StopActiveMovement();
 
-	//static_player; // TODO
+	static_cast<ADemon*>(static_player)->mana += manaDrop;
 }
 
 void AHero::LootTreasure()
