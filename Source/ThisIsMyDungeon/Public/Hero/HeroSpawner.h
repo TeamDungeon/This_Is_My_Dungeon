@@ -8,7 +8,7 @@
 *	HeroSpawner handles the wave system of the game
 *	Spawns the specified hero (and sets them up) when demanded
 *	Wave system is not generated randomly, it's all Blueprint
-*	It uses a lot of timers, so it has a small (local) timer management system
+*	It uses a lot of timers, so it has a small timer management system
 */
 
 USTRUCT(BlueprintType)

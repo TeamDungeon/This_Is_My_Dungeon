@@ -5,10 +5,12 @@
 #include "Hero.generated.h"
 
 /*
-*	Hero is a generic class that get declined through blueprints
-*	The upgrade values are static, and the stats increase linearly
-*	Visuals can change when ganing an upgrade lvl, max upgrade lvl exists
-*	Blinks when hurt
+	Hero is a generic class that get declined through blueprints
+	The upgrade values are static, and the stats increase linearly
+	Visuals can change when ganing an upgrade lvl, max upgrade lvl exists
+	Can attack the player, Blinks when hurt
+
+	Look at HeroController class to learn more on Hero structure
 */
 
 USTRUCT(BlueprintType)
@@ -81,6 +83,14 @@ protected:
 	UAnimSequence* attackSequence = nullptr;
 
 	/*
+		Looting
+	*/
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Values|Looting")
+	float lootTimer = 5.f;
+
+	FTimerHandle lootHandle;
+
+	/*
 		More Upgrade (Weapon)
 	*/
 	// Index is the upgrade level
@@ -147,8 +157,12 @@ protected:
 	virtual void DemonLost();
 
 	virtual void DamageBlinking();
+
 	virtual void SetWeaponSize();
+
 	virtual void AttackDemon();
+
+	virtual void LootTreasure();
 
 public:
 	UFUNCTION(BlueprintCallable, Category = "Functions")
@@ -169,5 +183,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Functions")
 	virtual void Death();
 
-	virtual void LootTreasure();
+	virtual void StartLooting();
+
+	UFUNCTION(BlueprintNativeEvent, Category = "Functions")
+	void OnDeath();
 };

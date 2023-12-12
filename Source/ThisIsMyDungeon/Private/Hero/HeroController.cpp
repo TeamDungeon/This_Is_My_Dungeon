@@ -18,8 +18,8 @@ void AHeroController::BeginPlay()
 {
 	Super::BeginPlay();
 
-	FTimerHandle unusedHandle; // To give them time to reach ground
-	GetWorldTimerManager().SetTimer(unusedHandle, this, &AHeroController::FirstMove, 1.f, false);
+	FTimerHandle firstMoveHandle; // To give them time to reach ground
+	GetWorldTimerManager().SetTimer(firstMoveHandle, this, &AHeroController::FirstMove, 1.f, false);
 }
 
 void AHeroController::OnPossess(APawn* inPawn)
@@ -41,20 +41,8 @@ void AHeroController::OnPossess(APawn* inPawn)
 
 void AHeroController::OnMoveCompleted(FAIRequestID requestID, EPathFollowingResult::Type result)
 {
-	if (demonInRange)
-	{/*
-		FAIMoveRequest moveRequest(demonInRange);
-		FPathFindingQuery pathQuery;
-		if (!BuildPathfindingQuery(moveRequest, pathQuery))
-			return;
-
-		FNavPathSharedPtr pathFound;
-		FindPathForMoveRequest(moveRequest, pathQuery, pathFound);
-
-		if (RequestMove(moveRequest, pathFound) != FAIRequestID::InvalidRequest)
-			MoveToActor(demonInRange, toleranceWaypoint, true, true, false);*/
+	if (demonInRange || !possessedHero->IsAlive())
 		return;
-	}
 
 	if (result == EPathFollowingResult::Success)
 	{
@@ -64,6 +52,14 @@ void AHeroController::OnMoveCompleted(FAIRequestID requestID, EPathFollowingResu
 			int nextID = 0;
 			if (nextPoints.Num() != 1)
 				nextID = FMath::RandRange(0, nextPoints.Num() - 1);
+
+			if (!nextPoints[nextID])
+			{
+				if (GEngine)
+					GEngine->AddOnScreenDebugMessage(-1, 8.f, FColor::Red,
+						TEXT("AHeroController::OnMoveCompleted nextPoints[nextID] doesn't exist for " + GetName()));
+				return;
+			}
 
 			// Move to waypoint, ..., no Stop on overlap, Use path finding, ..., No Strafing
 			if (MoveToLocation(nextPoints[nextID]->GetActorLocation(), toleranceWaypoint, false, true, false, false)
@@ -78,16 +74,22 @@ void AHeroController::OnMoveCompleted(FAIRequestID requestID, EPathFollowingResu
 				GEngine->AddOnScreenDebugMessage(-1, 8.f, FColor::Red,
 					TEXT("AHeroController::OnMoveCompleted Move to request failled for " + GetName()));
 		}
-		else if (GEngine)
-			GEngine->AddOnScreenDebugMessage(-1, 8.f, FColor::Blue,
-				TEXT("AHeroController::OnMoveCompleted No waypointNext for " + GetName()));
+		else
+		{
+			if (GEngine)
+				GEngine->AddOnScreenDebugMessage(-1, 8.f, FColor::Blue,
+					TEXT("AHeroController::OnMoveCompleted No waypointNext for " + GetName()));
+
+			// If there is no more waypoint Hero should be in treasure room
+			possessedHero->StartLooting();
+		}
 	}
 	else
 	{
 		if (GEngine)
 			GEngine->AddOnScreenDebugMessage(-1, 8.f, FColor::Red,
 				TEXT("AHeroController::OnMoveCompleted Previous path failled failled for " + GetName()));
-		//possessedHero->Death();
+		//possessedHero->Death(); // Might be a needed, what we call in French, "cache-misère"
 	}
 }
 
@@ -96,6 +98,7 @@ void AHeroController::FirstMove()
 	// "Force" first MoveTo
 	// Move to waypoint, ..., no Stop on overlap, Use path finding, ..., No Strafing
 	MoveToLocation(currentWaypoint->GetActorLocation(), toleranceWaypoint, false, true, false, false);
+
 	//if (GEngine)
 	//	GEngine->AddOnScreenDebugMessage(-1, 8.f, FColor::Blue,
 	//		TEXT("Going to: " + currentWaypoint->GetActorLocation().ToString()));
@@ -108,11 +111,10 @@ bool AHeroController::IsDemonInSight(ADemon* demon)
 
 void AHeroController::DemonDetected(ADemon* demon)
 {
-	//currentMovement = GetCurrentMoveRequestID();
-	//StopMovement();
 	// Move to demon, ..., Stop on overlap, Use path finding, No Strafing
 	MoveToActor(demon, toleranceWaypoint, true, true, false);
 	demonInRange = demon;
+
 	if (GEngine)
 		GEngine->AddOnScreenDebugMessage(-1, 8.f, FColor::Blue,
 			TEXT("AHeroController::DemonDetected Called for " + GetName()));
@@ -120,14 +122,13 @@ void AHeroController::DemonDetected(ADemon* demon)
 
 void AHeroController::DemonLost()
 {
-	//ResumeMove(currentMovement);
 	MoveToLocation(currentWaypoint->GetActorLocation(), toleranceWaypoint, false, true, false, false);
 	demonInRange = nullptr;
+
 	if (GEngine)
 		GEngine->AddOnScreenDebugMessage(-1, 8.f, FColor::Blue,
 			TEXT("AHeroController::DemonLost Called for " + GetName()));
 }
-
 void AHeroController::SetStartWaypoint(AWaypoint* startWaypoint)
 {
 	currentWaypoint = startWaypoint;
