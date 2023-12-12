@@ -10,6 +10,11 @@ int ATrap::GetCost() const
 	return cost;
 }
 
+FUintVector2 ATrap::GetTileSize() const
+{
+	return tileSize;
+}
+
 void ATrap::BeginPlay()
 {
 }

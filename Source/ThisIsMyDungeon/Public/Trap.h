@@ -13,16 +13,13 @@ public:
 	ATrap();
 
 	int GetCost() const;
+	FUintVector2 GetTileSize() const;
 
 protected:
 	virtual void BeginPlay() override;
-
-	UPROPERTY(EditAnywhere, Category = "Trap", meta = (AllowPrivateAcess = "true", ClampMin = "1", ClampMax = "3"))
-	int tileSize_X = 1;
-
-	UPROPERTY(EditAnywhere, Category = "Trap", meta = (AllowPrivateAcess = "true", ClampMin = "1", ClampMax = "3"))
-	int tileSize_Y = 1;
-
+	UPROPERTY(EditAnywhere, Category = "Trap", meta = (AllowPrivateAcess = "true"))
+	FUintVector2 tileSize = { 1,1 };
+	
 	UPROPERTY(EditAnywhere, Category = "Trap", meta = (AllowPrivateAcess = "true"))
 	ATrap* upgradedTrap;
 
