@@ -70,9 +70,9 @@ void AHeroController::OnMoveCompleted(FAIRequestID requestID, EPathFollowingResu
 				== EPathFollowingRequestResult::RequestSuccessful)
 			{
 				currentWaypoint = nextPoints[nextID];
-				if (GEngine)
-					GEngine->AddOnScreenDebugMessage(-1, 8.f, FColor::Blue,
-						TEXT("Going to: " + currentWaypoint->GetActorLocation().ToString()));
+				//if (GEngine)
+				//	GEngine->AddOnScreenDebugMessage(-1, 8.f, FColor::Blue,
+				//		TEXT("Going to: " + currentWaypoint->GetActorLocation().ToString()));
 			}
 			else if (GEngine)
 				GEngine->AddOnScreenDebugMessage(-1, 8.f, FColor::Red,
@@ -96,9 +96,9 @@ void AHeroController::FirstMove()
 	// "Force" first MoveTo
 	// Move to waypoint, ..., no Stop on overlap, Use path finding, ..., No Strafing
 	MoveToLocation(currentWaypoint->GetActorLocation(), toleranceWaypoint, false, true, false, false);
-	if (GEngine)
-		GEngine->AddOnScreenDebugMessage(-1, 8.f, FColor::Blue,
-			TEXT("Going to: " + currentWaypoint->GetActorLocation().ToString()));
+	//if (GEngine)
+	//	GEngine->AddOnScreenDebugMessage(-1, 8.f, FColor::Blue,
+	//		TEXT("Going to: " + currentWaypoint->GetActorLocation().ToString()));
 }
 
 bool AHeroController::IsDemonInSight(ADemon* demon)
@@ -108,17 +108,24 @@ bool AHeroController::IsDemonInSight(ADemon* demon)
 
 void AHeroController::DemonDetected(ADemon* demon)
 {
-	currentMovement = GetCurrentMoveRequestID();
-	PauseMove(currentMovement);
+	//currentMovement = GetCurrentMoveRequestID();
+	//StopMovement();
 	// Move to demon, ..., Stop on overlap, Use path finding, No Strafing
 	MoveToActor(demon, toleranceWaypoint, true, true, false);
 	demonInRange = demon;
+	if (GEngine)
+		GEngine->AddOnScreenDebugMessage(-1, 8.f, FColor::Blue,
+			TEXT("AHeroController::DemonDetected Called for " + GetName()));
 }
 
 void AHeroController::DemonLost()
 {
-	ResumeMove(currentMovement);
+	//ResumeMove(currentMovement);
+	MoveToLocation(currentWaypoint->GetActorLocation(), toleranceWaypoint, false, true, false, false);
 	demonInRange = nullptr;
+	if (GEngine)
+		GEngine->AddOnScreenDebugMessage(-1, 8.f, FColor::Blue,
+			TEXT("AHeroController::DemonLost Called for " + GetName()));
 }
 
 void AHeroController::SetStartWaypoint(AWaypoint* startWaypoint)
