@@ -92,7 +92,8 @@ void AHeroSpawner::SpawnAHero(FHeroToSpawn aHero)
 	auto theHero = GetWorld()->SpawnActor<AHero>(aHero.heroType, startTransform);
 	if (theHero)
 	{
-		theHero->SetFolderPath("Heroes");
+		if (GEngine)
+			theHero->SetFolderPath("Heroes");
 		theHero->SetStartWaypoint(startWaypoint);
 		if (aHero.upgradeLevel)
 			theHero->Upgrade(aHero.upgradeLevel);
@@ -140,8 +141,6 @@ void AHeroSpawner::UnpauseSpawner()
 	bPaused = false;
 }
 
-void AHeroSpawner::WavesAreOver_Implementation() { /* For BP use*/ }
-
 void AHeroSpawner::GetStartWaypoint()
 {
 	TArray<AActor*> dManager;
@@ -174,3 +173,5 @@ void AHeroSpawner::GetStartWaypoint()
 
 	startTransform = FTransform(startRotation, startPoint);
 }
+
+void AHeroSpawner::WavesAreOver_Implementation() { /* For BP use*/ }

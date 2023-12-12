@@ -116,13 +116,43 @@ void AHero::SetStartWaypoint(AWaypoint* startWaypoint)
 void AHero::Death()
 {
 	SetLifeSpan(lifeSpanOnDeath);
-	moveComponent->StopActiveMovement();
 
-	static_cast<ADemon*>(static_player)->mana += manaDrop;
+	moveComponent->StopActiveMovement();
+	moveComponent->Deactivate();
+
+	controller->StopMovement();
+	controller->Destroy();
+
+	if (WTM->TimerExists(damageAnimHandle))
+	{
+		GetMesh()->SetVisibility(true);
+		WTM->ClearTimer(damageAnimHandle);
+	}
+	if (WTM->TimerExists(lootHandle))
+	{
+		GetMesh()->SetVisibility(true);
+		WTM->ClearTimer(lootHandle);
+	}
+
+	SetActorEnableCollision(false);
+
+	//	static_cast<ADemon*>(static_player)->mana += manaDrop;
+}
+
+void AHero::StartLooting()
+{
+	GetWorldTimerManager().SetTimer(lootHandle, this, &AHero::LootTreasure, lootTimer, false);
+
+	if (GEngine)
+		GEngine->AddOnScreenDebugMessage(-1, 8.f, FColor::Blue,
+			TEXT("AHero::StartLooting Called for " + GetName()));
 }
 
 void AHero::LootTreasure()
 {
+	if (GEngine)
+		GEngine->AddOnScreenDebugMessage(-1, 8.f, FColor::Blue,
+			TEXT("AHero::LootTreasure Is Looting " + GetName()));
 }
 
 void AHero::DamageBlinking()
@@ -202,3 +232,5 @@ bool AHero::IsAttacking()
 {
 	return WTM->TimerExists(attackHandle);
 }
+
+void AHero::OnDeath_Implementation() { /* For BP Use*/ }

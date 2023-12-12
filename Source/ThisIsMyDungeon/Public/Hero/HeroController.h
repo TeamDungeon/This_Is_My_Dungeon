@@ -6,7 +6,7 @@
 
 /*
 	HeroController moves their assigned Hero where needed
-	(To a waypoint or to the demon)
+	To a waypoint or to the demon (depends if currently attacking)
 	It keeps track of where it is
 */
 
@@ -22,23 +22,21 @@ protected:
 	/*
 		Movement
 	*/
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Values|AI")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Values")
 	float toleranceWaypoint = 50.f;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Values|AI")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Values")
 	class AWaypoint* currentWaypoint = nullptr;
 
 	/*
 		The Hero
 	*/
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Values|AI")
-	class AHero* possessedHero = nullptr; // TODO delete ?
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Values")
+	class AHero* possessedHero = nullptr;
 
 	/*
 		Attack
 	*/
-	FAIRequestID currentMovement;
-
 	class ADemon* demonInRange = nullptr;
 
 	/*
