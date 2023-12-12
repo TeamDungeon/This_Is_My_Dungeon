@@ -45,13 +45,12 @@ void AHero::DemonDetected(ADemon* demon)
 		return;
 	}
 
+	controller->DemonDetected(demonInRange);
+	WTM->SetTimer(attackHandle, this, &AHero::AttackDemon, timerAttackMoment);
+
 	if (GEngine)
 		GEngine->AddOnScreenDebugMessage(-1, 8.f, FColor::Green,
 			TEXT("AHero::DemonDetected Called success for " + GetName()));
-
-	controller->DemonDetected(demonInRange);
-
-	WTM->SetTimer(attackHandle, this, &AHero::AttackDemon, timerAttackMoment);
 }
 
 void AHero::DemonLost()
@@ -67,6 +66,8 @@ void AHero::DemonLost()
 	}
 
 	demonInRange = nullptr;
+	controller->DemonLost();
+
 	if (GEngine)
 		GEngine->AddOnScreenDebugMessage(-1, 8.f, FColor::Green,
 			TEXT("AHero::DemonLost Called success for " + GetName()));

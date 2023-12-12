@@ -165,10 +165,8 @@ void AHeroSpawner::GetStartWaypoint()
 
 	auto uniqueManager = Cast<ADungeonManager>(dManager[0]);
 
-	//startWaypoint = uniqueManager->waypointList.Last();
 	startWaypoint = uniqueManager->WaypointList.Last();
 
-	//startPoint = uniqueManager->nextRoomPos;
 	startPoint = uniqueManager->NextRoomPos;
 	startPoint += extraHeightToSpawn;
 
