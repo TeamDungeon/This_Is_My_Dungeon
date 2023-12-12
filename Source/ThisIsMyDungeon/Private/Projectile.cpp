@@ -16,6 +16,8 @@ void AProjectile::BeginPlay()
     {
         collider->OnComponentHit.AddDynamic(this, &AProjectile::OnHit);
     }
+
+    SetLifeSpan(10);
 }
 
 void AProjectile::Tick(float deltaTime)
@@ -45,7 +47,6 @@ void AProjectile::SetupCollider()
     collider->SetNotifyRigidBodyCollision(true);
 
     //collider->OnComponentBeginOverlap.AddDynamic(this, &AProjectile::OnOverlap);
-    SetLifeSpan(10);
     RootComponent = collider;
 
 }

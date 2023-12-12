@@ -6,6 +6,7 @@
 #include "GameFramework/Actor.h"
 
 #include "Components/StaticMeshComponent.h"
+#include "Components/BoxComponent.h"
 
 #include "PreviewTrap.generated.h"
 
@@ -30,20 +31,21 @@ public:
 	UPROPERTY(EditAnywhere, Category = "PreviewTrap")
 	UStaticMeshComponent* meshComponent;
 
+	UPROPERTY(EditAnywhere, Category = "PreviewTrap")
+	UBoxComponent* collider;
 
 	void Valid();
 	void UnValid();
 
-
-	/*void Init();
-	UStaticMeshComponent* meshComponent;*/
+	bool AsOverlaping();
 
 protected:
+
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
+	void SetupMesh();
+	void SetupCollider();
+
 
 };

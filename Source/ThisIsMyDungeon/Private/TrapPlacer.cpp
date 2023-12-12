@@ -29,7 +29,14 @@ void ATrapPlacer::Tick(float DeltaTime)
 
 	if (pPreTilePos != posTile)
 	{
-		if (IsTileEmpty() && (static_cast<ADemon*>(static_player)->mana >= trapToPlace.GetDefaultObject()->GetCost()))
+		//-_Preview_managment_-------
+		//Seems a bit heavy may need chang in close future, need test on console
+		previewTile->SetActorLocation({ static_cast<double>((posTile.X > 0 ? posTile.X : posTile.X + 1) * tileSize),
+										static_cast<double>((posTile.Y > 0 ? posTile.Y : posTile.Y + 1) * tileSize),
+										floorCoord });
+		//---------------------------
+
+		if (IsTileEmpty() && static_cast<ADemon*>(static_player)->mana >= trapToPlace.GetDefaultObject()->GetCost() && !previewTile->AsOverlaping())
 		{
 			previewTile->Valid(); //Set the green color
 			isEmpty = true;
@@ -39,12 +46,7 @@ void ATrapPlacer::Tick(float DeltaTime)
 			previewTile->UnValid(); // Set the red color
 			isEmpty = false; // need to be set to false
 		}
-		//-_Preview_managment_-------
-		//Seems a bit heavy may need chang in close future, need test on console
-		previewTile->SetActorLocation({ static_cast<double>((posTile.X > 0 ? posTile.X : posTile.X+1) * tileSize),
-										static_cast<double>((posTile.Y > 0 ? posTile.Y : posTile.Y+1) * tileSize),
-										floorCoord});
-		//---------------------------
+		
 		pPreTilePos = posTile;
 	}
 }
