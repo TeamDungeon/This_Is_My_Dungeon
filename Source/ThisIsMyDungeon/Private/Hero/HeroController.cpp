@@ -5,10 +5,11 @@
 #include "BehaviorTree/BehaviorTree.h"
 
 #include "Hero/Hero.h"
+#include "Demon.h"
 #include "DungeonManager.h"
+#include "Waypoint.h"
 
 #include <Kismet/GameplayStatics.h>
-#include <Demon.h>
 #include <NavigationSystem.h>
 
 AHeroController::AHeroController() { PrimaryActorTick.bCanEverTick = false; }
@@ -62,7 +63,7 @@ void AHeroController::OnMoveCompleted(FAIRequestID requestID, EPathFollowingResu
 		{
 			int nextID = 0;
 			if (nextPoints.Num() != 1)
-				nextID = FMath::RandRange(0, nextPoints.Num());
+				nextID = FMath::RandRange(0, nextPoints.Num() - 1);
 
 			// Move to waypoint, ..., no Stop on overlap, Use path finding, ..., No Strafing
 			if (MoveToLocation(nextPoints[nextID]->GetActorLocation(), toleranceWaypoint, false, true, false, false)

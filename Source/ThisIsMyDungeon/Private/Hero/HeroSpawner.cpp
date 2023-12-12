@@ -1,7 +1,7 @@
 #include "Hero/HeroSpawner.h"
 
 #include "Hero/Hero.h"
-#include "Dungeon/DungeonManager.h"
+#include "DungeonManager.h"
 
 #include <Kismet/GameplayStatics.h>
 
@@ -165,9 +165,9 @@ void AHeroSpawner::GetStartWaypoint()
 
 	auto uniqueManager = Cast<ADungeonManager>(dManager[0]);
 
-	startWaypoint = uniqueManager->waypointList.Last();
+	startWaypoint = uniqueManager->WaypointList.Last();
 
-	startPoint = uniqueManager->nextRoomPos;
+	startPoint = uniqueManager->NextRoomPos;
 	startPoint += extraHeightToSpawn;
 
 	startRotation.Yaw = 180.f;
