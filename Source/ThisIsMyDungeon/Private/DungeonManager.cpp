@@ -1,7 +1,5 @@
 // Sue Me.
 
-#define DEBUG 1
-
 #include "DungeonManager.h"
 
 // Sets default values
@@ -28,10 +26,6 @@ void ADungeonManager::UpdateRoomList()
 	int NewRoomId = FMath::RandRange(0, RoomList.Num() - 1);
 	NextRoomName = RoomList[NewRoomId];
 	RoomList.RemoveAt(NewRoomId);
-
-#if DEBUG
-	GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Purple, FString::Printf(TEXT("Room generated : %s"), *NextRoomName));
-#endif DEBUG
 
 }
 

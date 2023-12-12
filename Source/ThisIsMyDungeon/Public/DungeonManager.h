@@ -15,6 +15,8 @@ class THISISMYDUNGEON_API ADungeonManager : public AActor
 	GENERATED_BODY()
 	
 public:	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Floats") float TreasureLife;
+
 	UPROPERTY(BlueprintReadWrite, Category = "Strings") FString NextRoomName;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Lists") TArray<FString> RoomList;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Vector3") FVector NextRoomPos = FVector(0.0f, 0.0f, 0.0f);
