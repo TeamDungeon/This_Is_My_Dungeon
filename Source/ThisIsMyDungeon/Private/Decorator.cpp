@@ -1,8 +1,9 @@
 // Sue Me.
 
+#include "Decorator.h"
+
 #include "Kismet/KismetMathLibrary.h"
 #include "Components/StaticMeshComponent.h"
-#include "Decorator.h"
 
 // Sets default values
 ADecorator::ADecorator()

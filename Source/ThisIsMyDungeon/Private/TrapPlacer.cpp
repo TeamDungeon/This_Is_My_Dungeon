@@ -36,7 +36,7 @@ void ATrapPlacer::Tick(float DeltaTime)
 										floorCoord });
 		//---------------------------
 
-		if (IsTileEmpty() && static_cast<ADemon*>(static_player)->mana >= trapToPlace.GetDefaultObject()->GetCost() && !previewTile->AsOverlaping())
+		if (IsTileEmpty() && static_cast<ADemon*>(AStaticVars::static_player)->mana >= trapToPlace.GetDefaultObject()->GetCost() && !previewTile->AsOverlaping())
 		{
 			previewTile->Valid(); //Set the green color
 			isEmpty = true;
@@ -71,7 +71,7 @@ bool ATrapPlacer::IsTileEmpty()
 void ATrapPlacer::OpenPlacer()
 {
 	previewTile->SetActorHiddenInGame(false);//Enable the preview
-	SetActorLocation(static_player->GetActorLocation());
+	SetActorLocation(AStaticVars::static_player->GetActorLocation());
 	this->SetActorTickEnabled(true);
 }
 void ATrapPlacer::ClosePlacer()
@@ -99,7 +99,7 @@ void ATrapPlacer::PlaceTrap()
 		);
 
 		//remove money
-		static_cast<ADemon*>(static_player)->mana -= trapToPlace.GetDefaultObject()->GetCost();
+		static_cast<ADemon*>(AStaticVars::static_player)->mana -= trapToPlace.GetDefaultObject()->GetCost();
 		
 		isEmpty = false;
 		previewTile->UnValid();
@@ -125,18 +125,13 @@ void ATrapPlacer::BeginPlay()
 	previewTile->SetActorHiddenInGame(true);//Disable the preview
 }
 
-void ATrapPlacer::SetPlayer(ACharacter* player)
-{
-	static_player = player;
-}
-
 void ATrapPlacer::ToPlayer()
 {
 	ClosePlacer();
-	UGameplayStatics::GetPlayerCharacter(this, 0)->Controller->Possess(static_player);
+	UGameplayStatics::GetPlayerCharacter(this, 0)->Controller->Possess(AStaticVars::static_player);
 }
 
 ACharacter* ATrapPlacer::GetStaticPlayer()
 {
-	return static_player;
+	return AStaticVars::static_player;
 }

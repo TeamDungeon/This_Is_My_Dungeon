@@ -50,7 +50,6 @@ public:
 	TArray<FIntVector2> usedTiles;
 	bool isEmpty = false;
 	
-	static void SetPlayer(ACharacter* player); // need to be called onece to set the player
 	void OpenPlacer();
 	void ClosePlacer();
 

@@ -118,7 +118,7 @@ void AHero::Death()
 	SetLifeSpan(lifeSpanOnDeath);
 	moveComponent->StopActiveMovement();
 
-	static_cast<ADemon*>(static_player)->mana += manaDrop;
+	static_cast<ADemon*>(AStaticVars::static_player)->mana += manaDrop;
 }
 
 void AHero::LootTreasure()

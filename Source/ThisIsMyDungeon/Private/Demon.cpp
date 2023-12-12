@@ -20,9 +20,9 @@ void ADemon::SetupPlayerInputComponent(UInputComponent* playerInputComponent)
 
 void ADemon::ToEdit()
 {
-	static_cast<ATrapPlacer*>(static_trapPlacer)->OpenPlacer();
+	static_cast<ATrapPlacer*>(AStaticVars::static_trapPlacer)->OpenPlacer();
 	//posses the cursor
-	UGameplayStatics::GetPlayerCharacter(this, 0)->Controller->Possess(static_trapPlacer);
+	UGameplayStatics::GetPlayerCharacter(this, 0)->Controller->Possess(AStaticVars::static_trapPlacer);
 	return;
 }
 
@@ -40,17 +40,16 @@ void ADemon::SpawnFireball()
 void ADemon::BeginPlay()
 {
 	Super::BeginPlay();
+	//set the static_player var if no set (use to reswitch to the player)
+	AStaticVars::SetPlayer(this);
 
 	//spawn the trap placer aka the cusor.
-	static_trapPlacer = GetWorld()->SpawnActor<ATrapPlacer>(
+	AStaticVars::SetTrapPlacer(GetWorld()->SpawnActor<ATrapPlacer>(
 		trapPlacer,
 		GetActorLocation(),
 		{ 0,0,0 }
-	);
+	));
 
-	//set the static_player var if no set (use to reswitch to the player)
-	if (static_player == nullptr)
-		ATrapPlacer::SetPlayer(this);
 }
 
 void ADemon::Tick(float deltaTime)
