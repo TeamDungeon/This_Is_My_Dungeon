@@ -8,10 +8,7 @@
 
 ADemon* ADemon::instance = nullptr;
 
-ADemon::ADemon()
-{
-	PrimaryActorTick.bCanEverTick = true;
-}
+ADemon::ADemon() { PrimaryActorTick.bCanEverTick = false; }
 
 //-_PLAYER_RELATED_FUNCTIONS_---------------------------------------------------------
 
