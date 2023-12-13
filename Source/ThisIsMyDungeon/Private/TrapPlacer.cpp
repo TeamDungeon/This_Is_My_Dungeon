@@ -36,7 +36,7 @@ void ATrapPlacer::Tick(float DeltaTime)
 										floorCoord });
 		//---------------------------
 
-		if (IsTileEmpty() && ADemon::GetInstance()->mana >= trapToPlace.GetDefaultObject()->GetCost() && !previewTile->AsOverlaping())
+		if (IsTileEmpty() && ADemon::GetInstance()->mana >= trapsToPlace[index].GetDefaultObject()->GetCost() && !previewTile->AsOverlaping())
 		{
 			previewTile->Valid(); //Set the green color
 			isEmpty = true;
@@ -93,13 +93,13 @@ void ATrapPlacer::PlaceTrap()
 		usedTiles.Add({ posTile.X, posTile.Y });
 
 		GetWorld()->SpawnActor<ATrap>(
-			trapToPlace,
+			trapsToPlace[index],
 			previewTile->GetActorLocation(),
 			{ 0,0,0 }
 		);
 
 		//remove money
-		ADemon::GetInstance()->mana -= trapToPlace.GetDefaultObject()->GetCost();
+		ADemon::GetInstance()->mana -= trapsToPlace[index].GetDefaultObject()->GetCost();
 		
 		isEmpty = false;
 		previewTile->UnValid();
@@ -136,6 +136,20 @@ void ATrapPlacer::ToPlayer()
 ACharacter* ATrapPlacer::GetStaticPlayer()
 {
 	return ADemon::GetInstance();
+}
+
+void ATrapPlacer::NextTrap()
+{
+	index++;
+	if (index >= trapsToPlace.Num())
+		index = 0;
+}
+
+void ATrapPlacer::PrevTrap()
+{
+	if (index == 0)
+		index = trapsToPlace.Num();
+	index--;
 }
 
 ATrapPlacer* ATrapPlacer::GetInstance()

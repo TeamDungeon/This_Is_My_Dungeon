@@ -31,7 +31,7 @@ public:
 	TSubclassOf<APreviewTrap> previewTileActor;
 
 	UPROPERTY(EditAnywhere, Category = "TrapPlacer", meta = (AllowPrivateAcess = "true"))
-	TSubclassOf<ATrap> trapToPlace;
+	TArray<TSubclassOf<ATrap>> trapsToPlace;
 
 	UPROPERTY(EditAnywhere, Category = "TrapPlacer", meta = (AllowPrivateAcess = "true"))
 	float floorCoord = 0;
@@ -44,6 +44,12 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "TrapPlacer")
 	ACharacter* GetStaticPlayer();//Used for the ui
+
+	UFUNCTION(BlueprintCallable, Category = "TrapPlacer")
+	void NextTrap();
+
+	UFUNCTION(BlueprintCallable, Category = "TrapPlacer")
+	void PrevTrap();
 
 	//----------------------------------------------------------------------------
 
@@ -66,4 +72,6 @@ protected:
 	virtual void BeginPlay() override;
 
 	static ATrapPlacer* instance;
+
+	unsigned char index = 0; //use a unsigned char because small amount
 };
