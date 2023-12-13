@@ -22,16 +22,16 @@ protected:
 	/*
 		Movement
 	*/
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Values")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "HeroController")
 	float toleranceWaypoint = 50.f;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Values")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "HeroController")
 	class AWaypoint* currentWaypoint = nullptr;
 
 	/*
 		The Hero
 	*/
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Values")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "HeroController")
 	class AHero* possessedHero = nullptr;
 
 	/*

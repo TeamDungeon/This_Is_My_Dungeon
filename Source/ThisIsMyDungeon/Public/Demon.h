@@ -6,7 +6,6 @@
 #include "CoreMinimal.h"
 #include "MyEntity.h"
 
-
 #include "Demon.generated.h"
 
 class UInputMappingContext;
@@ -18,7 +17,7 @@ class THISISMYDUNGEON_API ADemon : public AMyEntity
 	GENERATED_BODY()
 
 public:
-	ADemon();	
+	ADemon();
 
 	//-_PLAYER_RELATED_VARS_--------------------------------------------------------------
 
@@ -39,6 +38,11 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Player")
 	void SpawnFireball();
 
+	virtual void Death() override;
+
+	UFUNCTION(BlueprintNativeEvent, Category = "Player")
+	void OnDeath(); // Game over
+
 	//------------------------------------------------------------------------------------
 
 	static ADemon* GetInstance();
@@ -47,5 +51,4 @@ protected:
 	virtual void BeginPlay() override;
 
 	static ADemon* instance;
-
 };

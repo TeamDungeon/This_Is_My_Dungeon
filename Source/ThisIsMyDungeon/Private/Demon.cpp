@@ -51,7 +51,14 @@ void ADemon::BeginPlay()
 	GetCharacterMovement()->MaxWalkSpeed = speed * 100.f;
 }
 
+void ADemon::Death()
+{
+	OnDeath();
+}
+
 ADemon* ADemon::GetInstance()
 {
 	return instance;
 }
+
+void ADemon::OnDeath_Implementation() { /* For BP Use */ }
