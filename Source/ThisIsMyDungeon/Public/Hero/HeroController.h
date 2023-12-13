@@ -46,18 +46,29 @@ public: // Constructor(s)
 	AHeroController();
 
 protected:
+	/*
+		UE Functions Override
+	*/
 	virtual void BeginPlay() override;
 	virtual void OnPossess(APawn* inPawn) override;
 	virtual void OnMoveCompleted(FAIRequestID requestID, EPathFollowingResult::Type result) override;
 
+	/*
+		Movement
+	*/
 	// Baby's first steps
 	virtual void FirstMove();
 
 public:
+	/*
+		Checker
+	*/
 	virtual bool IsDemonInSight(class ADemon* demon);
 
+	/*
+		Communication with possessed pawn
+	*/
 	virtual void DemonDetected(class ADemon* demon);
 	virtual void DemonLost();
-
 	virtual void SetStartWaypoint(AWaypoint* startWaypoint);
 };
