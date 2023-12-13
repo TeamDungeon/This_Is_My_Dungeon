@@ -51,6 +51,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "TrapPlacer")
 	void PrevTrap();
 
+	UFUNCTION(BlueprintCallable, Category = "TrapPlacer")
+	ATrap* GetCurrentTrap();
+
 	//----------------------------------------------------------------------------
 
 	TArray<FIntVector2> usedTiles;
