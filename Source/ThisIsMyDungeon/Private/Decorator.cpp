@@ -30,7 +30,7 @@ void ADecorator::BeginPlay()
 
 				// Spawn Actor
 				AActor* SpawnedActor = GetWorld()->SpawnActor<AActor>(AActor::StaticClass(), RandomPoint, FRotator::ZeroRotator);
-				RandomPoint.Z = 0.0f;
+				RandomPoint.Z = 15.0;
 
 				if (SpawnedActor) {
 					// Create Mesh
