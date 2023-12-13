@@ -151,6 +151,8 @@ public: // Constructor(s)
 protected:
 	virtual void BeginPlay() override;
 
+	virtual void GetDungeonManager();
+
 	UFUNCTION(BlueprintCallable, Category = "Hero|Functions")
 	virtual void DemonDetected(class ADemon* demon);
 

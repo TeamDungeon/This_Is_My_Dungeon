@@ -96,6 +96,9 @@ protected:
 	/*
 		Waypoints and hero starting
 	*/
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Hero|Looting|Debug")
+	class ADungeonManager* dManager = nullptr;
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "HeroSpawner|AI|Debug")
 	class AWaypoint* startWaypoint = nullptr;
 
@@ -124,6 +127,8 @@ protected:
 	virtual void GetStartWaypoint();
 
 	virtual void IsGameOver();
+
+	virtual void SetStartTransform();
 
 public:
 	UFUNCTION(BlueprintCallable, Category = "HeroSpawner|Functions")

@@ -62,6 +62,7 @@ void AHeroSpawner::SpawnWave()
 		return;
 	}
 
+	SetStartTransform();
 	float totalWaveTime = waveStructureSorted[currentWave].timeBetweenWaves;
 
 	// Set every Hero to span with a timer
@@ -163,11 +164,23 @@ void AHeroSpawner::UnpauseSpawner()
 	bPaused = false;
 }
 
+void AHeroSpawner::SetStartTransform()
+{
+	startWaypoint = dManager->WaypointList.Last();
+
+	startPoint = dManager->NextRoomPos;
+	startPoint += extraHeightToSpawn;
+
+	startRotation.Yaw = 180.f;
+
+	startTransform = FTransform(startRotation, startPoint);
+}
+
 void AHeroSpawner::GetStartWaypoint()
 {
-	TArray<AActor*> dManager;
+	TArray<AActor*> arrayDungeonManager;
 	if (UWorld* World = GetWorld())
-		UGameplayStatics::GetAllActorsOfClass(GetWorld(), ADungeonManager::StaticClass(), dManager);
+		UGameplayStatics::GetAllActorsOfClass(GetWorld(), ADungeonManager::StaticClass(), arrayDungeonManager);
 	else
 	{
 		if (GEngine)
@@ -176,24 +189,16 @@ void AHeroSpawner::GetStartWaypoint()
 		return;
 	}
 
-	if (dManager.Num() != 1)
+	if (arrayDungeonManager.Num() != 1)
 	{
 		if (GEngine)
 			GEngine->AddOnScreenDebugMessage(-1, 8.f, FColor::Red,
 				TEXT("AHeroSpawner::GetStartWaypoint Coudn't get THE DungeonManager for " + GetName()));
 		return;
 	}
+	dManager = Cast<ADungeonManager>(arrayDungeonManager[0]);
 
-	auto uniqueManager = Cast<ADungeonManager>(dManager[0]);
-
-	startWaypoint = uniqueManager->WaypointList.Last();
-
-	startPoint = uniqueManager->NextRoomPos;
-	startPoint += extraHeightToSpawn;
-
-	startRotation.Yaw = 180.f;
-
-	startTransform = FTransform(startRotation, startPoint);
+	SetStartTransform();
 }
 
 void AHeroSpawner::WavesAreOver_Implementation() { /* For BP use*/ }
