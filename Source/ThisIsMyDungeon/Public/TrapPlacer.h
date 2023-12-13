@@ -53,6 +53,8 @@ public:
 	void OpenPlacer();
 	void ClosePlacer();
 
+	static ATrapPlacer* GetInstance();
+
 protected:
 	bool IsTileEmpty();
 
@@ -62,4 +64,6 @@ protected:
 	APreviewTrap* previewTile;
 
 	virtual void BeginPlay() override;
+
+	static ATrapPlacer* instance;
 };

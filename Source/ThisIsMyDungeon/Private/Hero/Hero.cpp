@@ -138,7 +138,7 @@ void AHero::Death()
 
 	SetActorEnableCollision(false);
 
-	//	static_cast<ADemon*>(static_player)->mana += manaDrop;
+	ADemon::GetInstance()->mana += manaDrop;
 }
 
 void AHero::StartLooting()

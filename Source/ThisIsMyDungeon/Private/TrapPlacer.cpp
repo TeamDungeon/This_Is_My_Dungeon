@@ -4,7 +4,7 @@
 
 #include "Demon.h"
 
-#include "StaticVars.h"
+ATrapPlacer* ATrapPlacer::instance = nullptr;
 
 // Sets default values
 ATrapPlacer::ATrapPlacer()
@@ -36,7 +36,7 @@ void ATrapPlacer::Tick(float DeltaTime)
 										floorCoord });
 		//---------------------------
 
-		if (IsTileEmpty() && static_cast<ADemon*>(AStaticVars::static_player)->mana >= trapToPlace.GetDefaultObject()->GetCost() && !previewTile->AsOverlaping())
+		if (IsTileEmpty() && ADemon::GetInstance()->mana >= trapToPlace.GetDefaultObject()->GetCost() && !previewTile->AsOverlaping())
 		{
 			previewTile->Valid(); //Set the green color
 			isEmpty = true;
@@ -71,7 +71,7 @@ bool ATrapPlacer::IsTileEmpty()
 void ATrapPlacer::OpenPlacer()
 {
 	previewTile->SetActorHiddenInGame(false);//Enable the preview
-	SetActorLocation(AStaticVars::static_player->GetActorLocation());
+	SetActorLocation(ADemon::GetInstance()->GetActorLocation());
 	this->SetActorTickEnabled(true);
 }
 void ATrapPlacer::ClosePlacer()
@@ -99,7 +99,7 @@ void ATrapPlacer::PlaceTrap()
 		);
 
 		//remove money
-		static_cast<ADemon*>(AStaticVars::static_player)->mana -= trapToPlace.GetDefaultObject()->GetCost();
+		ADemon::GetInstance()->mana -= trapToPlace.GetDefaultObject()->GetCost();
 		
 		isEmpty = false;
 		previewTile->UnValid();
@@ -110,6 +110,8 @@ void ATrapPlacer::PlaceTrap()
 void ATrapPlacer::BeginPlay()
 {
 	Super::BeginPlay();
+
+	instance = this;
 
 	//spawn the preview tile (the square cursor)
 	previewTile = GetWorld()->SpawnActor<APreviewTrap>(
@@ -128,10 +130,15 @@ void ATrapPlacer::BeginPlay()
 void ATrapPlacer::ToPlayer()
 {
 	ClosePlacer();
-	UGameplayStatics::GetPlayerCharacter(this, 0)->Controller->Possess(AStaticVars::static_player);
+	UGameplayStatics::GetPlayerCharacter(this, 0)->Controller->Possess(ADemon::GetInstance());
 }
 
 ACharacter* ATrapPlacer::GetStaticPlayer()
 {
-	return AStaticVars::static_player;
+	return ADemon::GetInstance();
+}
+
+ATrapPlacer* ATrapPlacer::GetInstance()
+{
+	return instance;
 }

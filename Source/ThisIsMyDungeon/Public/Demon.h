@@ -41,12 +41,11 @@ public:
 
 	//------------------------------------------------------------------------------------
 
+	static ADemon* GetInstance();
+
 protected:
 	virtual void BeginPlay() override;
 
-	
+	static ADemon* instance;
 
-public:
-	virtual void Tick(float deltaTime) override;
-	virtual void SetupPlayerInputComponent(class UInputComponent* playerInputComponent) override;
 };
