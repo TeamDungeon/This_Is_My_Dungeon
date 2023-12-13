@@ -2,7 +2,6 @@
 
 #include "Demon.h"
 #include "DungeonManager.h"
-#include "StaticVars.h"
 
 #include "Hero/HeroController.h"
 #include "GameFramework/CharacterMovementComponent.h"
