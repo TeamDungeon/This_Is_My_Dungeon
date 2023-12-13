@@ -1,5 +1,3 @@
-// Sue Me.
-
 #pragma once
 
 #include "CoreMinimal.h"
@@ -10,14 +8,11 @@ UCLASS()
 class THISISMYDUNGEON_API AWaypoint : public AActor
 {
 	GENERATED_BODY()
-	
-public:	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Misc") TArray<AWaypoint*> NextWaypoint;
 
-protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Waypoint")
+	TArray<AWaypoint*> nextWaypoint;
 
-public:	
+public:
 	AWaypoint();
 };

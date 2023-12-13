@@ -160,7 +160,7 @@ void AHero::Death()
 
 	SetActorEnableCollision(false);
 
-	dManager->TreasureLife += treasureDrop;
+	dManager->treasureLife += treasureDrop;
 	ADemon::GetInstance()->mana += manaDrop;
 }
 
@@ -179,7 +179,7 @@ void AHero::LootTreasure()
 		GEngine->AddOnScreenDebugMessage(-1, 8.f, FColor::Blue,
 			TEXT("AHero::LootTreasure Is Looting " + GetName()));
 
-	dManager->TreasureLife -= damage;
+	dManager->DamageTreasure(damage);
 	treasureDrop += damage;
 }
 

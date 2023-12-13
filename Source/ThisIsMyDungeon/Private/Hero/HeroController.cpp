@@ -46,7 +46,7 @@ void AHeroController::OnMoveCompleted(FAIRequestID requestID, EPathFollowingResu
 
 	if (result == EPathFollowingResult::Success)
 	{
-		auto& nextPoints = currentWaypoint->NextWaypoint;
+		auto& nextPoints = currentWaypoint->nextWaypoint;
 		if (nextPoints.Num() != 0)
 		{
 			int nextID = 0;

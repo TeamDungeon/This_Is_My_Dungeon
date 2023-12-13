@@ -1,9 +1,6 @@
 #include "MyEntity.h"
 
-AMyEntity::AMyEntity()
-{
-	PrimaryActorTick.bCanEverTick = true;
-}
+AMyEntity::AMyEntity() { PrimaryActorTick.bCanEverTick = true; }
 
 void AMyEntity::Death() { Destroy(); }
 

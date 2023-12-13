@@ -28,10 +28,9 @@ protected:
 public: // Constructor(s)
 	AMyEntity();
 
-protected:
+public:
 	virtual void Death();
 
-public:
 	UFUNCTION(BlueprintCallable, Category = "Functions")
 	virtual bool IsAlive();
 

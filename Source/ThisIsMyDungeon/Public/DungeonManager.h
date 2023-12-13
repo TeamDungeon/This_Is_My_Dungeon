@@ -1,5 +1,3 @@
-// Sue Me.
-
 #pragma once
 
 #include "CoreMinimal.h"
@@ -7,35 +5,42 @@
 #include "Waypoint.h"
 #include "DungeonManager.generated.h"
 
-
-
-
 UCLASS()
 class THISISMYDUNGEON_API ADungeonManager : public AActor
 {
 	GENERATED_BODY()
-	
-public:	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Floats") float TreasureLife;
 
-	UPROPERTY(BlueprintReadWrite, Category = "Strings") FString NextRoomName;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Lists") TArray<FString> RoomList;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Vector3") FVector NextRoomPos = FVector(0.0f, 0.0f, 0.0f);
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Floats")
+	float treasureLife;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Lists") TArray<FVector> WaypointGhostList;		// TO REMOVE
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Lists") TArray<AWaypoint*> WaypointList;
+	UPROPERTY(BlueprintReadWrite, Category = "Strings")
+	FString nextRoomName;
 
-	DECLARE_DYNAMIC_MULTICAST_DELEGATE(FEventTreasureGone);
-	UPROPERTY(BlueprintAssignable, Category = "Events") FEventTreasureGone OnTreasureGone;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Lists")
+	TArray<FString> roomList;
 
-protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Vector3")
+	FVector nextRoomPos = FVector(0.0f, 0.0f, 0.0f);
 
-public:	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Lists")
+	TArray<FVector> WaypointGhostList;		// TO REMOVE
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Lists")
+	TArray<AWaypoint*> waypointList;
+
+public:
 	ADungeonManager();
 
-	UFUNCTION(BlueprintCallable) void UpdateRoomList();
-	UFUNCTION(BlueprintCallable) void SetMissingWaypoints();
-	UFUNCTION(BlueprintCallable) void DamageTreasure(float _damage);
+	UFUNCTION(BlueprintCallable, Category = "Functions")
+	void UpdateRoomList();
+
+	UFUNCTION(BlueprintCallable, Category = "Functions")
+	void SetMissingWaypoints();
+
+	UFUNCTION(BlueprintCallable, Category = "Functions")
+	void DamageTreasure(float damage);
+
+	UFUNCTION(BlueprintNativeEvent, Category = "Events")
+	void OnTreasureGone();
 };

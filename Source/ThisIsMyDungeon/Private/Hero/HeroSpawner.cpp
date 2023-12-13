@@ -98,7 +98,7 @@ void AHeroSpawner::SpawnWave()
 
 void AHeroSpawner::SpawnAHero(FHeroToSpawn aHero)
 {
-	SetStartTransform(); 
+	SetStartTransform();
 	auto theHero = GetWorld()->SpawnActor<AHero>(aHero.heroType, startTransform);
 	if (theHero)
 	{
@@ -164,9 +164,9 @@ void AHeroSpawner::UnpauseSpawner()
 
 void AHeroSpawner::SetStartTransform()
 {
-	startWaypoint = dManager->WaypointList.Last();
+	startWaypoint = dManager->waypointList.Last();
 
-	startPoint = dManager->NextRoomPos;
+	startPoint = dManager->nextRoomPos;
 	startPoint += extraHeightToSpawn;
 
 	startRotation.Yaw = 180.f;
