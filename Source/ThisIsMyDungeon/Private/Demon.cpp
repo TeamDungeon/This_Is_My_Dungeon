@@ -4,25 +4,20 @@
 #include "Projectile.h"
 #include "GameFramework/Controller.h"
 
-#include "StaticVars.h"
+ADemon* ADemon::instance = nullptr;
 
 ADemon::ADemon()
 {
 	PrimaryActorTick.bCanEverTick = true;
 }
 
-void ADemon::SetupPlayerInputComponent(UInputComponent* playerInputComponent)
-{
-	Super::SetupPlayerInputComponent(playerInputComponent);
-}
-
 //-_PLAYER_RELATED_FUNCTIONS_---------------------------------------------------------
 
 void ADemon::ToEdit()
 {
-	static_cast<ATrapPlacer*>(AStaticVars::static_trapPlacer)->OpenPlacer();
+	ATrapPlacer::GetInstance()->OpenPlacer();
 	//posses the cursor
-	UGameplayStatics::GetPlayerCharacter(this, 0)->Controller->Possess(AStaticVars::static_trapPlacer);
+	UGameplayStatics::GetPlayerCharacter(this, 0)->Controller->Possess(ATrapPlacer::GetInstance());
 	return;
 }
 
@@ -41,18 +36,18 @@ void ADemon::BeginPlay()
 {
 	Super::BeginPlay();
 	//set the static_player var if no set (use to reswitch to the player)
-	AStaticVars::SetPlayer(this);
+	instance = this;
 
 	//spawn the trap placer aka the cusor.
-	AStaticVars::SetTrapPlacer(GetWorld()->SpawnActor<ATrapPlacer>(
+	GetWorld()->SpawnActor<ATrapPlacer>(
 		trapPlacer,
 		GetActorLocation(),
 		{ 0,0,0 }
-	));
+	);
 
 }
 
-void ADemon::Tick(float deltaTime)
+ADemon* ADemon::GetInstance()
 {
-	Super::Tick(deltaTime);
+	return instance;
 }
