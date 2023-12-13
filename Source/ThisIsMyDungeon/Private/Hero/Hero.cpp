@@ -29,7 +29,33 @@ void AHero::BeginPlay()
 	moveComponent->MaxWalkSpeed = speed * speedMultiplier;
 
 	weaponScale.SetNum(nbWeaponsMax);
+
+	GetDungeonManager();
 	SetWeaponSize();
+}
+
+void AHero::GetDungeonManager()
+{
+	TArray<AActor*> arrayDungeonManager;
+	if (UWorld* World = GetWorld())
+		UGameplayStatics::GetAllActorsOfClass(GetWorld(), ADungeonManager::StaticClass(), arrayDungeonManager);
+	else
+	{
+		if (GEngine)
+			GEngine->AddOnScreenDebugMessage(-1, 8.f, FColor::Red,
+				TEXT("AHero::GetDungeonManager Coudn't get World for " + GetName()));
+		return;
+	}
+
+	if (arrayDungeonManager.Num() != 1)
+	{
+		if (GEngine)
+			GEngine->AddOnScreenDebugMessage(-1, 8.f, FColor::Red,
+				TEXT("AHero::GetDungeonManager Coudn't get THE DungeonManager for " + GetName()));
+		return;
+	}
+
+	dManager = Cast<ADungeonManager>(arrayDungeonManager[0]);
 }
 
 void AHero::DemonDetected(ADemon* demon)
@@ -77,13 +103,16 @@ void AHero::GetDamaged(float value)
 {
 	Super::GetDamaged(value);
 
-	if (!IsAlive() && GetLifeSpan() == 0.f)
+	if (GetLifeSpan() != 0.f) // Already dead
+		return;
+
+	if (!IsAlive())
 		Death();
 	else
 	{
 		if (WTM->TimerExists(damageAnimHandle))
 		{
-			GetMesh()->SetVisibility(true);
+			GetMesh()->SetVisibility(false);
 			blinkingCpt = 0;
 			WTM->ClearTimer(damageAnimHandle);
 		}
@@ -123,19 +152,15 @@ void AHero::Death()
 	controller->StopMovement();
 	controller->Destroy();
 
+	GetMesh()->SetVisibility(true);
 	if (WTM->TimerExists(damageAnimHandle))
-	{
-		GetMesh()->SetVisibility(true);
 		WTM->ClearTimer(damageAnimHandle);
-	}
 	if (WTM->TimerExists(lootHandle))
-	{
-		GetMesh()->SetVisibility(true);
 		WTM->ClearTimer(lootHandle);
-	}
 
 	SetActorEnableCollision(false);
 
+	dManager->TreasureLife += treasureDrop;
 	ADemon::GetInstance()->mana += manaDrop;
 }
 
@@ -144,27 +169,6 @@ void AHero::StartLooting()
 	if (GEngine)
 		GEngine->AddOnScreenDebugMessage(-1, 8.f, FColor::Blue,
 			TEXT("AHero::StartLooting Called for " + GetName()));
-
-	TArray<AActor*> arrayDungeonManager;
-	if (UWorld* World = GetWorld())
-		UGameplayStatics::GetAllActorsOfClass(GetWorld(), ADungeonManager::StaticClass(), arrayDungeonManager);
-	else
-	{
-		if (GEngine)
-			GEngine->AddOnScreenDebugMessage(-1, 8.f, FColor::Red,
-				TEXT("AHero::StartLooting Coudn't get World for " + GetName()));
-		return;
-	}
-
-	if (arrayDungeonManager.Num() != 1)
-	{
-		if (GEngine)
-			GEngine->AddOnScreenDebugMessage(-1, 8.f, FColor::Red,
-				TEXT("AHero::StartLooting Coudn't get THE DungeonManager for " + GetName()));
-		return;
-	}
-
-	dManager = Cast<ADungeonManager>(arrayDungeonManager[0]);
 
 	GetWorldTimerManager().SetTimer(lootHandle, this, &AHero::LootTreasure, lootTimer, false);
 }
@@ -176,6 +180,7 @@ void AHero::LootTreasure()
 			TEXT("AHero::LootTreasure Is Looting " + GetName()));
 
 	dManager->TreasureLife -= damage;
+	treasureDrop += damage;
 }
 
 void AHero::DamageBlinking()
