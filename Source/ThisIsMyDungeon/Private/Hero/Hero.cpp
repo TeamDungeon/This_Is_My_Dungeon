@@ -253,11 +253,6 @@ void AHero::AttackDemon()
 	WTM->SetTimer(attackHandle, this, &AHero::AttackDemon, attackSequence->GetPlayLength());
 }
 
-bool AHero::IsMoving()
-{
-	return GetVelocity().Length() > 0.f;
-}
-
 bool AHero::IsAttacking()
 {
 	return WTM->TimerExists(attackHandle);

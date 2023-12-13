@@ -180,8 +180,6 @@ public:
 		Checker
 	*/
 	UFUNCTION(BlueprintCallable, Category = "Hero|Functions")
-	virtual bool IsMoving();
-	UFUNCTION(BlueprintCallable, Category = "Hero|Functions")
 	virtual bool IsAttacking();
 
 	/*

@@ -13,13 +13,13 @@ class THISISMYDUNGEON_API AMyEntity : public ACharacter
 		VARIABLES
 	*/
 protected:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Values")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Entity|Values")
 	float health = 0.f;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Values")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Entity|Values")
 	float damage = 0.f;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Values")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Entity|Values")
 	float speed = 0.f;
 
 	/*
@@ -31,12 +31,15 @@ public: // Constructor(s)
 public:
 	virtual void Death();
 
-	UFUNCTION(BlueprintCallable, Category = "Functions")
+	UFUNCTION(BlueprintCallable, Category = "Entity|Functions")
 	virtual bool IsAlive();
 
-	UFUNCTION(BlueprintCallable, Category = "Functions")
+	UFUNCTION(BlueprintCallable, Category = "Entity|Functions")
+	virtual bool IsMoving();
+
+	UFUNCTION(BlueprintCallable, Category = "Entity|Functions")
 	virtual void DoAttack(AMyEntity* target);
 
-	UFUNCTION(BlueprintCallable, Category = "Functions")
+	UFUNCTION(BlueprintCallable, Category = "Entity|Functions")
 	virtual void GetDamaged(float value);
 };
