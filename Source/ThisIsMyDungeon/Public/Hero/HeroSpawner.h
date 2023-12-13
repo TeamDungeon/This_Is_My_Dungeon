@@ -105,7 +105,7 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "HeroSpawner|AI|Debug")
 	FTransform startTransform;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "HeroSpawner|AI|Debug")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "HeroSpawner|AI")
 	FVector extraHeightToSpawn;
 
 	/*
