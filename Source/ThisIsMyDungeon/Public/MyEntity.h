@@ -35,6 +35,9 @@ public:
 	virtual bool IsAlive();
 
 	UFUNCTION(BlueprintCallable, Category = "Functions")
+	virtual bool IsMoving();
+
+	UFUNCTION(BlueprintCallable, Category = "Functions")
 	virtual void DoAttack(AMyEntity* target);
 
 	UFUNCTION(BlueprintCallable, Category = "Functions")
