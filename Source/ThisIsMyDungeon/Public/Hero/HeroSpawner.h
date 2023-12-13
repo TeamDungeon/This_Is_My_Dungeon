@@ -89,6 +89,8 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "HeroSpawner|Waves|Debug")
 	int currentWave = 0;
 
+	bool bFirstWave = true;
+
 	FTimerHandle endHandle;
 
 	TArray<class AHero*> allHeroesSpawned;
@@ -96,6 +98,9 @@ protected:
 	/*
 		Waypoints and hero starting
 	*/
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Hero|Looting|Debug")
+	class ADungeonManager* dManager = nullptr;
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "HeroSpawner|AI|Debug")
 	class AWaypoint* startWaypoint = nullptr;
 
@@ -119,11 +124,13 @@ protected:
 
 	virtual void SortWaveList();
 	virtual void SpawnWave();
-
 	virtual void SpawnAHero(FHeroToSpawn aHero);
-	virtual void GetStartWaypoint();
+
+	virtual void GetDungeonManager();
 
 	virtual void IsGameOver();
+
+	virtual void SetStartTransform();
 
 public:
 	UFUNCTION(BlueprintCallable, Category = "HeroSpawner|Functions")

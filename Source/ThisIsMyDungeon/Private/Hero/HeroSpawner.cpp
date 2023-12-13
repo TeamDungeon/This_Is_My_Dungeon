@@ -13,7 +13,7 @@ void AHeroSpawner::BeginPlay()
 
 	WTM = &GetWorldTimerManager();
 
-	WTM->SetTimer(everyTimer.AddDefaulted_GetRef(), this, &AHeroSpawner::GetStartWaypoint, timeBeforeStart / 2.f, false);
+	WTM->SetTimer(everyTimer.AddDefaulted_GetRef(), this, &AHeroSpawner::GetDungeonManager, timeBeforeStart / 2.f, false);
 
 	WTM->SetTimer(everyTimer.AddDefaulted_GetRef(), this, &AHeroSpawner::SpawnWave, timeBeforeStart, false);
 
@@ -62,31 +62,29 @@ void AHeroSpawner::SpawnWave()
 		return;
 	}
 
-	float totalWaveTime = waveStructureSorted[currentWave].timeBetweenWaves;
+	if (!bFirstWave) // because of how dungeon manager generation works
+		currentWave++;
 
-	// Set every Hero to span with a timer
+	float totalWaveTime = waveStructureSorted[currentWave].timeBetweenWaves + .5f;
+
+	// Set every Hero to spawn with a timer
 	for (int i = 0; i < waveStructureSorted[currentWave].heroesToSpawn.Num(); i++)
 	{
 		float waitForSpawnTime = waveStructureSorted[currentWave].timeBetweenSpawns * i;
 
-		if (waitForSpawnTime == 0.f) // Timer with 0 seconde will not do anything
-			SpawnAHero(waveStructureSorted[currentWave].heroesToSpawn[i]);
-		else
-		{
-			totalWaveTime += waitForSpawnTime;
+		totalWaveTime += waitForSpawnTime;
 
-			auto spawnHeroDelegate = FTimerDelegate::CreateUObject(this,
-				&AHeroSpawner::SpawnAHero, waveStructureSorted[currentWave].heroesToSpawn[i]);
+		auto spawnHeroDelegate = FTimerDelegate::CreateUObject(this,
+			&AHeroSpawner::SpawnAHero, waveStructureSorted[currentWave].heroesToSpawn[i]);
 
-			WTM->SetTimer(everyTimer.AddDefaulted_GetRef(), spawnHeroDelegate, waitForSpawnTime, false);
-		}
+		WTM->SetTimer(everyTimer.AddDefaulted_GetRef(), spawnHeroDelegate, waitForSpawnTime, false);
 	}
+
+	bFirstWave = false;
 
 	if (currentWave + 1 < waveStructureSorted.Num())
 	{
 		WTM->SetTimer(everyTimer.AddDefaulted_GetRef(), this, &AHeroSpawner::SpawnWave, totalWaveTime, false);
-
-		currentWave++;
 	}
 	else
 	{
@@ -100,12 +98,13 @@ void AHeroSpawner::SpawnWave()
 
 void AHeroSpawner::SpawnAHero(FHeroToSpawn aHero)
 {
+	SetStartTransform(); 
 	auto theHero = GetWorld()->SpawnActor<AHero>(aHero.heroType, startTransform);
 	if (theHero)
 	{
 		allHeroesSpawned.Add(theHero);
-		//if (GEngine)
-		//	theHero->SetFolderPath("Heroes");
+		if (GEngine)
+			theHero->SetFolderPath("Heroes");
 		theHero->SetStartWaypoint(startWaypoint);
 		if (aHero.upgradeLevel)
 			theHero->Upgrade(aHero.upgradeLevel);
@@ -163,37 +162,41 @@ void AHeroSpawner::UnpauseSpawner()
 	bPaused = false;
 }
 
-void AHeroSpawner::GetStartWaypoint()
+void AHeroSpawner::SetStartTransform()
 {
-	TArray<AActor*> dManager;
-	if (UWorld* World = GetWorld())
-		UGameplayStatics::GetAllActorsOfClass(GetWorld(), ADungeonManager::StaticClass(), dManager);
-	else
-	{
-		if (GEngine)
-			GEngine->AddOnScreenDebugMessage(-1, 8.f, FColor::Red,
-				TEXT("AHeroSpawner::GetStartWaypoint Coudn't get World for " + GetName()));
-		return;
-	}
+	startWaypoint = dManager->WaypointList.Last();
 
-	if (dManager.Num() != 1)
-	{
-		if (GEngine)
-			GEngine->AddOnScreenDebugMessage(-1, 8.f, FColor::Red,
-				TEXT("AHeroSpawner::GetStartWaypoint Coudn't get THE DungeonManager for " + GetName()));
-		return;
-	}
-
-	auto uniqueManager = Cast<ADungeonManager>(dManager[0]);
-
-	startWaypoint = uniqueManager->WaypointList.Last();
-
-	startPoint = uniqueManager->NextRoomPos;
+	startPoint = dManager->NextRoomPos;
 	startPoint += extraHeightToSpawn;
 
 	startRotation.Yaw = 180.f;
 
 	startTransform = FTransform(startRotation, startPoint);
+}
+
+void AHeroSpawner::GetDungeonManager()
+{
+	TArray<AActor*> arrayDungeonManager;
+	if (UWorld* World = GetWorld())
+		UGameplayStatics::GetAllActorsOfClass(GetWorld(), ADungeonManager::StaticClass(), arrayDungeonManager);
+	else
+	{
+		if (GEngine)
+			GEngine->AddOnScreenDebugMessage(-1, 8.f, FColor::Red,
+				TEXT("AHeroSpawner::GetDungeonManager Coudn't get World for " + GetName()));
+		return;
+	}
+
+	if (arrayDungeonManager.Num() != 1)
+	{
+		if (GEngine)
+			GEngine->AddOnScreenDebugMessage(-1, 8.f, FColor::Red,
+				TEXT("AHeroSpawner::GetDungeonManager Coudn't get THE DungeonManager for " + GetName()));
+		return;
+	}
+	dManager = Cast<ADungeonManager>(arrayDungeonManager[0]);
+
+	SetStartTransform();
 }
 
 void AHeroSpawner::WavesAreOver_Implementation() { /* For BP use*/ }
