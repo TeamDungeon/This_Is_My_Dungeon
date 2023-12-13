@@ -89,6 +89,8 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "HeroSpawner|Waves|Debug")
 	int currentWave = 0;
 
+	bool bFirstWave = true;
+
 	FTimerHandle endHandle;
 
 	TArray<class AHero*> allHeroesSpawned;
@@ -120,23 +122,36 @@ public: // Constructor(s)
 protected:
 	virtual void BeginPlay() override;
 
-	virtual void SortWaveList();
-	virtual void SpawnWave();
-
-	virtual void SpawnAHero(FHeroToSpawn aHero);
-	virtual void GetStartWaypoint();
-
-	virtual void IsGameOver();
-
+	/*
+		Get Set
+	*/
+	virtual void GetDungeonManager();
 	virtual void SetStartTransform();
 
+	/*
+		Waves
+	*/
+	virtual void SortWaveList();
+	virtual void SpawnWave();
+	virtual void SpawnAHero(FHeroToSpawn aHero);
+
+	/*
+		Checker
+	*/
+	virtual void IsGameOver();
+
 public:
+	/*
+		Probably useless, but fun to implement
+	*/
 	UFUNCTION(BlueprintCallable, Category = "HeroSpawner|Functions")
 	virtual void PauseSpawner();
-
 	UFUNCTION(BlueprintCallable, Category = "HeroSpawner|Functions")
 	virtual void UnpauseSpawner();
 
+	/*
+		BP Event
+	*/
 	UFUNCTION(BlueprintNativeEvent, Category = "HeroSpawner|Functions")
 	void WavesAreOver();
 };

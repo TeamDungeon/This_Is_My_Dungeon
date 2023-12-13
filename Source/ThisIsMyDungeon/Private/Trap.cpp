@@ -1,5 +1,7 @@
 #include "Trap.h"
 
+#include "Components/Image.h"
+
 ATrap::ATrap()
 {
 	PrimaryActorTick.bCanEverTick = true;
@@ -17,6 +19,11 @@ FUintVector2 ATrap::GetTileSize() const
 
 void ATrap::BeginPlay()
 {
+}
+
+UTexture2D* ATrap::GetTrapImage()
+{
+	return trapImage;
 }
 
 void ATrap::Tick(float DeltaTime)

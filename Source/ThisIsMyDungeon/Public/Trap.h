@@ -2,6 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+
 #include "Trap.generated.h"
 
 UCLASS()
@@ -26,11 +27,17 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Trap", meta = (AllowPrivateAcess = "true"))
 	int	cost = 0;
 
-	UPROPERTY(EditAnywhere, Category = "Trap", meta = (AllowPrivateAcess = "true"))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Trap", meta = (AllowPrivateAcess = "true"))
 	float damage = 1.f;
 
 	UPROPERTY(EditAnywhere, Category = "Trap", meta = (AllowPrivateAcess = "true"))
 	bool canDamageEnemy = true;
+
+	UPROPERTY(EditAnywhere, Category = "Trap")
+	UTexture2D* trapImage = nullptr;
+
+	UFUNCTION(BlueprintCallable, Category = "Trap")
+	UTexture2D* GetTrapImage();//Used for the ui
 
 public:
 	virtual void Tick(float deltaTime) override;

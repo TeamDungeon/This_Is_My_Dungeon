@@ -151,43 +151,57 @@ public: // Constructor(s)
 protected:
 	virtual void BeginPlay() override;
 
+	/*
+		Get Set
+	*/
 	virtual void GetDungeonManager();
+	virtual void SetWeaponSize();
 
+	/*
+		Communication with Controller & BP
+	*/
 	UFUNCTION(BlueprintCallable, Category = "Hero|Functions")
 	virtual void DemonDetected(class ADemon* demon);
-
 	UFUNCTION(BlueprintCallable, Category = "Hero|Functions")
 	virtual void DemonLost();
 
-	virtual void DamageBlinking();
-
-	virtual void SetWeaponSize();
-
+	/*
+		Timer functions
+	*/
 	virtual void AttackDemon();
-
 	virtual void LootTreasure();
+	virtual void DamageBlinking();
 
 public:
 	UFUNCTION(BlueprintCallable, Category = "Hero|Functions")
 	virtual void Upgrade(int nbUpgrades = 1);
 
+	/*
+		Checker
+	*/
 	UFUNCTION(BlueprintCallable, Category = "Hero|Functions")
 	virtual bool IsMoving();
-
 	UFUNCTION(BlueprintCallable, Category = "Hero|Functions")
 	virtual bool IsAttacking();
 
+	/*
+		Called by other classes
+	*/
 	// Already blueprint callable
 	virtual void GetDamaged(float value) override;
-
 	// Used by HeroSpawner
 	virtual void SetStartWaypoint(class AWaypoint* startWaypoint);
 
+	/*
+		Actions
+	*/
 	UFUNCTION(BlueprintCallable, Category = "Hero|Functions")
-	virtual void Death();
-
+	virtual void Death(); // could be called by other classes
 	virtual void StartLooting();
 
+	/*
+		BP Event
+	*/
 	UFUNCTION(BlueprintNativeEvent, Category = "Hero|Functions")
 	void OnDeath();
 };

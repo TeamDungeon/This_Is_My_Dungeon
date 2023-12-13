@@ -36,7 +36,7 @@ void ATrapPlacer::Tick(float DeltaTime)
 										floorCoord });
 		//---------------------------
 
-		if (IsTileEmpty() && ADemon::GetInstance()->mana >= trapsToPlace[index].GetDefaultObject()->GetCost() && !previewTile->AsOverlaping())
+		if (IsTileEmpty() && ADemon::GetInstance()->mana >= GetCurrentTrap()->GetCost() && !previewTile->AsOverlaping())
 		{
 			previewTile->Valid(); //Set the green color
 			isEmpty = true;
@@ -99,7 +99,7 @@ void ATrapPlacer::PlaceTrap()
 		);
 
 		//remove money
-		ADemon::GetInstance()->mana -= trapsToPlace[index].GetDefaultObject()->GetCost();
+		ADemon::GetInstance()->mana -= GetCurrentTrap()->GetCost();
 		
 		isEmpty = false;
 		previewTile->UnValid();
@@ -150,6 +150,11 @@ void ATrapPlacer::PrevTrap()
 	if (index == 0)
 		index = trapsToPlace.Num();
 	index--;
+}
+
+ATrap* ATrapPlacer::GetCurrentTrap()
+{
+	return trapsToPlace[index].GetDefaultObject();
 }
 
 ATrapPlacer* ATrapPlacer::GetInstance()
