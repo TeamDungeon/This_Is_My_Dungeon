@@ -29,8 +29,7 @@ public: // Constructor(s)
 	AMyEntity();
 
 protected:
-	virtual void BeginPlay() override;
-	virtual void Tick(float deltaTime) override;
+	virtual void Death();
 
 public:
 	UFUNCTION(BlueprintCallable, Category = "Functions")

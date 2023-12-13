@@ -56,8 +56,6 @@ void AHero::DemonDetected(ADemon* demon)
 
 void AHero::DemonLost()
 {
-	WTM->ClearTimer(attackHandle);
-
 	if (demonInRange == nullptr)
 	{
 		if (GEngine)
@@ -66,8 +64,9 @@ void AHero::DemonLost()
 		return;
 	}
 
-	demonInRange = nullptr;
+	WTM->ClearTimer(attackHandle);
 	controller->DemonLost();
+	demonInRange = nullptr;
 
 	if (GEngine)
 		GEngine->AddOnScreenDebugMessage(-1, 8.f, FColor::Green,
@@ -244,7 +243,7 @@ void AHero::AttackDemon()
 		return;
 	}
 
-	demonInRange->GetDamaged(damage);
+	DoAttack(demonInRange);
 
 	WTM->SetTimer(attackHandle, this, &AHero::AttackDemon, attackSequence->GetPlayLength());
 }
@@ -259,4 +258,4 @@ bool AHero::IsAttacking()
 	return WTM->TimerExists(attackHandle);
 }
 
-void AHero::OnDeath_Implementation() { /* For BP Use*/ }
+void AHero::OnDeath_Implementation() { /* For BP Use */ }

@@ -63,17 +63,17 @@ protected:
 	/*
 		Wave system
 	*/
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Values")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "HeroSpawner")
 	float timeBeforeStart = 0.f;
 
 	// Waves can be sorted by any order you wish
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Values")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "HeroSpawner")
 	TArray<FWaveStruct> waveStructure;
 
 	/*
 		Timer management
 	*/
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Values")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "HeroSpawner")
 	bool bPaused = false;
 
 	TArray<FTimerHandle> everyTimer;
@@ -83,10 +83,10 @@ protected:
 	/*
 		Wave system
 	*/
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Values|Waves|Debug")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "HeroSpawner|Waves|Debug")
 	TArray<FWaveStruct> waveStructureSorted;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Values|Waves|Debug")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "HeroSpawner|Waves|Debug")
 	int currentWave = 0;
 
 	FTimerHandle endHandle;
@@ -96,16 +96,16 @@ protected:
 	/*
 		Waypoints and hero starting
 	*/
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Values|AI|Debug")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "HeroSpawner|AI|Debug")
 	class AWaypoint* startWaypoint = nullptr;
 
 	FVector startPoint;
 	FRotator startRotation;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Values|AI|Debug")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "HeroSpawner|AI|Debug")
 	FTransform startTransform;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Values|AI|Debug")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "HeroSpawner|AI|Debug")
 	FVector extraHeightToSpawn;
 
 	/*
@@ -126,12 +126,12 @@ protected:
 	virtual void IsGameOver();
 
 public:
-	UFUNCTION(BlueprintCallable, Category = "Functions")
+	UFUNCTION(BlueprintCallable, Category = "HeroSpawner|Functions")
 	virtual void PauseSpawner();
 
-	UFUNCTION(BlueprintCallable, Category = "Functions")
+	UFUNCTION(BlueprintCallable, Category = "HeroSpawner|Functions")
 	virtual void UnpauseSpawner();
 
-	UFUNCTION(BlueprintNativeEvent, Category = "Functions")
+	UFUNCTION(BlueprintNativeEvent, Category = "HeroSpawner|Functions")
 	void WavesAreOver();
 };

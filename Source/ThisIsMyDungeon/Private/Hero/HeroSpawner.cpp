@@ -13,15 +13,18 @@ void AHeroSpawner::BeginPlay()
 
 	WTM = &GetWorldTimerManager();
 
-	WTM->SetTimer(everyTimer.AddDefaulted_GetRef(), this, &AHeroSpawner::GetStartWaypoint, timeBeforeStart, false);
+	WTM->SetTimer(everyTimer.AddDefaulted_GetRef(), this, &AHeroSpawner::GetStartWaypoint, timeBeforeStart / 2.f, false);
 
-	WTM->SetTimer(everyTimer.AddDefaulted_GetRef(), this, &AHeroSpawner::SpawnWave, timeBeforeStart + 2.f, false);
+	WTM->SetTimer(everyTimer.AddDefaulted_GetRef(), this, &AHeroSpawner::SpawnWave, timeBeforeStart, false);
 
 	SortWaveList();
 }
 
 void AHeroSpawner::SortWaveList()
 {
+	if (waveStructure.Num() <= 0)
+		return;
+
 	waveStructureSorted.Add(waveStructure[0]);
 	for (int i = 1; i < waveStructure.Num(); i++)
 	{
@@ -43,7 +46,8 @@ void AHeroSpawner::SortWaveList()
 					break;
 				}
 			}
-		// else two wave have the same ID
+
+		// else two waves have the same ID
 		else if (GEngine)
 			GEngine->AddOnScreenDebugMessage(-1, 8.f, FColor::Red,
 				TEXT("AHeroSpawner::BeginPlay Sort failled, two wave have the same ID"));
@@ -52,6 +56,12 @@ void AHeroSpawner::SortWaveList()
 
 void AHeroSpawner::SpawnWave()
 {
+	if (waveStructure.Num() <= 0)
+	{
+		WavesAreOver();
+		return;
+	}
+
 	float totalWaveTime = waveStructureSorted[currentWave].timeBetweenWaves;
 
 	// Set every Hero to span with a timer
@@ -94,8 +104,8 @@ void AHeroSpawner::SpawnAHero(FHeroToSpawn aHero)
 	if (theHero)
 	{
 		allHeroesSpawned.Add(theHero);
-		if (GEngine)
-			theHero->SetFolderPath("Heroes");
+		//if (GEngine)
+		//	theHero->SetFolderPath("Heroes");
 		theHero->SetStartWaypoint(startWaypoint);
 		if (aHero.upgradeLevel)
 			theHero->Upgrade(aHero.upgradeLevel);
