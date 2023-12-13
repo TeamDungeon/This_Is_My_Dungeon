@@ -46,7 +46,7 @@ void AHeroController::OnMoveCompleted(FAIRequestID requestID, EPathFollowingResu
 
 	if (result == EPathFollowingResult::Success)
 	{
-		auto& nextPoints = currentWaypoint->NextWaypoint;
+		auto& nextPoints = currentWaypoint->nextWaypoint;
 		if (nextPoints.Num() != 0)
 		{
 			int nextID = 0;
@@ -82,6 +82,7 @@ void AHeroController::OnMoveCompleted(FAIRequestID requestID, EPathFollowingResu
 
 			// If there is no more waypoint Hero should be in treasure room
 			possessedHero->StartLooting();
+			toleranceWaypoint *= 5.f;
 		}
 	}
 	else

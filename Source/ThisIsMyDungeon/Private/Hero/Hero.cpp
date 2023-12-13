@@ -160,7 +160,7 @@ void AHero::Death()
 
 	SetActorEnableCollision(false);
 
-	dManager->TreasureLife += treasureDrop;
+	dManager->treasureLife += treasureDrop;
 	ADemon::GetInstance()->mana += manaDrop;
 }
 
@@ -179,7 +179,7 @@ void AHero::LootTreasure()
 		GEngine->AddOnScreenDebugMessage(-1, 8.f, FColor::Blue,
 			TEXT("AHero::LootTreasure Is Looting " + GetName()));
 
-	dManager->TreasureLife -= damage;
+	dManager->DamageTreasure(damage);
 	treasureDrop += damage;
 }
 
@@ -251,11 +251,6 @@ void AHero::AttackDemon()
 	DoAttack(demonInRange);
 
 	WTM->SetTimer(attackHandle, this, &AHero::AttackDemon, attackSequence->GetPlayLength());
-}
-
-bool AHero::IsMoving()
-{
-	return GetVelocity().Length() > 0.f;
 }
 
 bool AHero::IsAttacking()

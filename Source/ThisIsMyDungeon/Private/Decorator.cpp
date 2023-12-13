@@ -1,11 +1,8 @@
-// Sue Me.
-
 #include "Decorator.h"
 
 #include "Kismet/KismetMathLibrary.h"
 #include "Components/StaticMeshComponent.h"
 
-// Sets default values
 ADecorator::ADecorator()
 {
 	BoxCollider = CreateDefaultSubobject<UBoxComponent>(FName("Collision Mesh"));
@@ -20,12 +17,16 @@ void ADecorator::BeginPlay()
 	// Find Box bounds
 	FBoxSphereBounds Bounds = BoxCollider->CalcBounds(BoxCollider->GetComponentTransform());
 
-	for (int i = 0; i < AmountToSpawn; i++) {
+	for (int i = 0; i < AmountToSpawn; i++)
+	{
 		bool CanSpawn = UKismetMathLibrary::RandomBoolWithWeight(SpawnRNG);
-		if (CanSpawn) {
+		if (CanSpawn)
+		{
 			IDMeshToSpawn = FMath::RandRange(0, MeshesToSpawn.Num() - 1);
-			for (int j = 0; j < MeshesToSpawn.Num(); j++) {
-				if (j == IDMeshToSpawn) {
+			for (int j = 0; j < MeshesToSpawn.Num(); j++)
+			{
+				if (j == IDMeshToSpawn)
+				{
 					// Find Random point within the boundig box
 					FVector RandomPoint = FMath::RandPointInBox(FBox(Bounds.Origin - Bounds.BoxExtent, Bounds.Origin + Bounds.BoxExtent));
 
@@ -33,7 +34,8 @@ void ADecorator::BeginPlay()
 					AActor* SpawnedActor = GetWorld()->SpawnActor<AActor>(AActor::StaticClass(), RandomPoint, FRotator::ZeroRotator);
 					RandomPoint.Z = 15.0;
 
-					if (SpawnedActor) {
+					if (SpawnedActor)
+					{
 						// Create Mesh
 						UStaticMeshComponent* MeshComponent = NewObject<UStaticMeshComponent>(SpawnedActor, TEXT("MeshComponent"));
 						MeshComponent->RegisterComponent();
@@ -51,7 +53,6 @@ void ADecorator::BeginPlay()
 					}
 				}
 			}
-
 		}
 	}
 }

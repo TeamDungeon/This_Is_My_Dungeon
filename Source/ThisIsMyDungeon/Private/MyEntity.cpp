@@ -1,13 +1,12 @@
 #include "MyEntity.h"
 
-AMyEntity::AMyEntity()
-{
-	PrimaryActorTick.bCanEverTick = true;
-}
+AMyEntity::AMyEntity() { PrimaryActorTick.bCanEverTick = true; }
 
 void AMyEntity::Death() { Destroy(); }
 
 bool AMyEntity::IsAlive() { return health > 0.f; }
+
+bool AMyEntity::IsMoving() { return GetVelocity().Length() > 0.f; }
 
 void AMyEntity::DoAttack(AMyEntity* target) { target->GetDamaged(damage); }
 
