@@ -122,23 +122,36 @@ public: // Constructor(s)
 protected:
 	virtual void BeginPlay() override;
 
+	/*
+		Get Set
+	*/
+	virtual void GetDungeonManager();
+	virtual void SetStartTransform();
+
+	/*
+		Waves
+	*/
 	virtual void SortWaveList();
 	virtual void SpawnWave();
 	virtual void SpawnAHero(FHeroToSpawn aHero);
 
-	virtual void GetDungeonManager();
-
+	/*
+		Checker
+	*/
 	virtual void IsGameOver();
 
-	virtual void SetStartTransform();
-
 public:
+	/*
+		Probably useless, but fun to implement
+	*/
 	UFUNCTION(BlueprintCallable, Category = "HeroSpawner|Functions")
 	virtual void PauseSpawner();
-
 	UFUNCTION(BlueprintCallable, Category = "HeroSpawner|Functions")
 	virtual void UnpauseSpawner();
 
+	/*
+		BP Event
+	*/
 	UFUNCTION(BlueprintNativeEvent, Category = "HeroSpawner|Functions")
 	void WavesAreOver();
 };

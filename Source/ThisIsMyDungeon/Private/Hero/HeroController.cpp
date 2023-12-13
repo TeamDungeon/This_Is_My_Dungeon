@@ -129,6 +129,7 @@ void AHeroController::DemonLost()
 		GEngine->AddOnScreenDebugMessage(-1, 8.f, FColor::Blue,
 			TEXT("AHeroController::DemonLost Called for " + GetName()));
 }
+
 void AHeroController::SetStartWaypoint(AWaypoint* startWaypoint)
 {
 	currentWaypoint = startWaypoint;
