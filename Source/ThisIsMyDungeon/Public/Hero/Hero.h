@@ -38,7 +38,17 @@ class THISISMYDUNGEON_API AHero : public AMyEntity
 	*/
 protected:
 	/*
-		Death
+		Components
+	*/
+	UCharacterMovementComponent* moveComponent = nullptr;
+
+	class AHeroController* controller = nullptr;
+
+	// World Timer Manager ptr
+	FTimerManager* WTM = nullptr;
+
+	/*
+		OnDeath
 	*/
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Values|OnDeath", meta = (DisplayName = "Treasure Droped"))
 	float treasureDrop = 0.f;
@@ -50,17 +60,11 @@ protected:
 	float lifeSpanOnDeath = 5.f;
 
 	/*
-		Damage
-	*/
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Values|OnDeath")
-	float blinkingSpeed = .2f;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Values|OnDeath")
-	int blinkingAmount = 5;
-
-	/*
 		Upgrade stats
 	*/
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Values")
+	float speedMultiplier = 50.f;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Values|Upgrade", meta = (DisplayName = "Treasure Droped Increase"))
 	float treasureUpgrade = 0.f;
 
@@ -74,71 +78,68 @@ protected:
 	float speedUpgrade = 0.f;
 
 	/*
-		Attack
-	*/
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Values", meta = (DisplayName = "Attack Moment (sync with AB)"))
-	float timerAttackMoment = .4f;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Values", meta = (DisplayName = "Attack Sequence (sync with AB)"))
-	UAnimSequence* attackSequence = nullptr;
-
-	/*
-		Looting
-	*/
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Values|Looting")
-	float lootTimer = 5.f;
-
-	FTimerHandle lootHandle;
-
-	/*
-		More Upgrade (Weapon)
+		More Upgrade (Weapon specific)
 	*/
 	// Index is the upgrade level
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Values|Upgrade")
 	TArray<FUpgradeWeapon> weaponOnUpgrade; // for Weapon Scales in Animation Blueprint
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Values")
+	// Cannot upgrade beyond weaponOnUpgrade size
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Values|Upgrade", meta = (DisplayName = "Current Upgrade Level"))
+	int upgradeLevel = 0;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Values|Upgrade")
 	int nbWeaponsMax = 0; // for Weapon Scale
 
 	/*
-		Components
+		Even more Upgrade (communication with Animation Blueprint)
 	*/
-	UCharacterMovementComponent* moveComponent = nullptr;
+	// Used for Animation Blueprint
+	UPROPERTY(BlueprintReadWrite, Category = "Values|Upgrade|Debug")
+	bool bUpgradeDone = false; // for Animation Blueprint to know to change its current values
 
-	class AHeroController* controller = nullptr;
+	// Used for Animation Blueprint
+	UPROPERTY(BlueprintReadOnly, Category = "Values|Upgrade|Debug")
+	TArray<FVector> weaponScale; // for Weapon Scales in the Animation Blueprint to change its values
 
-	// World Timer Manager ptr
-	FTimerManager* WTM = nullptr;
+	/*
+		Looting
+	*/
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Values|Looting", meta = (DisplayName = "Loot Treasure every x sec"))
+	float lootTimer = 5.f;
+
+	FTimerHandle lootHandle;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Values|Looting|Debug")
+	class ADungeonManager* dManager = nullptr;
 
 	/*
 		Attack
 	*/
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Values|Attack", meta = (DisplayName = "Attack Moment (sync with AB)"))
+	float timerAttackMoment = .4f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Values|Attack", meta = (DisplayName = "Attack Sequence (sync with AB)"))
+	UAnimSequence* attackSequence = nullptr;
+
 	// If demon in range is nullptr (or None) -> no demon to attack is in range
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Values|Debug")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Values|Attack")
 	class ADemon* demonInRange = nullptr;
 
 	FTimerHandle attackHandle;
 
 	/*
-		Even more Upgrade
+		Damaged
 	*/
-	// Cannot upgrade beyond weaponOnUpgrade size
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Values|Upgrade", meta = (DisplayName = "Current Upgrade Level"))
-	int upgradeLevel = 0;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Values|Damaged")
+	float blinkingSpeed = .2f;
 
-	// Used for Animation Blueprint
-	UPROPERTY(BlueprintReadWrite, Category = "Values|Debug")
-	bool bUpgradeDone = false; // for Animation Blueprint to know to change its current values
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Values|Damaged")
+	int blinkingAmount = 5;
 
-	// Used for Animation Blueprint
-	UPROPERTY(BlueprintReadOnly, Category = "Values|Debug")
-	TArray<FVector> weaponScale; // for Weapon Scales in the Animation Blueprint to change its values
-
-	/*
-		Damage
-	*/
 	FTimerHandle damageAnimHandle;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Values|Damaged|Debug")
 	int blinkingCpt = 0;
 
 	/*

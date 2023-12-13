@@ -1,11 +1,13 @@
 #include "Hero/Hero.h"
 
 #include "Demon.h"
-
+#include "DungeonManager.h"
 #include "StaticVars.h"
 
 #include "Hero/HeroController.h"
 #include "GameFramework/CharacterMovementComponent.h"
+
+#include <Kismet/GameplayStatics.h>
 
 AHero::AHero()
 {
@@ -25,7 +27,7 @@ void AHero::BeginPlay()
 	WTM = &GetWorldTimerManager();
 	controller = Cast<AHeroController>(GetController());
 
-	moveComponent->MaxWalkSpeed = speed * 100.f;
+	moveComponent->MaxWalkSpeed = speed * speedMultiplier;
 
 	weaponScale.SetNum(nbWeaponsMax);
 	SetWeaponSize();
@@ -141,11 +143,32 @@ void AHero::Death()
 
 void AHero::StartLooting()
 {
-	GetWorldTimerManager().SetTimer(lootHandle, this, &AHero::LootTreasure, lootTimer, false);
-
 	if (GEngine)
 		GEngine->AddOnScreenDebugMessage(-1, 8.f, FColor::Blue,
 			TEXT("AHero::StartLooting Called for " + GetName()));
+
+	TArray<AActor*> arrayDungeonManager;
+	if (UWorld* World = GetWorld())
+		UGameplayStatics::GetAllActorsOfClass(GetWorld(), ADungeonManager::StaticClass(), arrayDungeonManager);
+	else
+	{
+		if (GEngine)
+			GEngine->AddOnScreenDebugMessage(-1, 8.f, FColor::Red,
+				TEXT("AHero::StartLooting Coudn't get World for " + GetName()));
+		return;
+	}
+
+	if (arrayDungeonManager.Num() != 1)
+	{
+		if (GEngine)
+			GEngine->AddOnScreenDebugMessage(-1, 8.f, FColor::Red,
+				TEXT("AHero::StartLooting Coudn't get THE DungeonManager for " + GetName()));
+		return;
+	}
+
+	dManager = Cast<ADungeonManager>(arrayDungeonManager[0]);
+
+	GetWorldTimerManager().SetTimer(lootHandle, this, &AHero::LootTreasure, lootTimer, false);
 }
 
 void AHero::LootTreasure()
@@ -153,6 +176,8 @@ void AHero::LootTreasure()
 	if (GEngine)
 		GEngine->AddOnScreenDebugMessage(-1, 8.f, FColor::Blue,
 			TEXT("AHero::LootTreasure Is Looting " + GetName()));
+
+	dManager->TreasureLife -= damage;
 }
 
 void AHero::DamageBlinking()
@@ -197,6 +222,8 @@ void AHero::Upgrade(int nbUpgrades)
 	health += healthUpgrade * nbUpgrades;
 	speed += speedUpgrade * nbUpgrades;
 	damage += damageUpgrade * nbUpgrades;
+
+	moveComponent->MaxWalkSpeed = speed * speedMultiplier;
 
 	SetWeaponSize();
 }
