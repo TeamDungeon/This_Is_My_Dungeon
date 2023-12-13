@@ -83,25 +83,29 @@ protected:
 	/*
 		Wave system
 	*/
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Values|Debug")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Values|Waves|Debug")
 	TArray<FWaveStruct> waveStructureSorted;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Values|Debug")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Values|Waves|Debug")
 	int currentWave = 0;
+
+	FTimerHandle endHandle;
+
+	TArray<class AHero*> allHeroesSpawned;
 
 	/*
 		Waypoints and hero starting
 	*/
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Values|Debug|AI")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Values|AI|Debug")
 	class AWaypoint* startWaypoint = nullptr;
 
 	FVector startPoint;
 	FRotator startRotation;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Values|Debug|AI")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Values|AI|Debug")
 	FTransform startTransform;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Values|Debug|AI")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Values|AI|Debug")
 	FVector extraHeightToSpawn;
 
 	/*
@@ -118,6 +122,8 @@ protected:
 
 	virtual void SpawnAHero(FHeroToSpawn aHero);
 	virtual void GetStartWaypoint();
+
+	virtual void IsGameOver();
 
 public:
 	UFUNCTION(BlueprintCallable, Category = "Functions")

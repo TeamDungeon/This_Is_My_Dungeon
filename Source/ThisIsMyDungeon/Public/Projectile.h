@@ -22,9 +22,13 @@ protected:
 	virtual void BeginPlay() override;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Projectile")
-	float damage = 0.f;
+	float damage = 5.f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Projectile")
+	float speed = 5000.f;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Projectile")
 	float distanceToDespawn = 10000.f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Projectile")
+	float lifespanOnSpawn = 10.f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Projectile")
 	UProjectileMovementComponent* movement;
@@ -35,5 +39,5 @@ protected:
 	void SetupCollider();
 
 	UFUNCTION()
-	void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
+	void OnHit(UPrimitiveComponent* hitComponent, AActor* otherActor, UPrimitiveComponent* otherComp, FVector normalImpulse, const FHitResult& hit);
 };
