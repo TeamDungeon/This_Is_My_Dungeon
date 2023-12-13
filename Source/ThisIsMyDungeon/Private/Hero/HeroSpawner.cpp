@@ -83,7 +83,8 @@ void AHeroSpawner::SpawnWave()
 		if (GEngine)
 			GEngine->AddOnScreenDebugMessage(-1, 8.f, FColor::Green,
 				TEXT("AHeroSpawner::SpawnWave All waves spawned"));
-		WavesAreOver(); // Call to BP, for UI change
+
+		WTM->SetTimer(endHandle, this, &AHeroSpawner::IsGameOver, 1.f, true);
 	}
 }
 
@@ -92,9 +93,9 @@ void AHeroSpawner::SpawnAHero(FHeroToSpawn aHero)
 	auto theHero = GetWorld()->SpawnActor<AHero>(aHero.heroType, startTransform);
 	if (theHero)
 	{
+		allHeroesSpawned.Add(theHero);
 		//if (GEngine)
 		//	theHero->SetFolderPath("Heroes");
-
 		theHero->SetStartWaypoint(startWaypoint);
 		if (aHero.upgradeLevel)
 			theHero->Upgrade(aHero.upgradeLevel);
@@ -102,6 +103,16 @@ void AHeroSpawner::SpawnAHero(FHeroToSpawn aHero)
 	else if (GEngine)
 		GEngine->AddOnScreenDebugMessage(-1, 8.f, FColor::Red,
 			TEXT("AHeroSpawner::SpawnAHero Hero wasn't spawned"));
+}
+
+void AHeroSpawner::IsGameOver()
+{
+	for (int i = 0; i < allHeroesSpawned.Num(); i++)
+		if (!allHeroesSpawned[i]->IsAlive())
+			allHeroesSpawned.Remove(allHeroesSpawned[i]);
+
+	if (allHeroesSpawned.Num() == 0)
+		WavesAreOver(); // Call for BP use
 }
 
 void AHeroSpawner::PauseSpawner()

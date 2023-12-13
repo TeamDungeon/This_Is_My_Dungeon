@@ -2,7 +2,9 @@
 
 #include "TrapPlacer.h"
 #include "Projectile.h"
+
 #include "GameFramework/Controller.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 ADemon* ADemon::instance = nullptr;
 
@@ -25,7 +27,7 @@ void ADemon::SpawnFireball()
 {
 	GetWorld()->SpawnActor<AProjectile>(
 		fireBall,
-		GetActorLocation() + (GetActorForwardVector()*100),
+		GetActorLocation() + (GetActorForwardVector() * 100),
 		GetActorRotation()
 	);
 }
@@ -45,6 +47,8 @@ void ADemon::BeginPlay()
 		{ 0,0,0 }
 	);
 
+	//set the player speed
+	GetCharacterMovement()->MaxWalkSpeed = speed * 100.f;
 }
 
 ADemon* ADemon::GetInstance()
