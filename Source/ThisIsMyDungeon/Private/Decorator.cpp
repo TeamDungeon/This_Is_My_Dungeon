@@ -44,7 +44,6 @@ void ADecorator::BeginPlay()
 					SpawnedActor->SetActorLocation(RandomPoint);
 					// Set Actor Rotation
 					float ZRot = FMath::RandRange(0, 360);
-					GEngine->AddOnScreenDebugMessage(-1, 5.0, FColor::Red, FString::Printf(TEXT("%f"), ZRot));
 					SpawnedActor->SetActorRotation(FRotator(0, ZRot, 0));
 					// Set Actor Scale
 					SpawnedActor->SetActorScale3D(Scale);
