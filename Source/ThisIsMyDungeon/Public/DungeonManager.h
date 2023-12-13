@@ -9,6 +9,7 @@
 
 
 
+
 UCLASS()
 class THISISMYDUNGEON_API ADungeonManager : public AActor
 {
@@ -24,6 +25,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Lists") TArray<FVector> WaypointGhostList;		// TO REMOVE
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Lists") TArray<AWaypoint*> WaypointList;
 
+	DECLARE_DYNAMIC_MULTICAST_DELEGATE(FEventTreasureGone);
+	UPROPERTY(BlueprintAssignable, Category = "Events") FEventTreasureGone OnTreasureGone;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -33,4 +37,5 @@ public:
 
 	UFUNCTION(BlueprintCallable) void UpdateRoomList();
 	UFUNCTION(BlueprintCallable) void SetMissingWaypoints();
+	UFUNCTION(BlueprintCallable) void DamageTreasure(float _damage);
 };

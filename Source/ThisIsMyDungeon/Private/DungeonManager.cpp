@@ -39,3 +39,11 @@ void ADungeonManager::SetMissingWaypoints()
 		}
 	}
 }
+
+void ADungeonManager::DamageTreasure(float _damage)
+{
+	TreasureLife -= _damage;
+	if (TreasureLife <= 0) {
+		OnTreasureGone.Broadcast();
+	}
+}
