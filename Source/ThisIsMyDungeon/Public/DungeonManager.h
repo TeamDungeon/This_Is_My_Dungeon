@@ -24,9 +24,6 @@ public:
 	FVector nextRoomPos = FVector(0.0f, 0.0f, 0.0f);
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Lists")
-	TArray<FVector> WaypointGhostList;		// TO REMOVE
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Lists")
 	TArray<AWaypoint*> waypointList;
 
 public:
