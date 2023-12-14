@@ -61,6 +61,12 @@ void AHeroController::OnMoveCompleted(FAIRequestID requestID, EPathFollowingResu
 				return;
 			}
 
+			if (nextPoints[nextID]->nextWaypoint.Num() == 0)
+				// If next Waypoint is the end of the line
+				 // Hero will be at treasure room
+				 // Set tolerance high to avoid overcrowding blocking heroes
+				toleranceWaypoint *= toleranceEndMultiplier;
+
 			// Move to waypoint, ..., no Stop on overlap, Use path finding, ..., No Strafing
 			if (MoveToLocation(nextPoints[nextID]->GetActorLocation(), toleranceWaypoint, false, true, false, false)
 				== EPathFollowingRequestResult::RequestSuccessful)
@@ -82,7 +88,6 @@ void AHeroController::OnMoveCompleted(FAIRequestID requestID, EPathFollowingResu
 
 			// If there is no more waypoint Hero should be in treasure room
 			possessedHero->StartLooting();
-			toleranceWaypoint *= 5.f;
 		}
 	}
 	else

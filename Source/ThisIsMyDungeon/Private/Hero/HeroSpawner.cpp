@@ -103,8 +103,8 @@ void AHeroSpawner::SpawnAHero(FHeroToSpawn aHero)
 	if (theHero)
 	{
 		allHeroesSpawned.Add(theHero);
-		if (GEngine)
-			theHero->SetFolderPath("Heroes");
+		//if (GEngine)
+		//	theHero->SetFolderPath("Heroes");
 		theHero->SetStartWaypoint(startWaypoint);
 		if (aHero.upgradeLevel)
 			theHero->Upgrade(aHero.upgradeLevel);

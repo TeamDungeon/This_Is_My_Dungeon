@@ -1,39 +1,9 @@
 #include "Trap.h"
 
-#include "Components/Image.h"
+ATrap::ATrap() { PrimaryActorTick.bCanEverTick = true; }
 
-ATrap::ATrap()
-{
-	PrimaryActorTick.bCanEverTick = true;
-}
+int ATrap::GetCost() const { return cost; }
 
-int ATrap::GetCost() const
-{
-	return cost;
-}
+FUintVector2 ATrap::GetTileSize() const { return tileSize; }
 
-FUintVector2 ATrap::GetTileSize() const
-{
-	return tileSize;
-}
-
-void ATrap::BeginPlay()
-{
-}
-
-UTexture2D* ATrap::GetTrapImage()
-{
-	return trapImage;
-}
-
-void ATrap::Tick(float DeltaTime)
-{
-}
-
-void ATrap::Upgrade()
-{
-}
-
-void ATrap::Destroy()
-{
-}
+UTexture2D* ATrap::GetTrapImage() { return trapImage; }

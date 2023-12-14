@@ -25,6 +25,9 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "HeroController")
 	float toleranceWaypoint = 50.f;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "HeroController")
+	float toleranceEndMultiplier = 5.f;
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "HeroController")
 	class AWaypoint* currentWaypoint = nullptr;
 

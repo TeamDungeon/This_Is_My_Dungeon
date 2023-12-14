@@ -2,7 +2,6 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-
 #include "Trap.generated.h"
 
 UCLASS()
@@ -17,31 +16,24 @@ public:
 	FUintVector2 GetTileSize() const;
 
 protected:
-	virtual void BeginPlay() override;
-	UPROPERTY(EditAnywhere, Category = "Trap", meta = (AllowPrivateAcess = "true"))
+	UPROPERTY(EditAnywhere, Category = "Trap")
 	FUintVector2 tileSize = { 1,1 };
-	
-	UPROPERTY(EditAnywhere, Category = "Trap", meta = (AllowPrivateAcess = "true"))
+
+	UPROPERTY(EditAnywhere, Category = "Trap")
 	ATrap* upgradedTrap;
 
-	UPROPERTY(EditAnywhere, Category = "Trap", meta = (AllowPrivateAcess = "true"))
+	UPROPERTY(EditAnywhere, Category = "Trap")
 	int	cost = 0;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Trap", meta = (AllowPrivateAcess = "true"))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Trap")
 	float damage = 1.f;
 
-	UPROPERTY(EditAnywhere, Category = "Trap", meta = (AllowPrivateAcess = "true"))
+	UPROPERTY(EditAnywhere, Category = "Trap")
 	bool canDamageEnemy = true;
 
 	UPROPERTY(EditAnywhere, Category = "Trap")
 	UTexture2D* trapImage = nullptr;
 
 	UFUNCTION(BlueprintCallable, Category = "Trap")
-	UTexture2D* GetTrapImage();//Used for the ui
-
-public:
-	virtual void Tick(float deltaTime) override;
-
-	virtual void Upgrade();
-	virtual void Destroy();
+	UTexture2D* GetTrapImage(); //Used for the ui
 };
