@@ -1,27 +1,21 @@
-// Sue Me.
+#include "Demon/PreviewTrap.h"
 
+#include <Components/BoxComponent.h>
+#include <Components/StaticMeshComponent.h>
 
-#include "PreviewTrap.h"
-
-// Sets default values
 APreviewTrap::APreviewTrap()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
-	//meshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("meshComponent"));
+	PrimaryActorTick.bCanEverTick = false;
+
 	SetupMesh();
 	SetupCollider();
-	//meshComponent->AttachToComponent(collider, FAttachmentTransformRules::KeepWorldTransform);
 }
 
-// Called when the game starts or when spawned
 void APreviewTrap::BeginPlay()
 {
 	Super::BeginPlay();
 	meshComponent->SetStaticMesh(mesh);
 	meshComponent->SetMaterial(0, validMaterial);
-	
-	//meshComponent->collider
 }
 
 void APreviewTrap::SetupMesh()
@@ -53,7 +47,6 @@ bool APreviewTrap::AsOverlaping()
 	collider->GetOverlappingActors(temp);
 	if (temp.Num() > 1)
 		return true;
-		
+
 	return false;
 }
-

@@ -1,15 +1,8 @@
 #pragma once
 
-#include <GameFramework/SpringArmComponent.h>
-#include <Camera/CameraComponent.h>
-
 #include "CoreMinimal.h"
 #include "MyEntity.h"
-
 #include "Demon.generated.h"
-
-class UInputMappingContext;
-class UInputAction;
 
 UCLASS()
 class THISISMYDUNGEON_API ADemon : public AMyEntity

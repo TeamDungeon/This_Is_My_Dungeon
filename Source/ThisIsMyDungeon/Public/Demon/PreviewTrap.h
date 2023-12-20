@@ -1,21 +1,15 @@
-// Sue Me.
-
 #pragma once
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-
-#include "Components/StaticMeshComponent.h"
-#include "Components/BoxComponent.h"
-
 #include "PreviewTrap.generated.h"
 
 UCLASS()
 class THISISMYDUNGEON_API APreviewTrap : public AActor
 {
 	GENERATED_BODY()
-	
-public:	
+
+public:
 	// Sets default values for this actor's properties
 	APreviewTrap();
 
@@ -29,10 +23,10 @@ public:
 	UMaterial* unValidMaterial;
 
 	UPROPERTY(EditAnywhere, Category = "PreviewTrap")
-	UStaticMeshComponent* meshComponent;
+	class UStaticMeshComponent* meshComponent;
 
 	UPROPERTY(EditAnywhere, Category = "PreviewTrap")
-	UBoxComponent* collider;
+	class UBoxComponent* collider;
 
 	void Valid();
 	void UnValid();
@@ -40,12 +34,8 @@ public:
 	bool AsOverlaping();
 
 protected:
-
-	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 	void SetupMesh();
 	void SetupCollider();
-
-
 };

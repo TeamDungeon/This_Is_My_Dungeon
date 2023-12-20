@@ -2,8 +2,6 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "DungeonManager.h"
-#include "Waypoint.h"
 #include "Room.generated.h"
 
 UENUM(BlueprintType)
@@ -20,11 +18,11 @@ class THISISMYDUNGEON_API ARoom : public AActor
 
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Vector3")
-	FVector RoomExit;
+	FVector roomExit;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Lists")
-	TArray<AWaypoint*> RoomWaypoints;
+	TArray<class AWaypoint*> roomWaypoints;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Enums")
-	TEnumAsByte<ERoomType> RoomType;
+	TEnumAsByte<ERoomType> roomType;
 
 public:
 	ARoom();

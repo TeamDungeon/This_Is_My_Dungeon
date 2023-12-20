@@ -50,10 +50,10 @@ protected:
 	/*
 		OnDeath
 	*/
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hero|OnDeath", meta = (DisplayName = "Treasure Droped"))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hero|OnDeath", meta = (DisplayName = "Treasure Dropped"))
 	float treasureDrop = 0.f;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hero|OnDeath", meta = (DisplayName = "Mana Droped"))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hero|OnDeath", meta = (DisplayName = "Mana Dropped"))
 	float manaDrop = 0.f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hero|OnDeath")
@@ -62,11 +62,11 @@ protected:
 	/*
 		Upgrade stats
 	*/
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Values")
-	float speedMultiplier = 50.f;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hero|Upgrade", meta = (DisplayName = "Treasure Droped Increase"))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hero|Upgrade", meta = (DisplayName = "Treasure Dropped Increase"))
 	float treasureUpgrade = 0.f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hero|Upgrade", meta = (DisplayName = "Mana Dropped Increase"))
+	float manaUpgrade = 0.f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hero|Upgrade", meta = (DisplayName = "Damage Increase"))
 	float damageUpgrade = 0.f;

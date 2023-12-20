@@ -1,7 +1,7 @@
 #include "Hero/HeroSpawner.h"
 
 #include "Hero/Hero.h"
-#include "DungeonManager.h"
+#include "Dungeon/DungeonManager.h"
 
 #include <Kismet/GameplayStatics.h>
 
@@ -62,9 +62,8 @@ void AHeroSpawner::SpawnWave()
 		return;
 	}
 
-	if (!bFirstWave) // because of how dungeon manager generation works
-		currentWave++;
-
+	currentWave++;
+	dManager->OnNewWave();
 	float totalWaveTime = waveStructureSorted[currentWave].timeBetweenWaves + .5f;
 
 	// Set every Hero to spawn with a timer
@@ -79,8 +78,6 @@ void AHeroSpawner::SpawnWave()
 
 		WTM->SetTimer(everyTimer.AddDefaulted_GetRef(), spawnHeroDelegate, waitForSpawnTime, false);
 	}
-
-	bFirstWave = false;
 
 	if (currentWave + 1 < waveStructureSorted.Num())
 	{
@@ -103,8 +100,9 @@ void AHeroSpawner::SpawnAHero(FHeroToSpawn aHero)
 	if (theHero)
 	{
 		allHeroesSpawned.Add(theHero);
-		//if (GEngine)
-		//	theHero->SetFolderPath("Heroes");
+#if UE_BUILD_DEBUG || UE_BUILD_DEVELOPMENT || WITH_EDITOR
+		theHero->SetFolderPath("Heroes");
+#endif
 		theHero->SetStartWaypoint(startWaypoint);
 		if (aHero.upgradeLevel)
 			theHero->Upgrade(aHero.upgradeLevel);

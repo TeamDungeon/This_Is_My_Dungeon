@@ -1,8 +1,14 @@
-// Sue Me.
+#include "Demon/TrapPlacer.h"
 
-#include "TrapPlacer.h"
+#include "Demon/Demon.h"
 
-#include "Demon.h"
+#include "Components/StaticMeshComponent.h"
+#include "Components/BoxComponent.h"
+
+#include "Kismet/GameplayStatics.h"
+
+#include "Demon/PreviewTrap.h"
+#include "Demon/Trap.h"
 
 ATrapPlacer* ATrapPlacer::instance = nullptr;
 
@@ -46,7 +52,7 @@ void ATrapPlacer::Tick(float DeltaTime)
 			previewTile->UnValid(); // Set the red color
 			isEmpty = false; // need to be set to false
 		}
-		
+
 		pPreTilePos = posTile;
 	}
 }
@@ -100,7 +106,7 @@ void ATrapPlacer::PlaceTrap()
 
 		//remove money
 		ADemon::GetInstance()->mana -= GetCurrentTrap()->GetCost();
-		
+
 		isEmpty = false;
 		previewTile->UnValid();
 	}

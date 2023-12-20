@@ -1,10 +1,12 @@
-#include "Demon.h"
+#include "Demon/Demon.h"
 
-#include "TrapPlacer.h"
+#include "Demon/TrapPlacer.h"
 #include "Projectile.h"
 
 #include "GameFramework/Controller.h"
 #include "GameFramework/CharacterMovementComponent.h"
+
+#include <Kismet/GameplayStatics.h>
 
 ADemon* ADemon::instance = nullptr;
 

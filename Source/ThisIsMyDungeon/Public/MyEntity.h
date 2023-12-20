@@ -22,6 +22,9 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Entity|Values")
 	float speed = 0.f;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Entity|Values")
+	float speedMultiplier = 50.f;
+
 	/*
 		FUNCTIONS
 	*/

@@ -1,7 +1,7 @@
 #include "Hero/Hero.h"
 
-#include "Demon.h"
-#include "DungeonManager.h"
+#include "Demon/Demon.h"
+#include "Dungeon/DungeonManager.h"
 
 #include "Hero/HeroController.h"
 #include "GameFramework/CharacterMovementComponent.h"
@@ -222,6 +222,7 @@ void AHero::Upgrade(int nbUpgrades)
 
 	upgradeLevel += nbUpgrades;
 	treasureDrop += treasureUpgrade * nbUpgrades;
+	manaDrop += manaUpgrade * nbUpgrades;
 	health += healthUpgrade * nbUpgrades;
 	speed += speedUpgrade * nbUpgrades;
 	damage += damageUpgrade * nbUpgrades;

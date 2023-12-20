@@ -1,4 +1,4 @@
-#include "Trap.h"
+#include "Demon/Trap.h"
 
 ATrap::ATrap() { PrimaryActorTick.bCanEverTick = true; }
 

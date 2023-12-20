@@ -1,8 +1,12 @@
 #include "Projectile.h"
 
+#include "GameFramework/ProjectileMovementComponent.h"
+#include "Components/SphereComponent.h"
+#include "UObject/ScriptDelegates.h"
+
 AProjectile::AProjectile()
 {
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
 
 	SetupCollider();
 	SetupMovement();
@@ -18,11 +22,6 @@ void AProjectile::BeginPlay()
 	}
 
 	SetLifeSpan(lifespanOnSpawn);
-}
-
-void AProjectile::Tick(float deltaTime)
-{
-	Super::Tick(deltaTime);
 }
 
 void AProjectile::SetupMovement()

@@ -89,8 +89,6 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "HeroSpawner|Waves|Debug")
 	int currentWave = 0;
 
-	bool bFirstWave = true;
-
 	FTimerHandle endHandle;
 
 	TArray<class AHero*> allHeroesSpawned;

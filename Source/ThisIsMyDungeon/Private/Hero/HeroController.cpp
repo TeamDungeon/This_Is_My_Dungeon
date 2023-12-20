@@ -1,18 +1,19 @@
 #include "Hero/HeroController.h"
 
-#include "BehaviorTree/BehaviorTreeComponent.h"
-#include "BehaviorTree/BlackboardComponent.h"
-#include "BehaviorTree/BehaviorTree.h"
-
 #include "Hero/Hero.h"
-#include "Demon.h"
-#include "DungeonManager.h"
-#include "Waypoint.h"
+#include "Demon/Demon.h"
+
+#include "Dungeon/DungeonManager.h"
+#include "Dungeon/Waypoint.h"
 
 #include <Kismet/GameplayStatics.h>
-#include <NavigationSystem.h>
+#include <Navigation/CrowdFollowingComponent.h>
 
-AHeroController::AHeroController() { PrimaryActorTick.bCanEverTick = false; }
+AHeroController::AHeroController(const FObjectInitializer& ObjectInitializer)
+	:Super(ObjectInitializer.SetDefaultSubobjectClass<UCrowdFollowingComponent>(TEXT("PathFollowingComponent")))
+{
+	PrimaryActorTick.bCanEverTick = false;
+}
 
 void AHeroController::BeginPlay()
 {
@@ -63,8 +64,8 @@ void AHeroController::OnMoveCompleted(FAIRequestID requestID, EPathFollowingResu
 
 			if (nextPoints[nextID]->nextWaypoint.Num() == 0)
 				// If next Waypoint is the end of the line
-				 // Hero will be at treasure room
-				 // Set tolerance high to avoid overcrowding blocking heroes
+				// Hero will be at treasure room
+				// Set tolerance high to avoid overcrowding blocking heroes
 				toleranceWaypoint *= toleranceEndMultiplier;
 
 			// Move to waypoint, ..., no Stop on overlap, Use path finding, ..., No Strafing

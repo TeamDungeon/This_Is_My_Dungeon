@@ -46,7 +46,7 @@ protected:
 		FUNCTIONS
 	*/
 public: // Constructor(s)
-	AHeroController();
+	AHeroController(const FObjectInitializer& ObjectInitializer);
 
 protected:
 	/*
