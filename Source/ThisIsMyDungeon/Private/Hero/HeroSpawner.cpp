@@ -197,4 +197,4 @@ void AHeroSpawner::GetDungeonManager()
 	SetStartTransform();
 }
 
-void AHeroSpawner::WavesAreOver_Implementation() { /* For BP use*/ }
+void AHeroSpawner::WavesAreOver_Implementation() { /* For BP use */ }
