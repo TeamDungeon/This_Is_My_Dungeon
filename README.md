@@ -30,6 +30,6 @@ In This is my Dungeon, you have to protect your dungeon from heroes trying to se
 ![SC6](Screenshots/07.png)
 
 ## ✒ Authors
-- <a href = "mailto: m.robion@student.isartdigital.com">Mathieu Robion</a>
-- <a href = "mailto: jessicaperrochaud@gmail.com">Jessica Perrochaud</a>
-- <a href = "mailto: m.leguevacques@student.isartdigital.com">Maxime Leguevacques</a>
+- <a href = "https://github.com/Motisma479">Mathieu Robion</a>
+- <a href = "https://github.com/jssc99">Jessica Perrochaud</a>
+- <a href = "https://github.com/Maxime-Leguevacques">Maxime Leguevacques</a>
