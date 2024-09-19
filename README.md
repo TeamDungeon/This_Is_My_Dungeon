@@ -29,6 +29,9 @@ In This is my Dungeon, you have to protect your dungeon from heroes trying to se
 ![SC5](Screenshots/06.png)
 ![SC6](Screenshots/07.png)
 
+## 🧩 Credits
+- ### Assets :
+    - [Kay Lousberg](https://kaylousberg.com) for the [Characters : Adventurers](https://kaylousberg.com/game-assets/characters-adventurers) and the [Dungeon Remastered](https://kaylousberg.com/game-assets/dungeon-remastered)
 ## ✒ Authors
 - <a href = "https://github.com/Motisma479">Mathieu Robion</a>
 - <a href = "https://github.com/jssc99">Jessica Perrochaud</a>
